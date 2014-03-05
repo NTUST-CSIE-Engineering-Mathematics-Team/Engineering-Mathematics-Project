@@ -114,8 +114,7 @@ namespace em {
 			// 
 			// outputTextBox
 			// 
-			this->outputTextBox->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
-				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->outputTextBox->BackColor = System::Drawing::Color::White;
 			this->outputTextBox->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->outputTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
@@ -130,9 +129,12 @@ namespace em {
 			// 
 			// inputTextBox
 			// 
+			this->inputTextBox->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
 			this->inputTextBox->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->inputTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
+			this->inputTextBox->ForeColor = System::Drawing::Color::White;
 			this->inputTextBox->Location = System::Drawing::Point(0, 0);
 			this->inputTextBox->Name = L"inputTextBox";
 			this->inputTextBox->Size = System::Drawing::Size(215, 242);
@@ -161,7 +163,7 @@ namespace em {
 			// openVectorFileToolStripMenuItem
 			// 
 			this->openVectorFileToolStripMenuItem->Name = L"openVectorFileToolStripMenuItem";
-			this->openVectorFileToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->openVectorFileToolStripMenuItem->Size = System::Drawing::Size(133, 22);
 			this->openVectorFileToolStripMenuItem->Text = L"Open File...";
 			this->openVectorFileToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::openVectorFileToolStripMenuItem_Click);
 			// 
@@ -169,14 +171,14 @@ namespace em {
 			// 
 			this->saveFileToolStripMenuItem->Enabled = false;
 			this->saveFileToolStripMenuItem->Name = L"saveFileToolStripMenuItem";
-			this->saveFileToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->saveFileToolStripMenuItem->Size = System::Drawing::Size(133, 22);
 			this->saveFileToolStripMenuItem->Text = L"Save";
 			this->saveFileToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::saveFileToolStripMenuItem_Click);
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this->saveAsToolStripMenuItem->Name = L"saveAsToolStripMenuItem";
-			this->saveAsToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->saveAsToolStripMenuItem->Size = System::Drawing::Size(133, 22);
 			this->saveAsToolStripMenuItem->Text = L"Save As...";
 			this->saveAsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::saveAsToolStripMenuItem_Click);
 			// 
@@ -325,16 +327,17 @@ namespace em {
 		}
 		
 		private: System::Void saveFileToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			writeFile(gcnew StringReader(this->inputTextBox->Text), gcnew StreamWriter(this->openFileDialog->FileName));
+			writeFile(gcnew StreamWriter(this->openFileDialog->FileName));
 		}
 		private: System::Void saveAsToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			this->saveFileDialog->ShowDialog();
 		}
 		private: System::Void saveFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
-			writeFile(gcnew StringReader(this->inputTextBox->Text), gcnew StreamWriter(this->saveFileDialog->OpenFile()));
+			writeFile(gcnew StreamWriter(this->saveFileDialog->OpenFile()));
 
 		}
-		private: void writeFile(TextReader^ reader, StreamWriter^ writer) {
+		private: void writeFile(StreamWriter^ writer) {
+			TextReader^ reader = gcnew StringReader(this->inputTextBox->Text);
 			for (String^ line = reader->ReadLine(); line != nullptr; line = reader->ReadLine()) {
 				writer->WriteLine(line);
 			}
