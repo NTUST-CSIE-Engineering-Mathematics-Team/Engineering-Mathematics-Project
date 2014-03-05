@@ -12,14 +12,13 @@ namespace em {
 	using namespace System::Drawing;
 	using namespace System::Diagnostics;
 	using namespace System::IO;
+	using intrprt::CommandInterpreter;
 	/// <summary>
 	/// Summary for MainForm
 	/// </summary>
-	public ref class MainForm : public System::Windows::Forms::Form
-	{
+	public ref class MainForm : public System::Windows::Forms::Form {
 	public:
-		MainForm(void)
-		{
+		MainForm(void) {
 			InitializeComponent();
 			this->interpreter = gcnew CommandInterpreter();
 		}
@@ -28,10 +27,8 @@ namespace em {
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
-		~MainForm()
-		{
-			if (components)
-			{
+		~MainForm()	{
+			if (components)	{
 				delete components;
 			}
 		}

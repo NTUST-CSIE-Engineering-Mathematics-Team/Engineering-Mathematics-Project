@@ -1,6 +1,7 @@
 #include "CommandInterpreter.h"
 
 using namespace em;
+using namespace em::intrprt;
 
 CommandInterpreter::CommandInterpreter()
 {

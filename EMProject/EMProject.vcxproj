@@ -83,6 +83,7 @@
     <ClCompile Include="MathObject.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Message.cpp" />
+    <ClCompile Include="TableManager.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +94,7 @@
     <ClInclude Include="MathObject.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Message.h" />
+    <ClInclude Include="TableManager.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>

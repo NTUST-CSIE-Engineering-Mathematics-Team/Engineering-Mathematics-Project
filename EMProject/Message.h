@@ -15,12 +15,12 @@ namespace em {
 
 	public:
 		property Type msgType{
-			Type get() {
+			virtual Type get() sealed {
 				return type;
 			}
 		}
-		property String^ msgContent{
-			String^ get() {
+		property String^ msgContent {
+			virtual String^ get() sealed {
 				return this->content;
 			}
 		}
