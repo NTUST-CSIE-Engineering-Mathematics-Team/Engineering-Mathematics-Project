@@ -11,13 +11,13 @@ namespace em {
 			};
 
 		private:
-			State type;
+			State state;
 			String^ const content;
 
 		public:
-			property State msgType{
+			property State msgState{
 				virtual State get() sealed {
-					return type;
+					return state;
 				}
 			}
 			property String^ msgContent {

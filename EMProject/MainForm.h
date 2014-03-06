@@ -311,11 +311,11 @@ namespace em {
 						
 						 result = interpreter->inetrpret(line);
 						 msg = result->msgContent;
-						 if (result->msgType == Message::State::PASS) {
+						 if (result->msgState == Message::State::PASS) {
 							 if (!String::IsNullOrEmpty(msg)) {
 								 this->outputTextBox->AppendText(msg + "\n");
 							 }
-						 } else if (result->msgType == Message::State::ERROR) {
+						 } else if (result->msgState == Message::State::ERROR) {
 							 this->intprtMsgLabel->Text = msg;
 							 break;
 						 }
