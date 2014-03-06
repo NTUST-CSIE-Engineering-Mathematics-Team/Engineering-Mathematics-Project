@@ -1,5 +1,5 @@
 #pragma once
-#include "CommandInterpreter.h"
+#include "InstructionInterpreter.h"
 #include "Message.h"
 
 namespace em {
@@ -20,7 +20,7 @@ namespace em {
 	public:
 		MainForm(void) {
 			InitializeComponent();
-			this->interpreter = gcnew CommandInterpreter();
+			this->interpreter = gcnew InstructionInterpreter();
 		}
 
 	protected:
@@ -56,7 +56,7 @@ namespace em {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		CommandInterpreter^ interpreter;
+		InstructionInterpreter^ interpreter;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -305,16 +305,17 @@ namespace em {
 		}
 		private: System::Void runButton_Click(System::Object^  sender, System::EventArgs^  e) {
 					 TextReader^ reader = gcnew StringReader(this->inputTextBox->Text);
-					 
+					 Message^ result;
+					 String^ msg;
 					 for (String^ line = reader->ReadLine(); line != nullptr; line = reader->ReadLine()) {
 						
-						 Message^ result = interpreter->inetrpret(line);
-						 String^ msg = result->msgContent;
-						 if (result->msgType == Message::Type::Pass) {
+						 result = interpreter->inetrpret(line);
+						 msg = result->msgContent;
+						 if (result->msgType == Message::State::PASS) {
 							 if (!String::IsNullOrEmpty(msg)) {
 								 this->outputTextBox->AppendText(msg + "\n");
 							 }
-						 } else if (result->msgType == Message::Type::Error) {
+						 } else if (result->msgType == Message::State::ERROR) {
 							 this->intprtMsgLabel->Text = msg;
 							 break;
 						 }

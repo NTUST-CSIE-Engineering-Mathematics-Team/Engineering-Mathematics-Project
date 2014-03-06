@@ -6,17 +6,17 @@ namespace em {
 		ref class Message {
 
 		public:
-			enum class Type {
-				Error, Pass
+			enum class State {
+				ERROR, PASS, PARSING
 			};
 
 		private:
-			Type type;
+			State type;
 			String^ const content;
 
 		public:
-			property Type msgType{
-				virtual Type get() sealed {
+			property State msgType{
+				virtual State get() sealed {
 					return type;
 				}
 			}
@@ -26,7 +26,7 @@ namespace em {
 				}
 			}
 
-			Message(Type t, String^ s);
+			Message(State t, String^ s);
 			virtual ~Message();
 		};
 	}

@@ -6,8 +6,8 @@ namespace em {
 
 		generic <typename K, typename V>
 		public ref class MappingTable abstract {
-		private:
-			Dictionary<K, V> map;
+		protected:
+			Dictionary<K, V>^ map;
 		public:
 			virtual property const V default[K] {
 				const V get(K key) {

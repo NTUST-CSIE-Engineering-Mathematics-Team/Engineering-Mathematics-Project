@@ -68,6 +68,8 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies />
+      <EntryPointSymbol>Main</EntryPointSymbol>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -78,16 +80,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CommandInterpreter.cpp" />
+    <ClCompile Include="InstructionInterpreter.cpp" />
     <ClCompile Include="MainForm.cpp" />
     <ClCompile Include="MathObject.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MappingTable.cpp" />
+    <ClCompile Include="VariableTable.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CommandInterpreter.h" />
+    <ClInclude Include="InstructionInterpreter.h" />
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -95,6 +98,7 @@
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MappingTable.h" />
+    <ClInclude Include="VariableTable.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
