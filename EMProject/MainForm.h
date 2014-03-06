@@ -12,7 +12,7 @@ namespace em {
 	using namespace System::Drawing;
 	using namespace System::Diagnostics;
 	using namespace System::IO;
-	using intrprt::CommandInterpreter;
+	using namespace intrprt;
 	/// <summary>
 	/// Summary for MainForm
 	/// </summary>

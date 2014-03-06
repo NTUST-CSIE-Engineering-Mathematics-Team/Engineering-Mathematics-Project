@@ -33,7 +33,7 @@
     <ClCompile Include="Message.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TableManager.cpp">
+    <ClCompile Include="MappingTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,7 +56,7 @@
     <ClInclude Include="Message.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TableManager.h">
+    <ClInclude Include="MappingTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

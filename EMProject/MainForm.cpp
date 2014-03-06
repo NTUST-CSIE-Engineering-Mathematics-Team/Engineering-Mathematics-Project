@@ -1,5 +1,5 @@
 #include "MainForm.h"
-
+#include "Matrix.h"
 using namespace System;
 using namespace System::Windows::Forms;
 using namespace em;
@@ -8,7 +8,6 @@ using namespace em;
 void Main(array<String^>^ args)
 {	
 	
-
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 	System::Drawing::Color s = Color();
