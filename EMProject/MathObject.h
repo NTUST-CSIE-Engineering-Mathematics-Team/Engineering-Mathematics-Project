@@ -2,7 +2,7 @@
 
 namespace em {
 	namespace math {
-		public interface class MathObject
+		interface class MathObject
 		{
 
 		};

@@ -5,7 +5,7 @@ namespace em {
 		using System::Collections::Generic::Dictionary;
 
 		generic <typename K, typename V>
-		public ref class MappingTable abstract {
+		ref class MappingTable abstract {
 		protected:
 			Dictionary<K, V>^ table;
 		public:

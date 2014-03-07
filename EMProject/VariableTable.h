@@ -9,7 +9,7 @@ namespace em {
 		using System::String;
 		using System::Text::StringBuilder;
 
-		public ref class VariableTable : public MappingTable<String^, MathObject^> {
+		ref class VariableTable : public MappingTable<String^, MathObject^> {
 
 		private:
 			StringBuilder^ lastGeneratedName;
