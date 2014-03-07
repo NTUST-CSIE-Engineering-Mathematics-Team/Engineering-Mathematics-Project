@@ -1,6 +1,7 @@
 #pragma once
 #include "InstructionInterpreter.h"
 #include "Message.h"
+#include "Matrix.h"
 
 namespace em {
 
@@ -40,14 +41,18 @@ namespace em {
 	private: System::Windows::Forms::ToolStripMenuItem^  fileToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  openVectorFileToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  saveFileToolStripMenuItem;
-	private: System::Windows::Forms::Button^  runButton;
-	private: System::Windows::Forms::Panel^  bottomPanel;
+
+
 	private: System::Windows::Forms::RichTextBox^  outputTextBox;
-	private: System::Windows::Forms::RichTextBox^  inputTextBox;
+
 	private: System::ComponentModel::IContainer^  components;
-	private: System::Windows::Forms::Label^  intprtMsgLabel;
+
 	private: System::Windows::Forms::SaveFileDialog^  saveFileDialog;
 	private: System::Windows::Forms::ToolStripMenuItem^  saveAsToolStripMenuItem;
+	private: System::Windows::Forms::TextBox^  inputTextBox;
+	private: System::Windows::Forms::ToolStripMenuItem^  runToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^  setTestToolStripMenuItem;
+
 
 	protected:
 
@@ -68,22 +73,20 @@ namespace em {
 			this->openFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->splitContainer = (gcnew System::Windows::Forms::SplitContainer());
 			this->outputTextBox = (gcnew System::Windows::Forms::RichTextBox());
-			this->inputTextBox = (gcnew System::Windows::Forms::RichTextBox());
+			this->inputTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->menu = (gcnew System::Windows::Forms::MenuStrip());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openVectorFileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveFileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveAsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->runButton = (gcnew System::Windows::Forms::Button());
-			this->bottomPanel = (gcnew System::Windows::Forms::Panel());
-			this->intprtMsgLabel = (gcnew System::Windows::Forms::Label());
+			this->runToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
+			this->setTestToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer))->BeginInit();
 			this->splitContainer->Panel1->SuspendLayout();
 			this->splitContainer->Panel2->SuspendLayout();
 			this->splitContainer->SuspendLayout();
 			this->menu->SuspendLayout();
-			this->bottomPanel->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// openFileDialog
@@ -105,7 +108,7 @@ namespace em {
 			// splitContainer.Panel2
 			// 
 			this->splitContainer->Panel2->Controls->Add(this->inputTextBox);
-			this->splitContainer->Size = System::Drawing::Size(426, 242);
+			this->splitContainer->Size = System::Drawing::Size(426, 275);
 			this->splitContainer->SplitterDistance = 207;
 			this->splitContainer->TabIndex = 1;
 			// 
@@ -115,32 +118,33 @@ namespace em {
 			this->outputTextBox->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->outputTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->outputTextBox->ForeColor = System::Drawing::Color::White;
+			this->outputTextBox->ForeColor = System::Drawing::Color::Lime;
 			this->outputTextBox->Location = System::Drawing::Point(0, 0);
 			this->outputTextBox->Name = L"outputTextBox";
 			this->outputTextBox->ReadOnly = true;
-			this->outputTextBox->Size = System::Drawing::Size(207, 242);
+			this->outputTextBox->Size = System::Drawing::Size(207, 275);
 			this->outputTextBox->TabIndex = 1;
 			this->outputTextBox->TabStop = false;
 			this->outputTextBox->Text = L"";
 			// 
 			// inputTextBox
 			// 
-			this->inputTextBox->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),
-				static_cast<System::Int32>(static_cast<System::Byte>(64)));
 			this->inputTextBox->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->inputTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->inputTextBox->ForeColor = System::Drawing::Color::White;
+				static_cast<System::Byte>(136)));
 			this->inputTextBox->Location = System::Drawing::Point(0, 0);
+			this->inputTextBox->Multiline = true;
 			this->inputTextBox->Name = L"inputTextBox";
-			this->inputTextBox->Size = System::Drawing::Size(215, 242);
+			this->inputTextBox->ScrollBars = System::Windows::Forms::ScrollBars::Both;
+			this->inputTextBox->Size = System::Drawing::Size(215, 275);
 			this->inputTextBox->TabIndex = 0;
-			this->inputTextBox->Text = L"";
 			// 
 			// menu
 			// 
-			this->menu->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->fileToolStripMenuItem });
+			this->menu->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
+				this->fileToolStripMenuItem,
+					this->runToolStripMenuItem, this->setTestToolStripMenuItem
+			});
 			this->menu->Location = System::Drawing::Point(0, 0);
 			this->menu->Name = L"menu";
 			this->menu->Size = System::Drawing::Size(426, 24);
@@ -179,37 +183,12 @@ namespace em {
 			this->saveAsToolStripMenuItem->Text = L"Save As...";
 			this->saveAsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::saveAsToolStripMenuItem_Click);
 			// 
-			// runButton
+			// runToolStripMenuItem
 			// 
-			this->runButton->Dock = System::Windows::Forms::DockStyle::Right;
-			this->runButton->Location = System::Drawing::Point(351, 0);
-			this->runButton->Name = L"runButton";
-			this->runButton->Size = System::Drawing::Size(75, 33);
-			this->runButton->TabIndex = 0;
-			this->runButton->Text = L"Run";
-			this->runButton->UseVisualStyleBackColor = true;
-			this->runButton->Click += gcnew System::EventHandler(this, &MainForm::runButton_Click);
-			// 
-			// bottomPanel
-			// 
-			this->bottomPanel->Controls->Add(this->intprtMsgLabel);
-			this->bottomPanel->Controls->Add(this->runButton);
-			this->bottomPanel->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->bottomPanel->Location = System::Drawing::Point(0, 266);
-			this->bottomPanel->Name = L"bottomPanel";
-			this->bottomPanel->Size = System::Drawing::Size(426, 33);
-			this->bottomPanel->TabIndex = 3;
-			// 
-			// intprtMsgLabel
-			// 
-			this->intprtMsgLabel->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->intprtMsgLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9));
-			this->intprtMsgLabel->ForeColor = System::Drawing::Color::Red;
-			this->intprtMsgLabel->Location = System::Drawing::Point(0, 0);
-			this->intprtMsgLabel->Name = L"intprtMsgLabel";
-			this->intprtMsgLabel->Size = System::Drawing::Size(351, 33);
-			this->intprtMsgLabel->TabIndex = 1;
-			this->intprtMsgLabel->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
+			this->runToolStripMenuItem->Name = L"runToolStripMenuItem";
+			this->runToolStripMenuItem->Size = System::Drawing::Size(40, 20);
+			this->runToolStripMenuItem->Text = L"Run";
+			this->runToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::runToolStripMenuItem_Click_1);
 			// 
 			// saveFileDialog
 			// 
@@ -218,13 +197,19 @@ namespace em {
 			this->saveFileDialog->FilterIndex = 2;
 			this->saveFileDialog->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &MainForm::saveFileDialog_FileOk);
 			// 
+			// setTestToolStripMenuItem
+			// 
+			this->setTestToolStripMenuItem->Name = L"setTestToolStripMenuItem";
+			this->setTestToolStripMenuItem->Size = System::Drawing::Size(57, 20);
+			this->setTestToolStripMenuItem->Text = L"SetTest";
+			this->setTestToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::setTestToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(426, 299);
 			this->Controls->Add(this->splitContainer);
-			this->Controls->Add(this->bottomPanel);
 			this->Controls->Add(this->menu);
 			this->MainMenuStrip = this->menu;
 			this->Name = L"MainForm";
@@ -232,11 +217,11 @@ namespace em {
 			this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
 			this->splitContainer->Panel1->ResumeLayout(false);
 			this->splitContainer->Panel2->ResumeLayout(false);
+			this->splitContainer->Panel2->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer))->EndInit();
 			this->splitContainer->ResumeLayout(false);
 			this->menu->ResumeLayout(false);
 			this->menu->PerformLayout();
-			this->bottomPanel->ResumeLayout(false);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -303,37 +288,20 @@ namespace em {
 		private: System::Void openVectorFileToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 				 this->openFileDialog->ShowDialog();
 		}
-		private: System::Void runButton_Click(System::Object^  sender, System::EventArgs^  e) {
-					 TextReader^ reader = gcnew StringReader(this->inputTextBox->Text);
-					 Message^ result;
-					 String^ msg;
-					 for (String^ line = reader->ReadLine(); line != nullptr; line = reader->ReadLine()) {
-						
-						 result = interpreter->inetrpret(line);
-						 msg = result->msgContent;
-						 if (result->msgState == Message::State::PASS) {
-							 if (!String::IsNullOrEmpty(msg)) {
-								 this->outputTextBox->AppendText(msg + "\n");
-							 }
-						 } else if (result->msgState == Message::State::ERROR) {
-							 this->intprtMsgLabel->Text = msg;
-							 break;
-						 }
-					 }
-
-					 reader->Close();
-		}
 		
 		private: System::Void saveFileToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			writeFile(gcnew StreamWriter(this->openFileDialog->FileName));
 		}
+
 		private: System::Void saveAsToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			this->saveFileDialog->ShowDialog();
 		}
+
 		private: System::Void saveFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
 			writeFile(gcnew StreamWriter(this->saveFileDialog->OpenFile()));
 
 		}
+
 		private: void writeFile(StreamWriter^ writer) {
 			TextReader^ reader = gcnew StringReader(this->inputTextBox->Text);
 			for (String^ line = reader->ReadLine(); line != nullptr; line = reader->ReadLine()) {
@@ -343,5 +311,41 @@ namespace em {
 			writer->Close();
 			reader->Close();
 		}
-	};
+	
+
+		private: System::Void runToolStripMenuItem_Click_1(System::Object^  sender, System::EventArgs^  e) {
+			TextReader^ reader = gcnew StringReader(this->inputTextBox->Text);
+			Message^ result;
+			String^ msg;
+			this->outputTextBox->Clear();
+			for (String^ line = reader->ReadLine(); line != nullptr; line = reader->ReadLine()) {
+
+				result = interpreter->inetrpret(line);
+				msg = result->msgContent;
+				if (result->msgState == Message::State::PASS) {
+					if (!String::IsNullOrEmpty(msg)) {
+						this->outputTextBox->AppendText(msg + "\n");
+					}
+				} else if (result->msgState == Message::State::ERROR) {
+					this->outputTextBox->SelectionColor = Color::Red;
+					this->outputTextBox->AppendText(msg);
+					this->outputTextBox->SelectionColor = Color::Lime;
+					break;
+				}
+			}
+
+			reader->Close();
+		}
+	private: System::Void setTestToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+		using namespace math;
+		Matrix^ m = gcnew Matrix(3, 3);
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				m[i, j] = i - j + 1;
+			}
+		}
+		
+		this->outputTextBox->AppendText(interpreter->variableTable->addVariable(m) + "\n");
+	}
+};
 }

@@ -17,6 +17,8 @@ namespace em {
 
 			MappingTable();
 			virtual ~MappingTable();
+
+			virtual bool contains(K key) sealed;
 		};
 	}
 }

@@ -2,9 +2,22 @@
 
 namespace em {
 	namespace math {
-		interface class MathObject
-		{
+		using System::String;
+		ref class MathObject abstract{
+		private:
+			String^ mType;
+		public:
+			property String^ mathType{
+				String^ get() {
+					return mType;
+				}
+			}
 
+			MathObject(String^ type);
+			virtual ~MathObject();
+
+			virtual String^ toString() abstract;
+		
 		};
 	}
 }

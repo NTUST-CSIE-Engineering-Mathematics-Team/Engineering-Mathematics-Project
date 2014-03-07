@@ -20,7 +20,7 @@ namespace em {
 			virtual ~VariableTable();
 
 			bool addVariable(String^ name, MathObject^ mo);
-			void addVariable(MathObject^ mo);
+			String^  addVariable(MathObject^ mo);
 		};
 	}
 }

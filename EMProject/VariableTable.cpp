@@ -1,11 +1,10 @@
 #include "VariableTable.h"
-#include "MathObject.h"
 
 using namespace em::intrprt;
 
 
 VariableTable::VariableTable() {
-	this->lastGeneratedName = gcnew StringBuilder("a");
+	this->lastGeneratedName = gcnew StringBuilder(System::Convert::ToString((wchar_t)(L'a' - 1)));
 }
 
 
@@ -22,27 +21,31 @@ bool VariableTable::addVariable(String^ name, MathObject^ mo) {
 	return true;
 }
 
-void VariableTable::addVariable(MathObject^ mo) {
-	this->addVariable(generateNewVariableName(), mo);
+String^ VariableTable::addVariable(MathObject^ mo) {
+	String^ newName = generateNewVariableName();
+	this->addVariable(newName, mo);
+	return newName;
 }
 
 String^ VariableTable::generateNewVariableName() {
 	int i;
+	String^ result;
+
 	do {
-		
 		for (i = 0; i < this->lastGeneratedName->Length; i++) {
-			if (L'z' - this->lastGeneratedName[i] < 0) {
+			if (L'z' - this->lastGeneratedName[i] > 0) {
 				this->lastGeneratedName[i] = this->lastGeneratedName[i] + 1;
 				break;
 			} else {
 				this->lastGeneratedName[i] = L'a';
 			}
 		}
-
+		
 		if (i == this->lastGeneratedName->Length) {
 			this->lastGeneratedName->Append(L'a');
 		}
+		result = this->lastGeneratedName->ToString();
 	} while (this->table->ContainsKey(this->lastGeneratedName->ToString()));
 
-	return this->lastGeneratedName->ToString();
+	return result;
 }

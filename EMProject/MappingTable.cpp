@@ -13,3 +13,7 @@ generic <typename K, typename V>
 MappingTable<K, V>::~MappingTable() {
 	delete this->table;
 }
+generic <typename K, typename V>
+bool MappingTable<K, V>::contains(K key) {
+	return this->table->ContainsKey(key);
+}
