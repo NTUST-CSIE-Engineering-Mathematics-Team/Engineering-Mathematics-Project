@@ -111,11 +111,11 @@ namespace em {
 			// 
 			// outputTextBox
 			// 
-			this->outputTextBox->BackColor = System::Drawing::Color::White;
+			this->outputTextBox->BackColor = System::Drawing::Color::Black;
 			this->outputTextBox->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->outputTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(136)));
-			this->outputTextBox->ForeColor = System::Drawing::SystemColors::WindowText;
+			this->outputTextBox->ForeColor = System::Drawing::Color::White;
 			this->outputTextBox->Location = System::Drawing::Point(0, 0);
 			this->outputTextBox->Name = L"outputTextBox";
 			this->outputTextBox->ReadOnly = true;

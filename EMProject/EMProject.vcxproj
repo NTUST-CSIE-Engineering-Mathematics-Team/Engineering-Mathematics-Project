@@ -80,16 +80,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Command.cpp" />
+    <ClCompile Include="CommandTable.cpp" />
+    <ClCompile Include="ConstantTable.cpp" />
     <ClCompile Include="InstructionInterpreter.cpp" />
     <ClCompile Include="MainForm.cpp" />
     <ClCompile Include="MathObject.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MappingTable.cpp" />
+    <ClCompile Include="PatternAnalyzer.cpp" />
+    <ClCompile Include="PatternTable.cpp" />
     <ClCompile Include="VariableTable.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Command.h" />
+    <ClInclude Include="CommandTable.h" />
+    <ClInclude Include="ConstantTable.h" />
     <ClInclude Include="InstructionInterpreter.h" />
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>
@@ -98,6 +106,8 @@
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MappingTable.h" />
+    <ClInclude Include="PatternAnalyzer.h" />
+    <ClInclude Include="PatternTable.h" />
     <ClInclude Include="VariableTable.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>

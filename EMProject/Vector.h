@@ -3,7 +3,7 @@
 
 namespace em {
 	namespace math {
-		ref class Vector : public MathObject {
+		public ref class Vector : public MathObject {
 		private: array<double>^ values;
 
 		public:

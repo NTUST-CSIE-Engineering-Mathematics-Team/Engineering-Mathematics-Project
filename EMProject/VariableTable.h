@@ -8,6 +8,7 @@ namespace em {
 		using em::math::MathObject;
 		using System::String;
 		using System::Text::StringBuilder;
+
 		public ref class VariableTable : public MappingTable<String^, MathObject^> {
 
 		private:

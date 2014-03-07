@@ -1,7 +1,7 @@
 #include "Message.h"
 
-using em::intrprt::Message;
-using System::String;
+using namespace em::intrprt;
+
 Message::Message(State t, String^ s) : state(t), content(s) {
 	
 }

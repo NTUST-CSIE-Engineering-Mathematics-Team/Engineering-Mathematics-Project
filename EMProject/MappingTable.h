@@ -7,11 +7,11 @@ namespace em {
 		generic <typename K, typename V>
 		public ref class MappingTable abstract {
 		protected:
-			Dictionary<K, V>^ map;
+			Dictionary<K, V>^ table;
 		public:
 			virtual property const V default[K] {
 				const V get(K key) {
-					return map[key];
+					return table[key];
 				}
 			}
 

@@ -1,6 +1,6 @@
 #include "Matrix.h"
 
-using em::math::Matrix;
+using namespace em::math;
 
 Matrix::Matrix(int dim1, int dim2) {
 	

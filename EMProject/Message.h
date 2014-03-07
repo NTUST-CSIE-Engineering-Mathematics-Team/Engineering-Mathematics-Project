@@ -2,8 +2,7 @@
 namespace em {
 	namespace intrprt {
 		using System::String;
-
-		ref class Message {
+		public ref class Message {
 
 		public:
 			enum class State {

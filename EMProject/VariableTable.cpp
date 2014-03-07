@@ -1,9 +1,8 @@
 #include "VariableTable.h"
 #include "MathObject.h"
 
-using em::intrprt::VariableTable;
-using System::String;
-using em::math::MathObject;
+using namespace em::intrprt;
+
 
 VariableTable::VariableTable() {
 	this->lastGeneratedName = gcnew StringBuilder("a");
@@ -15,11 +14,11 @@ VariableTable::~VariableTable() {
 }
 
 bool VariableTable::addVariable(String^ name, MathObject^ mo) {
-	if (this->map->ContainsKey(name)) {
+	if (this->table->ContainsKey(name)) {
 		return false;
 	}
 
-	this->map->Add(name, mo);
+	this->table->Add(name, mo);
 	return true;
 }
 
@@ -43,7 +42,7 @@ String^ VariableTable::generateNewVariableName() {
 		if (i == this->lastGeneratedName->Length) {
 			this->lastGeneratedName->Append(L'a');
 		}
-	} while (this->map->ContainsKey(this->lastGeneratedName->ToString()));
+	} while (this->table->ContainsKey(this->lastGeneratedName->ToString()));
 
 	return this->lastGeneratedName->ToString();
 }
