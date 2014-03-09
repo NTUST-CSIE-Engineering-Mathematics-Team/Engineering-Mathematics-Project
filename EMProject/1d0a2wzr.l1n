@@ -1,7 +1,5 @@
 #pragma once
-
-#include "InterpreterFactory.h"
-#include "Interpreter.h"
+#include "InstructionInterpreter.h"
 #include "Message.h"
 #include "Matrix.h"
 
@@ -23,9 +21,7 @@ namespace em {
 	public:
 		MainForm(void) {
 			InitializeComponent();
-
-			this->ofInterpreter = InterpreterFactory::createInterpreter(InterpreterFactory::InterpreterType::OBJECT_FILE);
-			this->rInterpreter = InterpreterFactory::createInterpreter(InterpreterFactory::InterpreterType::RUNTIME);
+			this->interpreter = gcnew InstructionInterpreter();
 		}
 
 	protected:
@@ -53,7 +49,7 @@ namespace em {
 
 	private: System::Windows::Forms::SaveFileDialog^  saveFileDialog;
 	private: System::Windows::Forms::ToolStripMenuItem^  saveAsToolStripMenuItem;
-
+	private: System::Windows::Forms::TextBox^  inputTextBox;
 	private: System::Windows::Forms::ToolStripMenuItem^  runToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  setTestToolStripMenuItem;
 
@@ -65,12 +61,7 @@ namespace em {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		Interpreter^ rInterpreter;
-	private: System::Windows::Forms::ToolStripMenuItem^  openFileToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  loadObjectFileToolStripMenuItem;
-	private: System::Windows::Forms::OpenFileDialog^  openObjectFileDialog;
-	private: System::Windows::Forms::RichTextBox^  inputTextBox;
-			 Interpreter^ ofInterpreter;
+		InstructionInterpreter^ interpreter;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -82,18 +73,15 @@ namespace em {
 			this->openFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->splitContainer = (gcnew System::Windows::Forms::SplitContainer());
 			this->outputTextBox = (gcnew System::Windows::Forms::RichTextBox());
-			this->inputTextBox = (gcnew System::Windows::Forms::RichTextBox());
+			this->inputTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->menu = (gcnew System::Windows::Forms::MenuStrip());
 			this->fileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openVectorFileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->openFileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->loadObjectFileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveFileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveAsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->runToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->setTestToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
-			this->openObjectFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
+			this->setTestToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer))->BeginInit();
 			this->splitContainer->Panel1->SuspendLayout();
 			this->splitContainer->Panel2->SuspendLayout();
@@ -105,7 +93,7 @@ namespace em {
 			// 
 			this->openFileDialog->FileName = L"vector_or_matrix";
 			this->openFileDialog->Filter = L"Text files (*.txt)|*.txt";
-			this->openFileDialog->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &MainForm::openFileDialog_FileOk);
+			this->openFileDialog->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &MainForm::openVecDialog_FileOk);
 			// 
 			// splitContainer
 			// 
@@ -120,39 +108,36 @@ namespace em {
 			// splitContainer.Panel2
 			// 
 			this->splitContainer->Panel2->Controls->Add(this->inputTextBox);
-			this->splitContainer->Size = System::Drawing::Size(507, 352);
-			this->splitContainer->SplitterDistance = 246;
+			this->splitContainer->Size = System::Drawing::Size(426, 275);
+			this->splitContainer->SplitterDistance = 207;
 			this->splitContainer->TabIndex = 1;
 			// 
 			// outputTextBox
 			// 
-			this->outputTextBox->BackColor = System::Drawing::Color::White;
+			this->outputTextBox->BackColor = System::Drawing::Color::Black;
 			this->outputTextBox->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->outputTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->outputTextBox->ForeColor = System::Drawing::Color::Black;
+			this->outputTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(136)));
+			this->outputTextBox->ForeColor = System::Drawing::Color::Lime;
 			this->outputTextBox->Location = System::Drawing::Point(0, 0);
 			this->outputTextBox->Name = L"outputTextBox";
 			this->outputTextBox->ReadOnly = true;
-			this->outputTextBox->Size = System::Drawing::Size(246, 352);
+			this->outputTextBox->Size = System::Drawing::Size(207, 275);
 			this->outputTextBox->TabIndex = 1;
 			this->outputTextBox->TabStop = false;
 			this->outputTextBox->Text = L"";
 			// 
 			// inputTextBox
 			// 
-			this->inputTextBox->AcceptsTab = true;
-			this->inputTextBox->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),
-				static_cast<System::Int32>(static_cast<System::Byte>(64)));
 			this->inputTextBox->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->inputTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->inputTextBox->ForeColor = System::Drawing::Color::White;
+			this->inputTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(136)));
 			this->inputTextBox->Location = System::Drawing::Point(0, 0);
+			this->inputTextBox->Multiline = true;
 			this->inputTextBox->Name = L"inputTextBox";
-			this->inputTextBox->Size = System::Drawing::Size(257, 352);
+			this->inputTextBox->ScrollBars = System::Windows::Forms::ScrollBars::Both;
+			this->inputTextBox->Size = System::Drawing::Size(215, 275);
 			this->inputTextBox->TabIndex = 0;
-			this->inputTextBox->Text = L"";
 			// 
 			// menu
 			// 
@@ -162,7 +147,7 @@ namespace em {
 			});
 			this->menu->Location = System::Drawing::Point(0, 0);
 			this->menu->Name = L"menu";
-			this->menu->Size = System::Drawing::Size(507, 24);
+			this->menu->Size = System::Drawing::Size(426, 24);
 			this->menu->TabIndex = 2;
 			this->menu->Text = L"menu";
 			// 
@@ -178,40 +163,23 @@ namespace em {
 			// 
 			// openVectorFileToolStripMenuItem
 			// 
-			this->openVectorFileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
-				this->openFileToolStripMenuItem,
-					this->loadObjectFileToolStripMenuItem
-			});
 			this->openVectorFileToolStripMenuItem->Name = L"openVectorFileToolStripMenuItem";
-			this->openVectorFileToolStripMenuItem->Size = System::Drawing::Size(123, 22);
-			this->openVectorFileToolStripMenuItem->Text = L"Open";
-			// 
-			// openFileToolStripMenuItem
-			// 
-			this->openFileToolStripMenuItem->Name = L"openFileToolStripMenuItem";
-			this->openFileToolStripMenuItem->Size = System::Drawing::Size(168, 22);
-			this->openFileToolStripMenuItem->Text = L"Open File...";
-			this->openFileToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::openFileToolStripMenuItem_Click);
-			// 
-			// loadObjectFileToolStripMenuItem
-			// 
-			this->loadObjectFileToolStripMenuItem->Name = L"loadObjectFileToolStripMenuItem";
-			this->loadObjectFileToolStripMenuItem->Size = System::Drawing::Size(168, 22);
-			this->loadObjectFileToolStripMenuItem->Text = L"Load Object File...";
-			this->loadObjectFileToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::loadObjectFileToolStripMenuItem_Click);
+			this->openVectorFileToolStripMenuItem->Size = System::Drawing::Size(133, 22);
+			this->openVectorFileToolStripMenuItem->Text = L"Open File...";
+			this->openVectorFileToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::openVectorFileToolStripMenuItem_Click);
 			// 
 			// saveFileToolStripMenuItem
 			// 
 			this->saveFileToolStripMenuItem->Enabled = false;
 			this->saveFileToolStripMenuItem->Name = L"saveFileToolStripMenuItem";
-			this->saveFileToolStripMenuItem->Size = System::Drawing::Size(123, 22);
+			this->saveFileToolStripMenuItem->Size = System::Drawing::Size(133, 22);
 			this->saveFileToolStripMenuItem->Text = L"Save";
 			this->saveFileToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::saveFileToolStripMenuItem_Click);
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this->saveAsToolStripMenuItem->Name = L"saveAsToolStripMenuItem";
-			this->saveAsToolStripMenuItem->Size = System::Drawing::Size(123, 22);
+			this->saveAsToolStripMenuItem->Size = System::Drawing::Size(133, 22);
 			this->saveAsToolStripMenuItem->Text = L"Save As...";
 			this->saveAsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::saveAsToolStripMenuItem_Click);
 			// 
@@ -222,13 +190,6 @@ namespace em {
 			this->runToolStripMenuItem->Text = L"Run";
 			this->runToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::runToolStripMenuItem_Click_1);
 			// 
-			// setTestToolStripMenuItem
-			// 
-			this->setTestToolStripMenuItem->Name = L"setTestToolStripMenuItem";
-			this->setTestToolStripMenuItem->Size = System::Drawing::Size(60, 20);
-			this->setTestToolStripMenuItem->Text = L"Set Test";
-			this->setTestToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::setTestToolStripMenuItem_Click);
-			// 
 			// saveFileDialog
 			// 
 			this->saveFileDialog->FileName = L"sample";
@@ -236,17 +197,18 @@ namespace em {
 			this->saveFileDialog->FilterIndex = 2;
 			this->saveFileDialog->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &MainForm::saveFileDialog_FileOk);
 			// 
-			// openObjectFileDialog
+			// setTestToolStripMenuItem
 			// 
-			this->openObjectFileDialog->FileName = L"vector_or_matrix.txt";
-			this->openObjectFileDialog->Filter = L"Text files (*.txt)|*.txt";
-			this->openObjectFileDialog->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &MainForm::openObjectFileDialog_FileOk);
+			this->setTestToolStripMenuItem->Name = L"setTestToolStripMenuItem";
+			this->setTestToolStripMenuItem->Size = System::Drawing::Size(57, 20);
+			this->setTestToolStripMenuItem->Text = L"SetTest";
+			this->setTestToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::setTestToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(507, 376);
+			this->ClientSize = System::Drawing::Size(426, 299);
 			this->Controls->Add(this->splitContainer);
 			this->Controls->Add(this->menu);
 			this->MainMenuStrip = this->menu;
@@ -255,6 +217,7 @@ namespace em {
 			this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
 			this->splitContainer->Panel1->ResumeLayout(false);
 			this->splitContainer->Panel2->ResumeLayout(false);
+			this->splitContainer->Panel2->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->splitContainer))->EndInit();
 			this->splitContainer->ResumeLayout(false);
 			this->menu->ResumeLayout(false);
@@ -265,36 +228,67 @@ namespace em {
 		}
 #pragma endregion
 
-		private: System::Void openFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
+		private: System::Void openVecDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
 
 			StreamReader^ reader = gcnew StreamReader(this->openFileDialog->OpenFile());
 			this->inputTextBox->Clear();
-			this->outputTextBox->Clear();
-
 			for (; !reader->EndOfStream;) {
 				this->inputTextBox->AppendText(reader->ReadLine() + "\n");
 			}
 
 			reader->Close();
 			this->saveFileToolStripMenuItem->Enabled = true;
-			this->outputTextBox->AppendText("Click \"Run\" to execute the instructions.");
-		}
+			/*for (;!reader->EndOfStream;) {
+				array<String^>^ header = reader->ReadLine()->Split(' ');
 
-		private: System::Void openObjectFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
-			StreamReader^ reader = gcnew StreamReader(this->openObjectFileDialog->OpenFile());
-			this->outputTextBox->Clear();
-			this->outputTextBox->AppendText("Load object file \"" + this->openObjectFileDialog->FileName + "\"\n");
-			startInterpret(ofInterpreter, reader, false);
-		}
+				if (header->Length != 3) {
+					continue;
+				}
 
-		private: System::Void openFileToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			this->openFileDialog->ShowDialog();
-		}
+				wchar_t type = Convert::ToChar(header[0]);
+				String^ name = header[2];
 
-		private: System::Void loadObjectFileToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			this->openObjectFileDialog->ShowDialog();
-		}
+				this->outputTextBox->AppendText(name + " = \n");
+				if (type == L'V') {
 
+					int dim = Convert::ToInt32(header[1]);
+					array<String^>^ vecS = reader->ReadLine()->Split(' ');
+					array<double>^ vec = gcnew array<double>(dim);
+				
+					for (int i = 0; i < dim; i++) {
+						vec[i] = Convert::ToDouble(vecS[i]);
+						this->outputTextBox->AppendText(vec[i] + " ");
+					}
+					this->outputTextBox->AppendText(L"\n");
+
+				} else if (type == L'M') {
+
+					array<String^>^ dimS = header[1]->Split('x');
+					int dim1 = Convert::ToInt32(dimS[0]);
+					int dim2 = Convert::ToInt32(dimS[1]);
+					array<String^>^ matRowS;
+					array<double, 2>^ mat = gcnew array<double, 2>(dim1, dim2);
+
+					for (int i = 0; i < dim1; i++) {
+						matRowS = reader->ReadLine()->Split(' ');
+						for (int j = 0; j < dim2; j++) {
+							mat[i, j] = Convert::ToDouble(matRowS[j]);
+							this->outputTextBox->AppendText(mat[i, j] + " ");
+						}
+						this->outputTextBox->AppendText(L"\n");
+					}
+				}
+				this->outputTextBox->AppendText(L"\n");
+			}
+			reader->Close();
+			*/
+
+		}
+		
+		private: System::Void openVectorFileToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+				 this->openFileDialog->ShowDialog();
+		}
+		
 		private: System::Void saveFileToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			writeFile(gcnew StreamWriter(this->openFileDialog->FileName));
 		}
@@ -308,15 +302,6 @@ namespace em {
 
 		}
 
-		private: System::Void runToolStripMenuItem_Click_1(System::Object^  sender, System::EventArgs^  e) {
-			TextReader^ reader = gcnew StringReader(this->inputTextBox->Text);
-			this->outputTextBox->Clear();
-			startInterpret(rInterpreter, reader, true);
-		}
-		private: System::Void setTestToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			this->outputTextBox->AppendText("There is no debug experiment right now.\n");
-		}
-
 		private: void writeFile(StreamWriter^ writer) {
 			TextReader^ reader = gcnew StringReader(this->inputTextBox->Text);
 			for (String^ line = reader->ReadLine(); line != nullptr; line = reader->ReadLine()) {
@@ -326,56 +311,35 @@ namespace em {
 			writer->Close();
 			reader->Close();
 		}
-		private: void startInterpret(Interpreter^ interpreter, TextReader^ reader, bool selectError) {
+	
+
+		private: System::Void runToolStripMenuItem_Click_1(System::Object^  sender, System::EventArgs^  e) {
+			TextReader^ reader = gcnew StringReader(this->inputTextBox->Text);
 			Message^ result;
-			int lineIndex = -1;
-			
-
+			String^ msg;
+			this->outputTextBox->Clear();
 			for (String^ line = reader->ReadLine(); line != nullptr; line = reader->ReadLine()) {
-				lineIndex++;
-				if (System::String::IsNullOrWhiteSpace(line)) {
-					continue;
-				}
 
-				result = interpreter->interpret(line);
-
+				result = interpreter->inetrpret(line);
+				msg = result->msgContent;
 				if (result->msgState == Message::State::PASS) {
-					handlePass(result);
-					
+					if (!String::IsNullOrEmpty(msg)) {
+						this->outputTextBox->AppendText(msg + "\n");
+					}
 				} else if (result->msgState == Message::State::ERROR) {
-					handleError(result, lineIndex, selectError);
+					this->outputTextBox->SelectionColor = Color::Red;
+					this->outputTextBox->AppendText(msg);
+					this->outputTextBox->SelectionColor = Color::Lime;
 					break;
 				}
-
-
 			}
+
 			reader->Close();
-			interpreter->finishInterpret();
 		}
-		private: void handlePass(Message^ msg) {
-
-			if (!String::IsNullOrEmpty(msg)) {
-				this->outputTextBox->SelectionColor = msg->msgColor;
-				this->outputTextBox->AppendText(msg + "\n");
-				this->outputTextBox->SelectionColor = Color::Black;
-			}
-
-			delete msg;
-		}
-
-		private: void handleError(Message^ msg, int lineIndex, bool selectError) {
-			this->outputTextBox->SelectionColor = Color::Red;
-			this->outputTextBox->AppendText("Error occurs at line " + (lineIndex + 1) + ":\n\t");
-			this->outputTextBox->AppendText(msg);
-			this->outputTextBox->SelectionColor = Color::Black;
-			if (selectError) {
-				this->inputTextBox->Select(this->inputTextBox->GetFirstCharIndexFromLine(lineIndex), this->inputTextBox->Lines[lineIndex]->Length);
-			}
-			delete msg;
-		}
+	private: System::Void setTestToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+		using namespace math;
 		
-	
-	};
 
-		
+	}
+};
 }

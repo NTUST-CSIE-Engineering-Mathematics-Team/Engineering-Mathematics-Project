@@ -12,15 +12,22 @@ namespace em {
 		ref class VariableTable : public MappingTable<String^, MathObject^> {
 
 		private:
-			StringBuilder^ lastGeneratedName;
-			String^ generateNewVariableName();
+			static StringBuilder^ lastGeneratedName;
+			virtual String^ generateNewVariableName() sealed;
 
 		public:
+
 			VariableTable();
 			virtual ~VariableTable();
 
-			bool addVariable(String^ name, MathObject^ mo);
-			String^  addVariable(MathObject^ mo);
+			virtual bool addVariable(String^ name, MathObject^ mo);
+			virtual String^  addVariable(MathObject^ mo);
+			virtual bool deleteVariable(String^ name);
+
+			virtual void load(VariableTable^ vTable);
+			virtual void unload(VariableTable^ vTable);
+			virtual void clear();
+			
 		};
 	}
 }

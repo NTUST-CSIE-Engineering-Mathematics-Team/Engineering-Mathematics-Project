@@ -85,7 +85,13 @@
     <ClCompile Include="CommandTable.cpp" />
     <ClCompile Include="CommentPatternAnalyzer.cpp" />
     <ClCompile Include="ConstantTable.cpp" />
-    <ClCompile Include="InstructionInterpreter.cpp" />
+    <ClCompile Include="CreateMathObjectCommand.cpp" />
+    <ClCompile Include="CreateMatrixCommand.cpp" />
+    <ClCompile Include="CreateScalarCommand.cpp" />
+    <ClCompile Include="CreateVectorCommand.cpp" />
+    <ClCompile Include="DeleteCommand.cpp" />
+    <ClCompile Include="Interpreter.cpp" />
+    <ClCompile Include="InterpreterFactory.cpp" />
     <ClCompile Include="MainForm.cpp" />
     <ClCompile Include="MathObject.cpp" />
     <ClCompile Include="Matrix.cpp" />
@@ -95,6 +101,7 @@
     <ClCompile Include="PatternTable.cpp" />
     <ClCompile Include="PrintCommand.cpp" />
     <ClCompile Include="Scalar.cpp" />
+    <ClCompile Include="SettingCommand.cpp" />
     <ClCompile Include="VariableTable.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
@@ -104,7 +111,13 @@
     <ClInclude Include="CommandTable.h" />
     <ClInclude Include="CommentPatternAnalyzer.h" />
     <ClInclude Include="ConstantTable.h" />
-    <ClInclude Include="InstructionInterpreter.h" />
+    <ClInclude Include="CreateMathObjectCommand.h" />
+    <ClInclude Include="CreateMatrixCommand.h" />
+    <ClInclude Include="CreateScalarCommand.h" />
+    <ClInclude Include="CreateVectorCommand.h" />
+    <ClInclude Include="DeleteCommand.h" />
+    <ClInclude Include="Interpreter.h" />
+    <ClInclude Include="InterpreterFactory.h" />
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -116,6 +129,7 @@
     <ClInclude Include="PatternTable.h" />
     <ClInclude Include="PrintCommand.h" />
     <ClInclude Include="Scalar.h" />
+    <ClInclude Include="SettingCommand.h" />
     <ClInclude Include="VariableTable.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>

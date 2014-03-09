@@ -13,111 +13,177 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\intrprt">
+      <UniqueIdentifier>{5997d720-add0-438e-b8d3-bc426cb10a2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\intrprt\cmd">
+      <UniqueIdentifier>{c774711a-5998-456a-abfe-4f2f9fc6b950}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\intrprt\pattern">
+      <UniqueIdentifier>{492c580d-3d85-47f1-9944-d328be380877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\math">
+      <UniqueIdentifier>{e16adad0-7554-4e49-af4a-b9054b7a41d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\intrprt">
+      <UniqueIdentifier>{e15b6c7b-e661-423b-86c4-484d697012a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\math">
+      <UniqueIdentifier>{a391d7f5-16b1-4f09-a865-1d78f243b5d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\intrprt\cmd">
+      <UniqueIdentifier>{dba92ca2-b83a-4e5f-a62e-ca385e483ce6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\intrprt\pattern">
+      <UniqueIdentifier>{0d2407d0-eec8-4456-b669-65e78601d230}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Matrix.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MathObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Message.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MappingTable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InstructionInterpreter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VariableTable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Command.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConstantTable.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
     <ClCompile Include="CommandTable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PatternTable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PatternAnalyzer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandPatternAnalyzer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CommentPatternAnalyzer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scalar.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
     <ClCompile Include="PrintCommand.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\intrprt\cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateMatrixCommand.cpp">
+      <Filter>Source Files\intrprt\cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandPatternAnalyzer.cpp">
+      <Filter>Source Files\intrprt\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="CommentPatternAnalyzer.cpp">
+      <Filter>Source Files\intrprt\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="PatternAnalyzer.cpp">
+      <Filter>Source Files\intrprt\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantTable.cpp">
+      <Filter>Source Files\intrprt</Filter>
+    </ClCompile>
+    <ClCompile Include="Message.cpp">
+      <Filter>Source Files\intrprt</Filter>
+    </ClCompile>
+    <ClCompile Include="VariableTable.cpp">
+      <Filter>Source Files\intrprt</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="Scalar.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="MathObject.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="PatternTable.cpp">
+      <Filter>Source Files\intrprt\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="MappingTable.cpp">
+      <Filter>Source Files\intrprt</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateVectorCommand.cpp">
+      <Filter>Source Files\intrprt\cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateScalarCommand.cpp">
+      <Filter>Source Files\intrprt\cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="CreateMathObjectCommand.cpp">
+      <Filter>Source Files\intrprt\cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="Interpreter.cpp">
+      <Filter>Source Files\intrprt</Filter>
+    </ClCompile>
+    <ClCompile Include="InterpreterFactory.cpp">
+      <Filter>Source Files\intrprt</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingCommand.cpp">
+      <Filter>Source Files\intrprt\cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteCommand.cpp">
+      <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainForm.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Vector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MathObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Message.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MappingTable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InstructionInterpreter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VariableTable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Command.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstantTable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandTable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PatternTable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PatternAnalyzer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandPatternAnalyzer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommentPatternAnalyzer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\math</Filter>
     </ClInclude>
     <ClInclude Include="Scalar.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="MathObject.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Header Files\intrprt\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandTable.h">
+      <Filter>Header Files\intrprt\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateMatrixCommand.h">
+      <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
     <ClInclude Include="PrintCommand.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\intrprt\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="PatternTable.h">
+      <Filter>Header Files\intrprt\pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="CommentPatternAnalyzer.h">
+      <Filter>Header Files\intrprt\pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandPatternAnalyzer.h">
+      <Filter>Header Files\intrprt\pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="PatternAnalyzer.h">
+      <Filter>Header Files\intrprt\pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="VariableTable.h">
+      <Filter>Header Files\intrprt</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantTable.h">
+      <Filter>Header Files\intrprt</Filter>
+    </ClInclude>
+    <ClInclude Include="MappingTable.h">
+      <Filter>Header Files\intrprt</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>Header Files\intrprt</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateVectorCommand.h">
+      <Filter>Header Files\intrprt\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateScalarCommand.h">
+      <Filter>Header Files\intrprt\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateMathObjectCommand.h">
+      <Filter>Header Files\intrprt\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="Interpreter.h">
+      <Filter>Header Files\intrprt</Filter>
+    </ClInclude>
+    <ClInclude Include="InterpreterFactory.h">
+      <Filter>Header Files\intrprt</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingCommand.h">
+      <Filter>Header Files\intrprt\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteCommand.h">
+      <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

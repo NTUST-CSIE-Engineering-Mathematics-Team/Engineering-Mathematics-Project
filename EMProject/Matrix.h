@@ -1,6 +1,7 @@
 #pragma once
 #include "MathObject.h"
 #include "Vector.h"
+#include "Scalar.h"
 
 namespace em {
 	namespace math {
@@ -22,22 +23,38 @@ namespace em {
 				void set(int i, int j, double v) {
 					this->value[i, j] = v;
 				}
+				
 			}
 
-			/*property Vector^ default[VectorOption, int] {
-				Vector^ get(VectorOption vo, int i) {
+			property Vector^ default[VectorOption, int] {
+				Vector^ get(VectorOption vo, int i);
+				void set(VectorOption vo, int i, Vector^ vec);
+			}
 
-					gcnew Vector();
-					return
+			property int rowLength {
+				int get() {
+					return this->value->GetLength(1);
 				}
-				void set(VectorOption vo, int i, Vector^ v) {
-					this->value[i, j] = v;
+			}
+
+			property int columnLength {
+				int get() {
+					return this->value->GetLength(0);
 				}
-			}*/
+			}
+
+			static property String^ tag {
+				String^ get() {
+					return "Matrix";
+				}
+			}
 
 			Matrix(int dim1, int dim2);
 			virtual ~Matrix();
+
 			virtual String^ toString() override;
+
+			
 		};
 	}
 }

@@ -2,11 +2,30 @@
 
 using namespace em::intrprt;
 
-Message::Message(State t, String^ s) : state(t), content(s) {
-	
+Message::Message(State t, String^ s) : Message(t, s, Color::Black) {
+
+}
+
+Message::Message(State t, String^ s, Color msgColor) : state(t), content(s), color(msgColor) {
 }
 
 Message::~Message() {
 	delete content;
 	
+}
+
+Message::operator String^ () {
+	return this->content;
+}
+
+String ^ Message::ToString() {
+	return this->content;
+}
+
+Message^ Message::varNotFoundMsg(String^ var) {
+	return gcnew Message(Message::State::ERROR, "Cannot find the variable \"" + var + "\"");
+}
+
+Message^ Message::varAlreadyExistMsg(String^ var) {
+	return gcnew Message(Message::State::ERROR, "Variable \"" + var + "\" already exist, please choosen another identifier");
 }

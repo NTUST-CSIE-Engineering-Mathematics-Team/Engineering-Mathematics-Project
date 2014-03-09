@@ -1,6 +1,7 @@
 #include "VariableTable.h"
 
 using namespace em::intrprt;
+using System::Collections::Generic::KeyValuePair;
 
 
 VariableTable::VariableTable() {
@@ -27,25 +28,50 @@ String^ VariableTable::addVariable(MathObject^ mo) {
 	return newName;
 }
 
+bool VariableTable::deleteVariable(String^ name) {
+	return this->table->Remove(name);
+}
+
+void VariableTable::load(VariableTable^ vTable) {
+
+	for each(KeyValuePair<String^, MathObject^> pair in vTable->table) {
+		this->addVariable(pair.Key, pair.Value);
+	}
+	
+}
+
+void VariableTable::unload(VariableTable^ vTable) {
+
+	for each(String^ key in vTable->table->Keys) {
+		this->deleteVariable(key);
+	}
+
+}
+
+void VariableTable::clear() {
+	this->table->Clear();
+}
+
+
 String^ VariableTable::generateNewVariableName() {
 	int i;
 	String^ result;
 
 	do {
-		for (i = 0; i < this->lastGeneratedName->Length; i++) {
-			if (L'z' - this->lastGeneratedName[i] > 0) {
-				this->lastGeneratedName[i] = this->lastGeneratedName[i] + 1;
+		for (i = 0; i < lastGeneratedName->Length; i++) {
+			if (L'z' - lastGeneratedName[i] > 0) {
+				lastGeneratedName[i] = lastGeneratedName[i] + 1;
 				break;
 			} else {
-				this->lastGeneratedName[i] = L'a';
+				lastGeneratedName[i] = L'a';
 			}
 		}
 		
-		if (i == this->lastGeneratedName->Length) {
-			this->lastGeneratedName->Append(L'a');
+		if (i == lastGeneratedName->Length) {
+			lastGeneratedName->Append(L'a');
 		}
-		result = this->lastGeneratedName->ToString();
-	} while (this->table->ContainsKey(this->lastGeneratedName->ToString()));
+		result = lastGeneratedName->ToString();
+	} while (this->table->ContainsKey(lastGeneratedName->ToString()));
 
 	return result;
 }

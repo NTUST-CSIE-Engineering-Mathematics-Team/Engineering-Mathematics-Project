@@ -6,19 +6,21 @@ namespace em {
 
 		generic <typename K, typename V>
 		ref class MappingTable abstract {
-		protected:
-			Dictionary<K, V>^ table;
+
 		public:
-			virtual property const V default[K] {
-				const V get(K key) {
+			property const V default[K] {
+				virtual const V get(K key) {
 					return table[key];
 				}
 			}
-
-			MappingTable();
+			
 			virtual ~MappingTable();
 
-			virtual bool contains(K key) sealed;
+			virtual bool contains(K key);
+
+		protected:
+			Dictionary<K, V>^ table;
+			MappingTable();
 		};
 	}
 }
