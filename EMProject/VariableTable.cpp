@@ -3,7 +3,6 @@
 using namespace em::intrprt;
 using System::Collections::Generic::KeyValuePair;
 
-
 VariableTable::VariableTable() {
 	this->lastGeneratedName = gcnew StringBuilder(System::Convert::ToString((wchar_t)(L'a' - 1)));
 }
@@ -14,6 +13,7 @@ VariableTable::~VariableTable() {
 }
 
 bool VariableTable::addVariable(String^ name, MathObject^ mo) {
+
 	if (this->table->ContainsKey(name)) {
 		return false;
 	}
@@ -23,6 +23,7 @@ bool VariableTable::addVariable(String^ name, MathObject^ mo) {
 }
 
 String^ VariableTable::addVariable(MathObject^ mo) {
+
 	String^ newName = generateNewVariableName();
 	this->addVariable(newName, mo);
 	return newName;
@@ -54,6 +55,7 @@ void VariableTable::clear() {
 
 
 String^ VariableTable::generateNewVariableName() {
+
 	int i;
 	String^ result;
 
@@ -70,6 +72,7 @@ String^ VariableTable::generateNewVariableName() {
 		if (i == lastGeneratedName->Length) {
 			lastGeneratedName->Append(L'a');
 		}
+
 		result = lastGeneratedName->ToString();
 	} while (this->table->ContainsKey(lastGeneratedName->ToString()));
 

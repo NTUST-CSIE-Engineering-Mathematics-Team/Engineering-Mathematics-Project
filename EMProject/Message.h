@@ -5,16 +5,11 @@ namespace em {
 		using System::Drawing::Color;
 
 		ref class Message {
-
 		public:
 			enum class State {
 				ERROR, PASS, PARSING
 			};
 
-		private:
-			State state;
-			String^ const content;
-			Color const color;
 		public:
 			property State msgState{
 				virtual State get() sealed {
@@ -32,11 +27,6 @@ namespace em {
 					return this->color;
 				}
 			}
-
-			static const Color LOAD_COLOR = Color::Blue;
-			static const Color MATH_OBJECT_COLOR = Color::DarkGreen;
-			static const Color SETTING_COLOR = Color::BlueViolet;
-			static const Color COMMENT_COLOR = Color::Gray;
 
 			static property Message^ WRONG_TYPE_MSG {
 				Message^ get() {
@@ -58,10 +48,19 @@ namespace em {
 
 			}
 
+			static const Color LOAD_COLOR = Color::Blue;
+			static const Color MATH_OBJECT_COLOR = Color::DarkGreen;
+			static const Color SETTING_COLOR = Color::BlueViolet;
+			static const Color COMMENT_COLOR = Color::Gray;
+
+		private:
+			State state;
+			String^ const content;
+			Color const color;
+		
+		public:
 			Message(State t, String^ s);
 			Message(State t, String^ s, Color msgColor);
-			
-			
 			virtual ~Message();
 			
 			operator String^ ();
@@ -69,6 +68,7 @@ namespace em {
 
 			static Message^ Message::varNotFoundMsg(String^ var);
 			static Message^ Message::varAlreadyExistMsg(String^ var);
+
 		};
 	}
 }

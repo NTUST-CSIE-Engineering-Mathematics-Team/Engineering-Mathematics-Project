@@ -3,7 +3,6 @@
 using namespace em::math;
 
 Matrix::Matrix(int dim1, int dim2) : MathObject(tag) {
-	
 	this->value = gcnew array<double, 2>(dim1, dim2);
 }
 
@@ -51,23 +50,29 @@ void Matrix::default::set(VectorOption vo, int i, Vector^ vec) {
 		}
 	}
 }
-String^ Matrix::toString() {
+
+String^ Matrix::ToString() {
 	
 	StringBuilder^ sb = gcnew StringBuilder();
 	int i,j;
+
 	for (i = value->GetLowerBound(0); i < this->value->GetUpperBound(0); i++) {
 		for (j = value->GetLowerBound(1); j < this->value->GetUpperBound(1); j++) {
+
 			sb->AppendFormat(MathObject::NUMERAL_FORMAT, this[i, j]);
 			sb->Append("\t");
 		}
+
 		sb->AppendFormat(MathObject::NUMERAL_FORMAT, this[i, j]);
 		sb->Append("\n");
 	}
 
 	for (j = value->GetLowerBound(1); j < this->value->GetUpperBound(1); j++) {
+
 		sb->AppendFormat(MathObject::NUMERAL_FORMAT, this[i, j]);
 		sb->Append("\t");
 	}
+
 	sb->AppendFormat(MathObject::NUMERAL_FORMAT, this[i, j]);
 	
 	String^ result = sb->ToString();

@@ -3,7 +3,6 @@
 using namespace em::intrprt;
 
 Message::Message(State t, String^ s) : Message(t, s, Color::Black) {
-
 }
 
 Message::Message(State t, String^ s, Color msgColor) : state(t), content(s), color(msgColor) {

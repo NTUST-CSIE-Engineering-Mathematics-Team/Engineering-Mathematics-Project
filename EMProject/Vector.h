@@ -3,12 +3,10 @@
 
 namespace em {
 	namespace math {
-
 		using System::String;
 		using System::Text::StringBuilder;
 
 		ref class Vector : public MathObject {
-		private: array<double>^ value;
 
 		public:
 			static property String^ tag {
@@ -30,12 +28,17 @@ namespace em {
 					return this->value->Length;
 				}
 			}
+
+		private: 
+			array<double>^ value;
+
+		public:
 			Vector(int dim);
 			virtual ~Vector();
 
-			Vector^ operator=(Vector^ vec);
+			virtual String^ ToString() override;
 
-			virtual String^ toString() override;
+			Vector^ operator=(Vector^ vec);
 		};
 	}
 	

@@ -105,10 +105,13 @@
     <ClCompile Include="InterpreterFactory.cpp">
       <Filter>Source Files\intrprt</Filter>
     </ClCompile>
-    <ClCompile Include="SettingCommand.cpp">
+    <ClCompile Include="DeleteCommand.cpp">
       <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
-    <ClCompile Include="DeleteCommand.cpp">
+    <ClCompile Include="KeywordCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsCommand.cpp">
       <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,10 +182,13 @@
     <ClInclude Include="InterpreterFactory.h">
       <Filter>Header Files\intrprt</Filter>
     </ClInclude>
-    <ClInclude Include="SettingCommand.h">
+    <ClInclude Include="DeleteCommand.h">
       <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
-    <ClInclude Include="DeleteCommand.h">
+    <ClInclude Include="KeywordCollection.h">
+      <Filter>Header Files\intrprt</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsCommand.h">
       <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
   </ItemGroup>

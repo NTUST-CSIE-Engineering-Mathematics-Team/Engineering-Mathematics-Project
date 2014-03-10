@@ -13,21 +13,21 @@ namespace em {
 
 		private:
 			static StringBuilder^ lastGeneratedName;
-			virtual String^ generateNewVariableName() sealed;
 
 		public:
-
 			VariableTable();
 			virtual ~VariableTable();
 
 			virtual bool addVariable(String^ name, MathObject^ mo);
-			virtual String^  addVariable(MathObject^ mo);
+			virtual String^  addVariable(MathObject^ mo) sealed;
 			virtual bool deleteVariable(String^ name);
 
 			virtual void load(VariableTable^ vTable);
 			virtual void unload(VariableTable^ vTable);
 			virtual void clear();
 			
+		private:
+			String^ generateNewVariableName();
 		};
 	}
 }

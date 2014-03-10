@@ -13,13 +13,16 @@ namespace em {
 					return table[key];
 				}
 			}
-			
+
+		protected:
+			Dictionary<K, V>^ table;
+
+		public:
 			virtual ~MappingTable();
 
 			virtual bool contains(K key);
 
 		protected:
-			Dictionary<K, V>^ table;
 			MappingTable();
 		};
 	}

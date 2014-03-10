@@ -10,7 +10,9 @@ Vector::~Vector() {
 	delete this->value;
 	
 }
+
 Vector^ Vector::operator=(Vector^ vec) {
+
 	if (vec->rank <= this->rank) {
 		int i;
 		for (i = 0; i < vec->rank; i++) {
@@ -20,16 +22,20 @@ Vector^ Vector::operator=(Vector^ vec) {
 			this[i] = 0;
 		}
 	}
+
 	return this;
 }
-String^ Vector::toString() {
-	StringBuilder^ sb = gcnew StringBuilder("< ");
 
+String^ Vector::ToString() {
+
+	StringBuilder^ sb = gcnew StringBuilder("< ");
 	int i;
+
 	for (i = 0; i < this->value->Length - 1; i++) {
 		sb->AppendFormat(NUMERAL_FORMAT, this[i]);
 		sb->Append(", ");
 	}
+
 	sb->AppendFormat(NUMERAL_FORMAT, this[i]);
 	sb->Append(" >");
 

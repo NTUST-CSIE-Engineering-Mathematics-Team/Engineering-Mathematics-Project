@@ -5,16 +5,13 @@
 
 namespace em {
 	namespace math {
-
 		using System::String;
 		using System::Text::StringBuilder;
 
 		ref class Matrix : public MathObject {
 
-		private: array<double, 2>^ value;
-
 		public:
-			enum class VectorOption {ROW, COLUMN};
+			enum class VectorOption { ROW, COLUMN };
 
 			property double default[int, int] {
 				double get(int i, int j) {
@@ -23,7 +20,6 @@ namespace em {
 				void set(int i, int j, double v) {
 					this->value[i, j] = v;
 				}
-				
 			}
 
 			property Vector^ default[VectorOption, int] {
@@ -49,10 +45,14 @@ namespace em {
 				}
 			}
 
+		private: 
+			array<double, 2>^ value;
+		
+		public:
 			Matrix(int dim1, int dim2);
 			virtual ~Matrix();
 
-			virtual String^ toString() override;
+			virtual String^ ToString() override;
 
 			
 		};
