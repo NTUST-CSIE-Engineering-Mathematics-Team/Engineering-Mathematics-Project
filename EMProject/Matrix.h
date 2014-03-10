@@ -29,6 +29,7 @@ namespace em {
 
 			property int rowLength {
 				int get() {
+					
 					return this->value->GetLength(1);
 				}
 			}
@@ -50,10 +51,13 @@ namespace em {
 		
 		public:
 			Matrix(int dim1, int dim2);
+			Matrix(Matrix^ mat);
 			virtual ~Matrix();
 
 			virtual String^ ToString() override;
 
+			Matrix^ fitAssign(Matrix^ mat);
+			virtual Matrix^ overrideAssign(Matrix^ mat);
 			
 		};
 	}

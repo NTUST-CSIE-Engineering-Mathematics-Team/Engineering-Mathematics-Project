@@ -3,16 +3,27 @@
 namespace em {
 	namespace intrprt {
 		using System::String;
+		using System::Collections::Specialized::StringCollection;
+		using namespace System::Collections;
 
-		interface class KeywordCollection {
+		ref class KeywordCollection abstract {
 		public:
-			static String^ const CREATE_MATRIX_COMMAND = "mat";
-			static String^ const CREATE_VECTOR_COMMAND = "vec";
-			static String^ const CREATE_SCALAR_COMMAND = "scl";
-			static String^ const SETTINGS_COMMAND = "set";
-			static String^ const PRINT_COMMAND = "print";
-			static String^ const DELETE_COMMAND = "delete";
+			static String^ const CREATE_MATRIX_CMD = "mat";
+			static String^ const CREATE_VECTOR_CMD = "vec";
+			static String^ const CREATE_SCALAR_CMD = "scl";
+			static String^ const SETTINGS_CMD = "set";
+			static String^ const PRINT_CMD = "print";
+			static String^ const DELETE_CMD = "delete";
 
+		private:
+			static StringCollection^ const keywordsSet = gcnew StringCollection();
+
+		public:
+			virtual ~KeywordCollection();
+
+			static bool contains(String^ keywords);
+		private:
+			KeywordCollection();
 			static KeywordCollection();
 
 		};

@@ -28,9 +28,9 @@ namespace em {
 				}
 			}
 
-			static property Message^ WRONG_TYPE_MSG {
+			static property Message^ SYNTAX_ERROR_MSG {
 				Message^ get() {
-					return  gcnew Message(Message::State::ERROR, "Wrong argument type");
+					return  gcnew Message(Message::State::ERROR, "wrong syntax, maybe it is not fit the format or argument type");
 				}
 			}
 

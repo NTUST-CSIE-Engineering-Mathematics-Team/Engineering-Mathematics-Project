@@ -7,13 +7,13 @@ using namespace em::intrprt::cmd;
 using em::intrprt::pattern::CommentPatternAnalyzer;
 using em::math::MathObject;
 
-SettingsCommand::SettingsCommand() : Command(KeywordCollection::SETTINGS_COMMAND, "NI") {
+SettingsCommand::SettingsCommand() : Command(KeywordCollection::SETTINGS_CMD, argTypes) {
 }
 
 SettingsCommand::~SettingsCommand() {
 }
 
-Message^ SettingsCommand::performCommand(array<String^>^ args, Interpreter^ iptr) {
+Message^ SettingsCommand::performCommand(array<String^>^ args, int typeIndex, Interpreter^ iptr) {
 
 	wchar_t flag = System::Convert::ToChar(args[0]);
 	int value = System::Convert::ToInt32(args[1]);

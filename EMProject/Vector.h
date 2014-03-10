@@ -34,11 +34,13 @@ namespace em {
 
 		public:
 			Vector(int dim);
+			Vector(Vector^ vec);
 			virtual ~Vector();
 
 			virtual String^ ToString() override;
 
-			Vector^ operator=(Vector^ vec);
+			Vector^ fitAssign(Vector^ vec);
+			Vector^ overrideAssign(Vector^ vec);
 		};
 	}
 	

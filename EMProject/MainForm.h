@@ -128,7 +128,7 @@ namespace em {
 			// 
 			this->outputTextBox->BackColor = System::Drawing::Color::White;
 			this->outputTextBox->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->outputTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->outputTextBox->Font = (gcnew System::Drawing::Font(L"Consolas", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->outputTextBox->ForeColor = System::Drawing::Color::Black;
 			this->outputTextBox->Location = System::Drawing::Point(0, 0);
@@ -145,14 +145,14 @@ namespace em {
 			this->inputTextBox->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),
 				static_cast<System::Int32>(static_cast<System::Byte>(64)));
 			this->inputTextBox->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->inputTextBox->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->inputTextBox->Font = (gcnew System::Drawing::Font(L"Consolas", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->inputTextBox->ForeColor = System::Drawing::Color::White;
 			this->inputTextBox->Location = System::Drawing::Point(0, 0);
 			this->inputTextBox->Name = L"inputTextBox";
 			this->inputTextBox->Size = System::Drawing::Size(257, 352);
 			this->inputTextBox->TabIndex = 0;
-			this->inputTextBox->Text = L"";
+			this->inputTextBox->Text = L"#Write your instructions here";
 			// 
 			// menu
 			// 
@@ -314,7 +314,20 @@ namespace em {
 			startInterpret(rInterpreter, reader, true);
 		}
 		private: System::Void setTestToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			this->outputTextBox->AppendText("There is no debug experiment right now.\n");
+			Matrix^ m1 = gcnew Matrix(2, 2);
+
+			for (int i = 0; i < 2; i++) {
+				for (int j = 0; j < 2; j++) {
+					m1[i,j] = i - j;
+				}
+			}
+
+			Matrix^ m2 = m1;
+
+			m1[0,0] = 90;
+			//m2 = m1;
+			outputTextBox->AppendText(m2->ToString());
+
 		}
 
 		private: void writeFile(StreamWriter^ writer) {

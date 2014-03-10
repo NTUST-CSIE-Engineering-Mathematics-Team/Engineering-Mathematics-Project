@@ -6,6 +6,10 @@ Matrix::Matrix(int dim1, int dim2) : MathObject(tag) {
 	this->value = gcnew array<double, 2>(dim1, dim2);
 }
 
+Matrix::Matrix(Matrix^ mat) : MathObject(tag) {
+	this->overrideAssign(mat);
+}
+
 Matrix::~Matrix() {
 	delete this->value;
 }
@@ -80,3 +84,26 @@ String^ Matrix::ToString() {
 	return result;
 }
 
+Matrix^ Matrix::fitAssign(Matrix^ mat) {
+
+	if (mat->columnLength <= this->columnLength && mat->rowLength <= this->rowLength) {
+		int i;
+		for (i = 0; i < mat->columnLength; i++) {
+			this[Matrix::VectorOption::ROW, i] = mat[Matrix::VectorOption::ROW, i];
+		}
+
+		Vector^ empty = gcnew Vector(this->rowLength);
+		for (; i < this->columnLength; i++) {
+			this[Matrix::VectorOption::ROW, i] = empty;
+		}
+	}
+
+	return this;
+}
+
+Matrix^ Matrix::overrideAssign(Matrix^ mat) {
+	delete this->value;
+	this->value = dynamic_cast<array<double, 2>^>(mat->value->Clone());
+	
+	return this;
+}

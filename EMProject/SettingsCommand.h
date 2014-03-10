@@ -8,12 +8,14 @@ namespace em {
 			using em::intrprt::pattern::PatternAnalyzer;
 
 			ref class SettingsCommand : public Command {
+			private:
+				static array<String^>^ argTypes = { "CI" };
 
 			public:
 				SettingsCommand();
 				virtual ~SettingsCommand();
 
-				virtual Message^ performCommand(array<String^>^ args, Interpreter^ iptr) override;
+				virtual Message^ performCommand(array<String^>^ args, int typeIndex, Interpreter^ iptr) override;
 			};
 		}
 	}

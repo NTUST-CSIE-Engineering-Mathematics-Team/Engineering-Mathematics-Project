@@ -6,22 +6,34 @@ Vector::Vector(int dim) : MathObject(tag) {
 	this->value = gcnew array<double>(dim);
 }
 
+Vector::Vector(Vector^ vec) : MathObject(tag) {
+	this->overrideAssign(vec);
+}
+
 Vector::~Vector() {
 	delete this->value;
 	
 }
 
-Vector^ Vector::operator=(Vector^ vec) {
-
+Vector^ Vector::fitAssign(Vector^ vec) {
 	if (vec->rank <= this->rank) {
 		int i;
 		for (i = 0; i < vec->rank; i++) {
 			this[i] = vec[i];
 		}
+
 		for (; i < this->rank; i++) {
 			this[i] = 0;
 		}
 	}
+
+	return this;
+}
+
+
+Vector^ Vector::overrideAssign(Vector^ vec) {
+
+	this->value = dynamic_cast<array<double>^>(vec->value->Clone());
 
 	return this;
 }
