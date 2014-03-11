@@ -7,7 +7,7 @@ using namespace em::intrprt::cmd;
 using em::intrprt::pattern::CommentPatternAnalyzer;
 using em::math::MathObject;
 
-SettingsCommand::SettingsCommand() : Command(KeywordCollection::SETTINGS_CMD, argTypes) {
+SettingsCommand::SettingsCommand() : Command(KeywordCollection::SETTINGS_CMD, "CI") {
 }
 
 SettingsCommand::~SettingsCommand() {

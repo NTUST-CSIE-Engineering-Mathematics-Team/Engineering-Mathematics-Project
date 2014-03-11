@@ -8,8 +8,7 @@ namespace em {
 			using em::intrprt::pattern::PatternAnalyzer;
 
 			ref class SettingsCommand : public Command {
-			private:
-				static array<String^>^ argTypes = { "CI" };
+			
 
 			public:
 				SettingsCommand();
