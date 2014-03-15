@@ -107,3 +107,16 @@ Matrix^ Matrix::overrideAssign(Matrix^ mat) {
 	
 	return this;
 }
+
+bool Matrix::martixCast(MathObject^ mo, Matrix^% mat) {
+	mat = dynamic_cast<Matrix^>(mo);
+	return mat != nullptr;
+}
+
+void Matrix::negate() {	
+	for (int i = value->GetLowerBound(0); i <= this->value->GetUpperBound(0); i++) {
+		for (int j = value->GetLowerBound(1); j <= this->value->GetUpperBound(1); j++) {
+			this[i, j] = -this[i, j];
+		}
+	}
+}

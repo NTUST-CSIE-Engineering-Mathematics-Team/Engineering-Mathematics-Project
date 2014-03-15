@@ -43,7 +43,7 @@ namespace em {
 			virtual ~MathObject();
 
 			virtual String^ ToString()override abstract;
-		
+			virtual void negate() abstract;
 		public:
 			MathObject(String^ type);
 		};

@@ -19,5 +19,6 @@ static KeywordCollection::KeywordCollection() {
 	keywordsSet->Add(SETTINGS_CMD);
 	keywordsSet->Add(PRINT_CMD);
 	keywordsSet->Add(DELETE_CMD);
+	keywordsSet->Add(STORAGE_CMD);
 }
 

@@ -13,6 +13,9 @@ namespace em {
 		public:
 			enum class VectorOption { ROW, COLUMN };
 
+			static String^ const tag = "Matrix";
+			
+
 			property double default[int, int] {
 				double get(int i, int j) {
 					return this->value[i, j];
@@ -40,12 +43,6 @@ namespace em {
 				}
 			}
 
-			static property String^ tag {
-				String^ get() {
-					return "Matrix";
-				}
-			}
-
 		private: 
 			array<double, 2>^ value;
 		
@@ -55,10 +52,12 @@ namespace em {
 			virtual ~Matrix();
 
 			virtual String^ ToString() override;
+			virtual void negate() override;
 
 			Matrix^ fitAssign(Matrix^ mat);
 			virtual Matrix^ overrideAssign(Matrix^ mat);
-			
+
+			static bool martixCast(MathObject^ mo, Matrix^% mat);
 		};
 	}
 }

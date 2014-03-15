@@ -9,11 +9,9 @@ namespace em {
 		ref class Vector : public MathObject {
 
 		public:
-			static property String^ tag {
-				String^ get() {
-					return "Vector";
-				}
-			}
+			
+			static String^ const tag = "Vector";
+			
 			property double default[int] {
 				double get(int i) {
 					return this->value[i];
@@ -38,9 +36,13 @@ namespace em {
 			virtual ~Vector();
 
 			virtual String^ ToString() override;
+			virtual void negate() override;
 
 			Vector^ fitAssign(Vector^ vec);
 			Vector^ overrideAssign(Vector^ vec);
+			
+
+			static bool vectorCast(MathObject^ mo, Vector^% vec);
 		};
 	}
 	

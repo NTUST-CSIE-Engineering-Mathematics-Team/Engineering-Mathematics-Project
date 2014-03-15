@@ -37,6 +37,12 @@
     <Filter Include="Source Files\intrprt\pattern">
       <UniqueIdentifier>{0d2407d0-eec8-4456-b669-65e78601d230}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\math\engine">
+      <UniqueIdentifier>{9ff33b5e-a663-48ef-b54f-8009de59b747}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\math\engine">
+      <UniqueIdentifier>{c097978a-63f6-44bf-b0d6-486edfba37a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainForm.cpp">
@@ -114,6 +120,30 @@
     <ClCompile Include="SettingsCommand.cpp">
       <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
+    <ClCompile Include="ShowStorageCommand.cpp">
+      <Filter>Source Files\intrprt\cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="MathHelper.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="ArithmeticPatternAnalyzer.cpp">
+      <Filter>Source Files\intrprt\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="Expression.cpp">
+      <Filter>Source Files\math\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="ArithmeticEngine.cpp">
+      <Filter>Source Files\math\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="MathObjExp.cpp">
+      <Filter>Source Files\math\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="BinaryOperator.cpp">
+      <Filter>Source Files\math\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Function.cpp">
+      <Filter>Source Files\math\engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainForm.h">
@@ -190,6 +220,39 @@
     </ClInclude>
     <ClInclude Include="SettingsCommand.h">
       <Filter>Header Files\intrprt\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="ShowStorageCommand.h">
+      <Filter>Header Files\intrprt\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="All_Commands.h">
+      <Filter>Header Files\intrprt\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="All_Patterns.h">
+      <Filter>Header Files\intrprt\pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="MathHelper.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="All_Math.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="ArithmeticPatternAnalyzer.h">
+      <Filter>Header Files\intrprt\pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="Expression.h">
+      <Filter>Header Files\math\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="ArithmeticEngine.h">
+      <Filter>Header Files\math\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="MathObjExp.h">
+      <Filter>Header Files\math\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryOperator.h">
+      <Filter>Header Files\math\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Function.h">
+      <Filter>Header Files\math\engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

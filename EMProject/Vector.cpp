@@ -55,3 +55,14 @@ String^ Vector::ToString() {
 	delete sb;
 	return result;
 }
+
+bool Vector::vectorCast(MathObject^ mo, Vector^% vec) {
+	vec = dynamic_cast<Vector^>(mo);
+	return vec != nullptr;
+}
+
+void Vector::negate() {
+	for (int i = 0; i < this->rank; i++) {
+		this[i] = -this[i];
+	}
+}

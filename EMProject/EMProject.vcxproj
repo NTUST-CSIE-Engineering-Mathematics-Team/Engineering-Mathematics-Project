@@ -80,6 +80,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArithmeticEngine.cpp" />
+    <ClCompile Include="ArithmeticPatternAnalyzer.cpp" />
+    <ClCompile Include="BinaryOperator.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CommandPatternAnalyzer.cpp" />
     <ClCompile Include="CommandTable.cpp" />
@@ -90,11 +93,15 @@
     <ClCompile Include="CreateScalarCommand.cpp" />
     <ClCompile Include="CreateVectorCommand.cpp" />
     <ClCompile Include="DeleteCommand.cpp" />
+    <ClCompile Include="Expression.cpp" />
+    <ClCompile Include="Function.cpp" />
     <ClCompile Include="Interpreter.cpp" />
     <ClCompile Include="InterpreterFactory.cpp" />
     <ClCompile Include="KeywordCollection.cpp" />
     <ClCompile Include="MainForm.cpp" />
+    <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="MathObject.cpp" />
+    <ClCompile Include="MathObjExp.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MappingTable.cpp" />
@@ -103,10 +110,17 @@
     <ClCompile Include="PrintCommand.cpp" />
     <ClCompile Include="Scalar.cpp" />
     <ClCompile Include="SettingsCommand.cpp" />
+    <ClCompile Include="ShowStorageCommand.cpp" />
     <ClCompile Include="VariableTable.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="All_Commands.h" />
+    <ClInclude Include="All_Math.h" />
+    <ClInclude Include="All_Patterns.h" />
+    <ClInclude Include="ArithmeticEngine.h" />
+    <ClInclude Include="ArithmeticPatternAnalyzer.h" />
+    <ClInclude Include="BinaryOperator.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandPatternAnalyzer.h" />
     <ClInclude Include="CommandTable.h" />
@@ -117,13 +131,17 @@
     <ClInclude Include="CreateScalarCommand.h" />
     <ClInclude Include="CreateVectorCommand.h" />
     <ClInclude Include="DeleteCommand.h" />
+    <ClInclude Include="Expression.h" />
+    <ClInclude Include="Function.h" />
     <ClInclude Include="Interpreter.h" />
     <ClInclude Include="InterpreterFactory.h" />
     <ClInclude Include="KeywordCollection.h" />
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="MathHelper.h" />
     <ClInclude Include="MathObject.h" />
+    <ClInclude Include="MathObjExp.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MappingTable.h" />
@@ -132,6 +150,7 @@
     <ClInclude Include="PrintCommand.h" />
     <ClInclude Include="Scalar.h" />
     <ClInclude Include="SettingsCommand.h" />
+    <ClInclude Include="ShowStorageCommand.h" />
     <ClInclude Include="VariableTable.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>

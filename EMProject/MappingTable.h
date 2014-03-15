@@ -8,10 +8,11 @@ namespace em {
 		ref class MappingTable abstract {
 
 		public:
-			property const V default[K] {
-				virtual const V get(K key) {
+			virtual property V default[K] {
+				virtual V get(K key) {
 					return table[key];
 				}
+
 			}
 
 		protected:
@@ -21,7 +22,7 @@ namespace em {
 			virtual ~MappingTable();
 
 			virtual bool contains(K key);
-
+			virtual bool checkGet(K^ key, V^% v);
 		protected:
 			MappingTable();
 		};

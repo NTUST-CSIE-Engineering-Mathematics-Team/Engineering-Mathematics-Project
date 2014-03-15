@@ -53,6 +53,9 @@ void VariableTable::clear() {
 	this->table->Clear();
 }
 
+Dictionary<String^, MathObject^>::Enumerator VariableTable::getEnumerator() {
+	return table->GetEnumerator();
+}
 
 String^ VariableTable::generateNewVariableName() {
 

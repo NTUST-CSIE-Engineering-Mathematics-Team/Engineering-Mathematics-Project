@@ -48,7 +48,7 @@ namespace em {
 
 			}
 
-			static const Color LOAD_COLOR = Color::Blue;
+			static const Color STORAGE_COLOR = Color::Blue;
 			static const Color MATH_OBJECT_COLOR = Color::DarkGreen;
 			static const Color SETTING_COLOR = Color::BlueViolet;
 			static const Color COMMENT_COLOR = Color::Gray;
