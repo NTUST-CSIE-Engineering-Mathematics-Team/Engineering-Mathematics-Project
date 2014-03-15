@@ -8,7 +8,6 @@
 #include "VariableTable.h"
 #include "Message.h"
 
-
 namespace em {
 	namespace math {
 		namespace engine {
@@ -118,7 +117,6 @@ namespace em {
 				static ArithmeticEngine();
 				static bool isParentheseBalanced(GroupCollection^ groups);
 
-				
 			};
 		}
 	}
