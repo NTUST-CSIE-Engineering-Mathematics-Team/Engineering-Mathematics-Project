@@ -26,7 +26,7 @@ Message^ CreateScalarCommand::createMathObject(int typeIndex, String^ varName, a
 		}
 
 		Scalar^ scl;
-		if (Scalar::scalarCast(mo, scl)) {
+		if (!Scalar::scalarCast(mo, scl)) {
 			return gcnew Message(Message::State::ERROR, "Cannot initialize a scalar with a non-scalar variable");
 		}
 

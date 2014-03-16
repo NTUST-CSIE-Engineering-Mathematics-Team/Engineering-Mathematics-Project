@@ -10,7 +10,6 @@ using em::math::engine::ArithmeticEngine;
 using System::Text::StringBuilder;
 
 ArithmeticPatternAnalyzer::ArithmeticPatternAnalyzer() {
-	this->engine = gcnew ArithmeticEngine();
 }
 
 
@@ -24,25 +23,27 @@ Message^ ArithmeticPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 	String^ lObjName = result->Groups[1]->Value;
 
 	if (!vTable->contains(lObjName)) {
-		msg = Message::varNotFoundMsg(lObjName);
-		return nullptr;
+		return Message::varNotFoundMsg(lObjName);
 	}
 
-	if (!this->engine->analyze(result->Groups[2]->Value, iptr->variableTable, msg)) {
+	if (!iptr->arithmeticEngine->analyze(result->Groups[2]->Value, iptr->variableTable, msg)) {
 		return msg;
 	}
 
-	MathObject^ mo
-	if (!this->engine->compute(mo)) {
-
+	MathObject^ mo;
+	if (!iptr->arithmeticEngine->compute(mo, msg)) {
+		return msg;
 	}
+
 	vTable[lObjName] = mo;
 
+	return Message::PASS_NO_CONTENT_MSG;
 }
 
 
 String^ ArithmeticPatternAnalyzer::buildInitPattern() {
 	StringBuilder^ sb = gcnew StringBuilder();
+	
 	sb->AppendFormat("^({0})\\s*=\\s*({1})$", NAME_PATTERN, ArithmeticEngine::arithmeticContentPattern("p"));
 	
 	return sb->ToString();

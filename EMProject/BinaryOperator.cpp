@@ -1,4 +1,5 @@
 #include "BinaryOperator.h"
+#include "All_Math.h"
 
 using namespace em::math::engine::expression::operators;
 
@@ -19,7 +20,7 @@ MathObject^ BinaryOperator::compute(Message^% message) {
 		return nullptr;
 	}
 
-	MathObject^ result = this->calculate(moA, moB);
+	MathObject^ result = this->calculate(moA, moB, message);
 	
 	return result;
 }

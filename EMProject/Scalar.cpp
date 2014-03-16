@@ -28,9 +28,25 @@ Scalar::operator double() {
 bool Scalar::scalarCast(MathObject^ mo, Scalar^% scl) {
 	scl = dynamic_cast<Scalar^>(mo);
 	return scl != nullptr;
+}
+
+MathObject^ Scalar::operator-() {
+	return gcnew Scalar(-this->value);
+}
 
 
-void MathObject^ Scalar::operator-() {
-	this->value = -this->value;
-	return this;
+Scalar^ Scalar::operator-(Scalar^ s) {
+	return gcnew Scalar(this->value - s->value);
+}
+
+Scalar^ Scalar::operator+(Scalar^ s) {
+	return gcnew Scalar(this->value + s->value);
+}
+
+Scalar^ Scalar::operator*(Scalar^ s) {
+	return gcnew Scalar(this->value * s->value);
+}
+
+Scalar^ Scalar::operator/(Scalar^ s) {
+	return gcnew Scalar(this->value / s->value);
 }

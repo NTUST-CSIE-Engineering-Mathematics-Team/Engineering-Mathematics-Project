@@ -1,3 +1,5 @@
+#pragma once
+
 #include "MathObject.h"
 #include "Matrix.h"
 #include "Vector.h"

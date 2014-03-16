@@ -20,12 +20,18 @@ namespace em {
 				}
 			}
 
+			property ArithmeticEngine^ arithmeticEngine{
+				ArithmeticEngine^ get() {
+					return engine;
+				}
+			}
 		private:
 			PatternAnalyzer^ needNext;
 			PatternAnalyzer^ const commentPattern = gcnew CommentPatternAnalyzer();
 			PatternTable^ pTable;
 			VariableTable^ proxyVTable;
-			
+			ArithmeticEngine^ engine;
+
 		public:
 			virtual ~Interpreter();
 

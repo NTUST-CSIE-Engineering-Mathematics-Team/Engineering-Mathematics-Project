@@ -92,7 +92,9 @@
     <ClCompile Include="CreateMatrixCommand.cpp" />
     <ClCompile Include="CreateScalarCommand.cpp" />
     <ClCompile Include="CreateVectorCommand.cpp" />
+    <ClCompile Include="CrossProductOperator.cpp" />
     <ClCompile Include="DeleteCommand.cpp" />
+    <ClCompile Include="DivisionOperator.cpp" />
     <ClCompile Include="Expression.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="FunctionFactory.cpp" />
@@ -106,9 +108,12 @@
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MappingTable.cpp" />
+    <ClCompile Include="MultiplicationOperator.cpp" />
+    <ClCompile Include="SubtractionOperator.cpp" />
     <ClCompile Include="OperatorFactory.cpp" />
     <ClCompile Include="PatternAnalyzer.cpp" />
     <ClCompile Include="PatternTable.cpp" />
+    <ClCompile Include="AdditionOperator.cpp" />
     <ClCompile Include="PrintCommand.cpp" />
     <ClCompile Include="Scalar.cpp" />
     <ClCompile Include="SettingsCommand.cpp" />
@@ -118,8 +123,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="All_Commands.h" />
-    <ClInclude Include="All_Expression.h" />
+    <ClInclude Include="All_Expressions.h" />
     <ClInclude Include="All_Math.h" />
+    <ClInclude Include="All_Operators.h" />
     <ClInclude Include="All_Patterns.h" />
     <ClInclude Include="ArithmeticEngine.h" />
     <ClInclude Include="ArithmeticPatternAnalyzer.h" />
@@ -133,7 +139,9 @@
     <ClInclude Include="CreateMatrixCommand.h" />
     <ClInclude Include="CreateScalarCommand.h" />
     <ClInclude Include="CreateVectorCommand.h" />
+    <ClInclude Include="CrossProductOperator.h" />
     <ClInclude Include="DeleteCommand.h" />
+    <ClInclude Include="DivisionOperator.h" />
     <ClInclude Include="Expression.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="FunctionFactory.h" />
@@ -149,9 +157,12 @@
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MappingTable.h" />
+    <ClInclude Include="MultiplicationOperator.h" />
+    <ClInclude Include="SubtractionOperator.h" />
     <ClInclude Include="OperatorFactory.h" />
     <ClInclude Include="PatternAnalyzer.h" />
     <ClInclude Include="PatternTable.h" />
+    <ClInclude Include="AdditionOperator.h" />
     <ClInclude Include="PrintCommand.h" />
     <ClInclude Include="Scalar.h" />
     <ClInclude Include="SettingsCommand.h" />

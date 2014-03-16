@@ -7,9 +7,10 @@ namespace em {
 		namespace engine {
 			namespace expression {
 				using em::math::MathObject;
+				using em::intrprt::Message;
+
 				interface class Expression {
 				public:
-
 					virtual MathObject^ compute(Message^% message) abstract;
 				};
 

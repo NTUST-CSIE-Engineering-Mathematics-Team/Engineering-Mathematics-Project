@@ -113,11 +113,13 @@ bool Matrix::martixCast(MathObject^ mo, Matrix^% mat) {
 	return mat != nullptr;
 }
 
-MathObject^ Matrix::operator-() {	
+MathObject^ Matrix::operator-() {
+	Matrix^ mat = gcnew Matrix(this->columnLength, this->rowLength);
+
 	for (int i = value->GetLowerBound(0); i <= this->value->GetUpperBound(0); i++) {
 		for (int j = value->GetLowerBound(1); j <= this->value->GetUpperBound(1); j++) {
-			this[i, j] = -this[i, j];
+			mat[i, j] = -this[i, j];
 		}
 	}
-	return this;
+	return mat;
 }

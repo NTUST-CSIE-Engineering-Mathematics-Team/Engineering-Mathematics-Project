@@ -22,7 +22,7 @@ namespace em {
 			virtual ~MappingTable();
 
 			virtual bool contains(K key);
-			virtual bool checkGet(K^ key, V^% v);
+			virtual bool checkGet(K key, V% v);
 		protected:
 			MappingTable();
 		};

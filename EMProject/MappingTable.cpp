@@ -17,7 +17,7 @@ bool MappingTable<K, V>::contains(K key) {
 	return this->table->ContainsKey(key);
 }
 generic <typename K, typename V>
-bool MappingTable<K, V>::checkGet(K^ key, V^% v) {
+bool MappingTable<K, V>::checkGet(K key, V% v) {
 	if (this->contains(key)) {
 		v = this[key];
 		return true;

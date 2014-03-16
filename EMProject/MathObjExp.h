@@ -19,7 +19,7 @@ namespace em {
 					MathObjExp(MathObject^ mo);
 					virtual ~MathObjExp();
 
-					virtual MathObject^ compute(Message^% message) override;
+					virtual MathObject^ compute(Message^% message);
 				};
 
 			}

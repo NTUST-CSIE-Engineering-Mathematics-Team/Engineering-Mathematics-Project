@@ -9,10 +9,7 @@ namespace em {
 			using em::math::engine::ArithmeticEngine;
 
 			ref class ArithmeticPatternAnalyzer : public PatternAnalyzer {
-			private:
-				ArithmeticEngine^ engine;
-
-				
+			
 			public:
 				ArithmeticPatternAnalyzer();
 				virtual ~ArithmeticPatternAnalyzer();

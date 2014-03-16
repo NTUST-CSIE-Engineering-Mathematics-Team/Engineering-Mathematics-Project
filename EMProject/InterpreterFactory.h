@@ -35,7 +35,8 @@ namespace em {
 
 				static array<PatternAnalyzer^>^ analyzers = {
 					gcnew CommentPatternAnalyzer(), 
-					gcnew CommandPatternAnalyzer(commands) 
+					gcnew ArithmeticPatternAnalyzer(),
+					gcnew CommandPatternAnalyzer(commands)
 				};
 
 			public:

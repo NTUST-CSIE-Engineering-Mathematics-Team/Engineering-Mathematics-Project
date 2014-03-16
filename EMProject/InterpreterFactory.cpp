@@ -21,7 +21,7 @@ Interpreter^ InterpreterFactory::createInterpreter(InterpreterType type) {
 	return nullptr;
 }
 InterpreterFactory::RuntimeInterpreter::RuntimeInterpreter() : Interpreter(analyzers) {
-
+	
 }
 
 InterpreterFactory::RuntimeInterpreter::~RuntimeInterpreter() {

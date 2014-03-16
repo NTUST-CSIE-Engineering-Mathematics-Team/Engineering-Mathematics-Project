@@ -129,9 +129,6 @@
     <ClCompile Include="DeleteCommand.cpp">
       <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
-    <ClCompile Include="KeywordCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SettingsCommand.cpp">
       <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
@@ -164,6 +161,24 @@
     </ClCompile>
     <ClCompile Include="FunctionFactory.cpp">
       <Filter>Source Files\math\engine\functions</Filter>
+    </ClCompile>
+    <ClCompile Include="SubtractionOperator.cpp">
+      <Filter>Source Files\math\engine\operators</Filter>
+    </ClCompile>
+    <ClCompile Include="AdditionOperator.cpp">
+      <Filter>Source Files\math\engine\operators</Filter>
+    </ClCompile>
+    <ClCompile Include="DivisionOperator.cpp">
+      <Filter>Source Files\math\engine\operators</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiplicationOperator.cpp">
+      <Filter>Source Files\math\engine\operators</Filter>
+    </ClCompile>
+    <ClCompile Include="CrossProductOperator.cpp">
+      <Filter>Source Files\math\engine\operators</Filter>
+    </ClCompile>
+    <ClCompile Include="KeywordCollection.cpp">
+      <Filter>Source Files\intrprt</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,9 +287,6 @@
     <ClInclude Include="BinaryOperator.h">
       <Filter>Header Files\math\engine\expression\operators</Filter>
     </ClInclude>
-    <ClInclude Include="All_Expression.h">
-      <Filter>Header Files\math\engine\expression</Filter>
-    </ClInclude>
     <ClInclude Include="Function.h">
       <Filter>Header Files\math\engine\expression\functions</Filter>
     </ClInclude>
@@ -283,6 +295,27 @@
     </ClInclude>
     <ClInclude Include="FunctionFactory.h">
       <Filter>Header Files\math\engine\expression\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="SubtractionOperator.h">
+      <Filter>Header Files\math\engine\expression\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="AdditionOperator.h">
+      <Filter>Header Files\math\engine\expression\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="DivisionOperator.h">
+      <Filter>Header Files\math\engine\expression\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiplicationOperator.h">
+      <Filter>Header Files\math\engine\expression\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="CrossProductOperator.h">
+      <Filter>Header Files\math\engine\expression\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="All_Operators.h">
+      <Filter>Header Files\math\engine\expression\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="All_Expressions.h">
+      <Filter>Header Files\math\engine\expression</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

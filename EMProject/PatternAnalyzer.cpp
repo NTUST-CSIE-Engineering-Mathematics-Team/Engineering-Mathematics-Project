@@ -6,7 +6,9 @@ using System::Text::StringBuilder;
 using System::Char;
 
 PatternAnalyzer::PatternAnalyzer() {
+	
 	this->regex = gcnew Regex(buildInitPattern(), RegexOptions::Compiled);
+	
 }
 
 static PatternAnalyzer::PatternAnalyzer() {

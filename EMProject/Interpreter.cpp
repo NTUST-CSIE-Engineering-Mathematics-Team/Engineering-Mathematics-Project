@@ -7,6 +7,7 @@ Interpreter::Interpreter(array<PatternAnalyzer^>^ patternList) {
 	this->needNext = nullptr;
 	this->pTable = gcnew PatternTable(patternList);
 	this->proxyVTable = gcnew VariableTableProxy();
+	this->engine = gcnew ArithmeticEngine();
 }
 
 Message^ Interpreter::interpret(String^ line) {

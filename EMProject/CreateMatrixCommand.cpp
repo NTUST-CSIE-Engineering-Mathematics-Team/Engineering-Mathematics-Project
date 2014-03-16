@@ -22,7 +22,7 @@ Message^ CreateMatrixCommand::createMathObject(int typeIndex, String^ varName, a
 		}
 
 		Matrix^ mat;
-		if (Matrix::martixCast(mo, mat)) {
+		if (!Matrix::martixCast(mo, mat)) {
 			return gcnew Message(Message::State::ERROR, "Cannot initialize a matrix with a non-matrix variable in the same line");
 		}
 

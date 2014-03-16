@@ -9,6 +9,8 @@ namespace em {
 				namespace functions {
 					using em::math::MathObject;
 					using em::intrprt::Message;
+					using em::math::engine::expression::Expression;
+					using System::String;
 
 					ref class Function abstract : public Expression {
 					public:
@@ -29,7 +31,7 @@ namespace em {
 
 						virtual ~Function();
 						
-						virtual MathObject^ compute(Message^% message) override;
+						virtual MathObject^ compute(Message^% message);
 						virtual bool isArgsNumCorrect();
 					protected:
 						Function(bool negative, array<Expression^>^ exps, String^ name, int argN);

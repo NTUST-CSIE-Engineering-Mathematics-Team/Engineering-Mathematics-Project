@@ -7,9 +7,11 @@ namespace em {
 		namespace engine {
 			namespace expression {
 				namespace operators {
-					using em::math::MathObject;
+					using namespace em::math;
 					using em::intrprt::Message;
-
+					using em::math::engine::expression::Expression;
+					using System::String;
+					
 					ref class BinaryOperator abstract : public Expression {
 					public:
 						delegate BinaryOperator^ OperatorConstructor(Expression^ opndA, Expression^ opndB);
@@ -21,25 +23,21 @@ namespace em {
 							}
 						}
 
-					
 					private:
 						String^ const symbol;
 						Expression^ opndA;
 						Expression^ opndB;
 
 					public:
-						property int priority {
-							virtual int get() abstract;
-						}
-
+						
 						BinaryOperator(String^ symbol, Expression^ opndA, Expression^ opndB);
 						virtual ~BinaryOperator();
 
-						virtual MathObject^ compute(Message^% message) override;
+						virtual MathObject^ compute(Message^% message);
 						
 
 					protected:
-						virtual MathObject^ calculate(MathObject^ a, MathObject^ b) abstract;
+						virtual MathObject^ calculate(MathObject^ a, MathObject^ b, Message^% message) abstract;
 					};
 
 				}

@@ -23,7 +23,7 @@ Message^ CreateVectorCommand::createMathObject(int typeIndex, String^ varName, a
 		}
 
 		Vector^ vec;
-		if (Vector::vectorCast(mo, vec)) {
+		if (!Vector::vectorCast(mo, vec)) {
 			return gcnew Message(Message::State::ERROR, "Cannot initialize a vector with a non-vector variable in the same line");
 		}
 

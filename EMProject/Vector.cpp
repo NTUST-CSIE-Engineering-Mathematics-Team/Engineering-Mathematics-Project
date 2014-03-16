@@ -62,9 +62,10 @@ bool Vector::vectorCast(MathObject^ mo, Vector^% vec) {
 }
 
 MathObject^ Vector::operator-() {
+	Vector^ vec = gcnew Vector(this->rank);
 	for (int i = 0; i < this->rank; i++) {
-		this[i] = -this[i];
+		vec[i] = -this[i];
 	}
 
-	return this;
+	return vec;
 }

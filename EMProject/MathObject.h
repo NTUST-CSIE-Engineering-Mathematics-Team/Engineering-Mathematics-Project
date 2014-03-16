@@ -43,7 +43,7 @@ namespace em {
 			virtual ~MathObject();
 
 			virtual String^ ToString()override abstract;
-			virtual MathObject^ operator-() override abstract;
+			virtual MathObject^ operator-() abstract;
 		public:
 			MathObject(String^ type);
 		};

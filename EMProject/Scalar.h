@@ -25,10 +25,15 @@ namespace em {
 			virtual ~Scalar();
 
 			virtual String^ ToString() override;
-			virtual MathObject^ operator-()  override;
+			virtual MathObject^ operator-() override;
+
+			Scalar^ operator-(Scalar^ s);
+			Scalar^ operator+(Scalar^ s);
+			Scalar^ operator*(Scalar^ s);
+			Scalar^ operator/(Scalar^ s);
 
 			Scalar^ overrideAssign(Scalar^ scl);
-
+			
 			operator double();
 			
 			static bool scalarCast(MathObject^ mo, Scalar^% scl);

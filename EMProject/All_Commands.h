@@ -1,3 +1,4 @@
+#pragma once
 
 #include "PrintCommand.h"
 #include "CreateMatrixCommand.h"
