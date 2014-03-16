@@ -1,22 +1,28 @@
 #pragma once
 #include "Expression.h"
 #include "VariableTable.h"
+#include "Message.h"
 
 namespace em {
 	namespace math {
 		namespace engine {
-			using em::intrprt::VariableTable;
-			ref class MathObjExp : public Expression {
-			private:
-				MathObject^ mo;
+			namespace expression {
+				using em::intrprt::VariableTable;
+				using em::math::MathObject;
+				using em::intrprt::Message;
 
-			public:
-				MathObjExp(MathObject^ mo);
-				virtual ~MathObjExp();
+				ref class MathObjExp : public Expression {
+				private:
+					MathObject^ mo;
 
-				virtual MathObject^ compute() override;
-			};
+				public:
+					MathObjExp(MathObject^ mo);
+					virtual ~MathObjExp();
 
+					virtual MathObject^ compute(Message^% message) override;
+				};
+
+			}
 		}
 	}
 }

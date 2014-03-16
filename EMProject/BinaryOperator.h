@@ -1,41 +1,49 @@
 #pragma once
 #include "Expression.h"
+#include "Message.h"
 
 namespace em {
 	namespace math {
 		namespace engine {
-			ref class BinaryOperator abstract : public Expression {
+			namespace expression {
+				namespace operators {
+					using em::math::MathObject;
+					using em::intrprt::Message;
 
-			public:
-				property String^ operatorSymbol {
-					String^ get() {
-						return this->symbol;
-					}
+					ref class BinaryOperator abstract : public Expression {
+					public:
+						delegate BinaryOperator^ OperatorConstructor(Expression^ opndA, Expression^ opndB);
+
+					public:
+						property String^ operatorSymbol {
+							String^ get() {
+								return this->symbol;
+							}
+						}
+
+					
+					private:
+						String^ const symbol;
+						Expression^ opndA;
+						Expression^ opndB;
+
+					public:
+						property int priority {
+							virtual int get() abstract;
+						}
+
+						BinaryOperator(String^ symbol, Expression^ opndA, Expression^ opndB);
+						virtual ~BinaryOperator();
+
+						virtual MathObject^ compute(Message^% message) override;
+						
+
+					protected:
+						virtual MathObject^ calculate(MathObject^ a, MathObject^ b) abstract;
+					};
+
 				}
-
-			protected:
-				Expression^ opndA;
-				Expression^ opndB;
-				
-			private:
-				String^ const symbol;
-
-			public:
-				property int priority {
-					virtual int get() abstract;
-				}
-
-				BinaryOperator(String^ symbol);
-				virtual ~BinaryOperator();
-
-				virtual void setOperands(Expression^ opndA, Expression^ opndB);
-
-				virtual MathObject^ compute() override;
-
-			protected:
-				virtual MathObject^ calculate(MathObject^ a, MathObject^ b) abstract;
-			};
-
+			}
 		}
 	}
 }

@@ -25,7 +25,7 @@ namespace em {
 			virtual ~Scalar();
 
 			virtual String^ ToString() override;
-			virtual void negate() override;
+			virtual MathObject^ operator-()  override;
 
 			Scalar^ overrideAssign(Scalar^ scl);
 

@@ -52,7 +52,7 @@ namespace em {
 			virtual ~Matrix();
 
 			virtual String^ ToString() override;
-			virtual void negate() override;
+			virtual MathObject^ operator-() override;
 
 			Matrix^ fitAssign(Matrix^ mat);
 			virtual Matrix^ overrideAssign(Matrix^ mat);

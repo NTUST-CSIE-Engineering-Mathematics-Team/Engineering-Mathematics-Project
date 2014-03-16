@@ -36,7 +36,7 @@ namespace em {
 			virtual ~Vector();
 
 			virtual String^ ToString() override;
-			virtual void negate() override;
+			virtual MathObject^ operator-() override;
 
 			Vector^ fitAssign(Vector^ vec);
 			Vector^ overrideAssign(Vector^ vec);

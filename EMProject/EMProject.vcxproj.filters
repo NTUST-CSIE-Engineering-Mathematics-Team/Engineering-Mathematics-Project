@@ -43,6 +43,21 @@
     <Filter Include="Source Files\math\engine">
       <UniqueIdentifier>{c097978a-63f6-44bf-b0d6-486edfba37a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\math\engine\expression">
+      <UniqueIdentifier>{fafcd7ae-5853-4562-9a08-635d1ac9a7ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\math\engine\expression\operators">
+      <UniqueIdentifier>{ea206c50-dd48-44f7-bb2d-29d50846665f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\math\engine\expression\functions">
+      <UniqueIdentifier>{39dbb31c-7c06-4b9c-b2d7-e1769a4b1b99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\math\engine\functions">
+      <UniqueIdentifier>{8780bbc6-53c3-4898-8c02-554dbac7ca15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\math\engine\operators">
+      <UniqueIdentifier>{f9cd90dc-800a-4b99-bc02-74ead6359f9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainForm.cpp">
@@ -139,10 +154,16 @@
       <Filter>Source Files\math\engine</Filter>
     </ClCompile>
     <ClCompile Include="BinaryOperator.cpp">
-      <Filter>Source Files\math\engine</Filter>
+      <Filter>Source Files\math\engine\operators</Filter>
     </ClCompile>
     <ClCompile Include="Function.cpp">
-      <Filter>Source Files\math\engine</Filter>
+      <Filter>Source Files\math\engine\functions</Filter>
+    </ClCompile>
+    <ClCompile Include="OperatorFactory.cpp">
+      <Filter>Source Files\math\engine\operators</Filter>
+    </ClCompile>
+    <ClCompile Include="FunctionFactory.cpp">
+      <Filter>Source Files\math\engine\functions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -239,20 +260,29 @@
     <ClInclude Include="ArithmeticPatternAnalyzer.h">
       <Filter>Header Files\intrprt\pattern</Filter>
     </ClInclude>
-    <ClInclude Include="Expression.h">
-      <Filter>Header Files\math\engine</Filter>
-    </ClInclude>
     <ClInclude Include="ArithmeticEngine.h">
       <Filter>Header Files\math\engine</Filter>
     </ClInclude>
     <ClInclude Include="MathObjExp.h">
-      <Filter>Header Files\math\engine</Filter>
+      <Filter>Header Files\math\engine\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="Expression.h">
+      <Filter>Header Files\math\engine\expression</Filter>
     </ClInclude>
     <ClInclude Include="BinaryOperator.h">
-      <Filter>Header Files\math\engine</Filter>
+      <Filter>Header Files\math\engine\expression\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="All_Expression.h">
+      <Filter>Header Files\math\engine\expression</Filter>
     </ClInclude>
     <ClInclude Include="Function.h">
-      <Filter>Header Files\math\engine</Filter>
+      <Filter>Header Files\math\engine\expression\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="OperatorFactory.h">
+      <Filter>Header Files\math\engine\expression\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="FunctionFactory.h">
+      <Filter>Header Files\math\engine\expression\functions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

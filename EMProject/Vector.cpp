@@ -61,8 +61,10 @@ bool Vector::vectorCast(MathObject^ mo, Vector^% vec) {
 	return vec != nullptr;
 }
 
-void Vector::negate() {
+MathObject^ Vector::operator-() {
 	for (int i = 0; i < this->rank; i++) {
 		this[i] = -this[i];
 	}
+
+	return this;
 }

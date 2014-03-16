@@ -1,17 +1,19 @@
 #pragma once
 #include "MathObject.h"
+#include "Message.h"
 
 namespace em {
 	namespace math {
 		namespace engine {
+			namespace expression {
+				using em::math::MathObject;
+				interface class Expression {
+				public:
 
-			using em::math::MathObject;
-			interface class Expression {
-			public:
-				
-				virtual MathObject^ compute() abstract;
-			};
+					virtual MathObject^ compute(Message^% message) abstract;
+				};
 
+			}
 		}
 	}
 }

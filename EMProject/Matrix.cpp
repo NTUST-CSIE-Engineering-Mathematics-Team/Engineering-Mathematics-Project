@@ -113,10 +113,11 @@ bool Matrix::martixCast(MathObject^ mo, Matrix^% mat) {
 	return mat != nullptr;
 }
 
-void Matrix::negate() {	
+MathObject^ Matrix::operator-() {	
 	for (int i = value->GetLowerBound(0); i <= this->value->GetUpperBound(0); i++) {
 		for (int j = value->GetLowerBound(1); j <= this->value->GetUpperBound(1); j++) {
 			this[i, j] = -this[i, j];
 		}
 	}
+	return this;
 }

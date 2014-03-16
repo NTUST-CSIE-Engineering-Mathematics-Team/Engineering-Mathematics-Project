@@ -95,6 +95,7 @@
     <ClCompile Include="DeleteCommand.cpp" />
     <ClCompile Include="Expression.cpp" />
     <ClCompile Include="Function.cpp" />
+    <ClCompile Include="FunctionFactory.cpp" />
     <ClCompile Include="Interpreter.cpp" />
     <ClCompile Include="InterpreterFactory.cpp" />
     <ClCompile Include="KeywordCollection.cpp" />
@@ -105,6 +106,7 @@
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MappingTable.cpp" />
+    <ClCompile Include="OperatorFactory.cpp" />
     <ClCompile Include="PatternAnalyzer.cpp" />
     <ClCompile Include="PatternTable.cpp" />
     <ClCompile Include="PrintCommand.cpp" />
@@ -116,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="All_Commands.h" />
+    <ClInclude Include="All_Expression.h" />
     <ClInclude Include="All_Math.h" />
     <ClInclude Include="All_Patterns.h" />
     <ClInclude Include="ArithmeticEngine.h" />
@@ -133,6 +136,7 @@
     <ClInclude Include="DeleteCommand.h" />
     <ClInclude Include="Expression.h" />
     <ClInclude Include="Function.h" />
+    <ClInclude Include="FunctionFactory.h" />
     <ClInclude Include="Interpreter.h" />
     <ClInclude Include="InterpreterFactory.h" />
     <ClInclude Include="KeywordCollection.h" />
@@ -145,6 +149,7 @@
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MappingTable.h" />
+    <ClInclude Include="OperatorFactory.h" />
     <ClInclude Include="PatternAnalyzer.h" />
     <ClInclude Include="PatternTable.h" />
     <ClInclude Include="PrintCommand.h" />

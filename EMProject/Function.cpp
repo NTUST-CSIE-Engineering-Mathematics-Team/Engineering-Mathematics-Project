@@ -1,31 +1,35 @@
 #include "Function.h"
 
-using namespace em::math::engine;
+using namespace em::math::engine::expression::functions;
 
-Function::Function(String^ name, int argN) : name(name), argCount(argN) {
+Function::Function(bool negative, array<Expression^>^ exps, String^ name, int argN) : negative(negative), args(exps), name(name), argCount(argN) {
 }
 
 
 Function::~Function() {
+	delete this->args;
+	this->args = nullptr;
 }
 
-bool Function::setArgs(array<Expression^>^ exps) {
-	if (this->argCount != exps->Length) {
-		return false;
+bool Function::isArgsNumCorrect() {
+	return this->args->Length == this->argCount;
+}
+
+MathObject^ Function::compute(Message^% message) {
+
+	if (!isArgsNumCorrect()) {
+		return nullptr;
 	}
-	this->args = exps;
-	return true;
-}
 
-MathObject^ Function::compute() {
 	array<MathObject^>^ mos = gcnew array<MathObject^>(this->args->Length);
 	for (int i = 0; i < mos->Length; i++) {
-		mos[i] = args[i]->compute();
+		mos[i] = args[i]->compute(message);
+		if (mos[i] == nullptr) {
+			return nullptr;
+		}
 	}
-	
-	this->args = nullptr;
 
-	return this->performFunction(mos);
-
+	MathObject^ mo = this->performFunction(mos);
+	return this->negative? (-mo) : mo;
 	
 }

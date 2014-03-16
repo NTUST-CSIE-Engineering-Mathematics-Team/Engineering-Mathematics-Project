@@ -1,22 +1,25 @@
 #include "BinaryOperator.h"
 
-using namespace em::math::engine;
+using namespace em::math::engine::expression::operators;
 
-BinaryOperator::BinaryOperator(String^ symbol) : symbol(symbol) {
+BinaryOperator::BinaryOperator(String^ symbol, Expression^ opndA, Expression^ opndB) : symbol(symbol), opndA(opndA), opndB(opndB) {
 }
 
 
 BinaryOperator::~BinaryOperator() {
+	delete this->opndA;
+	delete this->opndB;
+	
 }
 
-void BinaryOperator::setOperands(Expression^ opndA, Expression^ opndB) {
-	this->opndA = opndA;
-	this->opndB = opndB;
-}
+MathObject^ BinaryOperator::compute(Message^% message) {
+	MathObject^ moA = this->opndA->compute(message),^ moB = this->opndB->compute(message);
+	
+	if (moA == nullptr || moB == nullptr) {
+		return nullptr;
+	}
 
-MathObject^ BinaryOperator::compute() {
-	MathObject^ result = this->calculate(this->opndA->compute(), this->opndB->compute());
-	this->opndA = nullptr;
-	this->opndB = nullptr;
+	MathObject^ result = this->calculate(moA, moB);
+	
 	return result;
 }

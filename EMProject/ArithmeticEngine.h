@@ -1,10 +1,7 @@
 #pragma once
-
-#include "Expression.h"
-#include "Function.h"
-#include "MathObjExp.h"
-#include "BinaryOperator.h"
-#include "BinaryOperator.h"
+#include "All_Expression.h"
+#include "OperatorFactory.h"
+#include "FunctionFactory.h"
 #include "VariableTable.h"
 #include "Message.h"
 
@@ -16,36 +13,34 @@ namespace em {
 			using namespace System::Collections::Generic;
 			using namespace System::Text::RegularExpressions;
 			using namespace em::intrprt;
-			
+			using namespace expression;
+			using namespace expression::operators;
+			using namespace expression::functions;
+
 			ref class ArithmeticEngine {
 
 			private:
-				interface class ExpressionCreator {
+				interface class ExpressionFactory {
 
 				public:
-					delegate Expression^ createFunctor(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable);
+					delegate Expression^ ConcreteExpression(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable);
 					
-					static Expression^ createScalarExp(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable);
-					static Expression^ createMathObjExp(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable);
-					static Expression^ createFunction(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable);
-					static Expression^ createCompoundExp(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable);
+					static Expression^ concreteScalarExp(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable);
+					static Expression^ concreteMathObjExp(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable);
+					static Expression^ concreteFunction(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable);
+					static Expression^ concreteCompoundExp(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable);
 
 				};
 
 			private:
 				Expression^ root;
-
-				static array<Function^>^ const functions = {};
-				static array<BinaryOperator^>^ const operators = {};
 				
-				static Dictionary<String^, Function^>^ const funcitonTable = gcnew Dictionary<String^, Function^>();
-				static Dictionary<String^, BinaryOperator^>^ const operatorTable = gcnew Dictionary<String^, BinaryOperator^>();
 				static array<Regex^>^ const regexList = { DOUBLE_REGEX, NAME_REGEX, FUNCTION_REGEX, COMPOUND_EXP_REGEX };
-				static array<ExpressionCreator::createFunctor^>^ const creatorList = {
-					gcnew ExpressionCreator::createFunctor(ExpressionCreator::createScalarExp),
-					gcnew ExpressionCreator::createFunctor(ExpressionCreator::createMathObjExp),
-					gcnew ExpressionCreator::createFunctor(ExpressionCreator::createFunction),
-					gcnew ExpressionCreator::createFunctor(ExpressionCreator::createCompoundExp)
+				static array<ExpressionFactory::ConcreteExpression^>^ const constrctorList = {
+					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteScalarExp),
+					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteMathObjExp),
+					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteFunction),
+					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteCompoundExp)
 				};
 
 				static Regex^ const COMPOUND_EXP_REGEX = gcnew Regex(COMPOUND_EXP_PATTERN, RegexOptions::Compiled);
@@ -100,20 +95,21 @@ namespace em {
 				virtual ~ArithmeticEngine(); 
 
 				bool analyze(String^ expression, VariableTable^ vTable, Message^% msg);
-				bool compute(MathObject^% mo);
+				bool compute(MathObject^% mo, Message^% message);
 
 				static String^ arithmeticContentPattern(String^ tag) {
 					return "(?:(?<" + tag + ">\\()|(?<-" + tag + ">\\))|[-+*/A-Za-z0-9._,]|\\s)+";
 				}
 			private:
 				Expression^ anaylzeCompoundExpression(String^ expression, VariableTable^ vTable);
-				void CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<BinaryOperator^>^% optors,
-								  LinkedListNode<Expression^>^% rndNode, LinkedListNode<BinaryOperator^>^% torNode,
-								  LinkedListNode<Expression^>^% preRndNode, LinkedListNode<BinaryOperator^>^% preTorNode);
 
-				bool loadTokens(GroupCollection^ groups, VariableTable^ vTable, LinkedList<Expression^>^% opnds, LinkedList<BinaryOperator^>^% optors);
+				bool loadTokens(GroupCollection^ groups, VariableTable^ vTable, LinkedList<Expression^>^% opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% optors);
 				Expression^ convertToExpression(String^ s, VariableTable^ vTable);
-
+				Expression^ buildArithmeticTree(LinkedList<Expression^>^ opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^ optors);
+				void CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% optors,
+								  LinkedListNode<Expression^>^% rndNode, LinkedListNode<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% torNode,
+								  LinkedListNode<Expression^>^% preRndNode, LinkedListNode<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% preTorNode);
+				
 				static ArithmeticEngine();
 				static bool isParentheseBalanced(GroupCollection^ groups);
 

@@ -30,6 +30,7 @@ bool Scalar::scalarCast(MathObject^ mo, Scalar^% scl) {
 	return scl != nullptr;
 
 
-void Scalar::negate() {
+void MathObject^ Scalar::operator-() {
 	this->value = -this->value;
+	return this;
 }
