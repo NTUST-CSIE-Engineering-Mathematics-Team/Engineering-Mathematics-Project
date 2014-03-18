@@ -16,11 +16,6 @@ namespace em {
 					return MappingTable::default[key];
 				}
 
-				virtual void set(String^ key, MathObject^ value) {
-					if (this->contains(key)) {
-						this->table[key] = value;
-					}
-				}
 			}
 
 		private:

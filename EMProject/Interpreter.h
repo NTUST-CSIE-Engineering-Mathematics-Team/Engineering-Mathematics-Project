@@ -53,13 +53,6 @@ namespace em {
 						return allVTable[key];
 					}
 
-					virtual void set(String^ key, MathObject^ value) override {
-
-						allVTable[key] = value;
-						if (this->VariableTable::contains(key)) {
-							this->table[key] = value;
-						}
-					}
 				}
 
 			private:

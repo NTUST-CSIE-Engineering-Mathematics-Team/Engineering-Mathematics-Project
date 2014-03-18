@@ -180,6 +180,9 @@
     <ClCompile Include="KeywordCollection.cpp">
       <Filter>Source Files\intrprt</Filter>
     </ClCompile>
+    <ClCompile Include="CommutativeOperator.cpp">
+      <Filter>Source Files\math\engine\operators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainForm.h">
@@ -316,6 +319,9 @@
     </ClInclude>
     <ClInclude Include="All_Expressions.h">
       <Filter>Header Files\math\engine\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="CommutativeOperator.h">
+      <Filter>Header Files\math\engine\expression\operators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

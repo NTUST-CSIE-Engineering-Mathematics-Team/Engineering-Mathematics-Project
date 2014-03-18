@@ -1,5 +1,6 @@
 #pragma once
 #include "MathObject.h"
+#include "Scalar.h"
 
 namespace em {
 	namespace math {
@@ -20,14 +21,24 @@ namespace em {
 					this->value[i] = v;
 				}
 			}
+			property double magnitude {
+				double get() {
+					double s = 0;
+					for (int i = 0; i < this->rank; i++) {
+						s += this[i] * this[i];
+					}
+					return System::Math::Sqrt(s);
+				}
+			}
 
-			property int rank{
+			property int rank {
 				int get() {
 					return this->value->Length;
 				}
 			}
 
-		private: 
+		private:
+			
 			array<double>^ value;
 
 		public:
@@ -41,8 +52,15 @@ namespace em {
 			Vector^ fitAssign(Vector^ vec);
 			Vector^ overrideAssign(Vector^ vec);
 			
+			Vector^ operator-(Vector^ v);
+			Vector^ operator+(Vector^ v);
+			Vector^ operator*(Scalar^ s);
+			Scalar^ operator*(Vector^ v);
+			Vector^ cross(Vector^ v);
 
+			static bool isSameRank(Vector^ a, Vector^ b);
 			static bool vectorCast(MathObject^ mo, Vector^% vec);
+			static int getWiderRank(Vector^ a, Vector^ b);
 		};
 	}
 	

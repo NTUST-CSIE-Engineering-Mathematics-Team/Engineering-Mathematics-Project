@@ -32,7 +32,6 @@ namespace em {
 
 			property int rowLength {
 				int get() {
-					
 					return this->value->GetLength(1);
 				}
 			}
@@ -57,7 +56,14 @@ namespace em {
 			Matrix^ fitAssign(Matrix^ mat);
 			virtual Matrix^ overrideAssign(Matrix^ mat);
 
-			static bool martixCast(MathObject^ mo, Matrix^% mat);
+			Matrix^ operator-(Matrix^ m);
+			Matrix^ operator+(Matrix^ m);
+			Matrix^ operator*(Matrix^ m);
+			Vector^ operator*(Vector^ v);
+			Matrix^ operator*(Scalar^ s);
+			
+			bool isSameSize(Matrix^ m);
+			static bool matrixCast(MathObject^ mo, Matrix^% mat);
 		};
 	}
 }

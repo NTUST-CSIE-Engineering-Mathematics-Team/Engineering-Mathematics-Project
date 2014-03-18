@@ -5,7 +5,7 @@
 
 using namespace em::intrprt::cmd;
 
-CreateMatrixCommand::CreateMatrixCommand() : CreateMathObjectCommand(KeywordCollection::CREATE_MATRIX_CMD, "IIn", "IInN", "nN") {
+CreateMatrixCommand::CreateMatrixCommand() : CreateMathObjectCommand(KeywordCollection::CREATE_MATRIX_CMD, "IIn", "IInN", "nN", "nE") {
 }
 
 CreateMatrixCommand::~CreateMatrixCommand() {
@@ -13,6 +13,27 @@ CreateMatrixCommand::~CreateMatrixCommand() {
 
 Message^ CreateMatrixCommand::createMathObject(int typeIndex, String^ varName, array<String^>^ rawArgs, Interpreter^ iptr) {
 	
+	if (typeIndex == 3) {
+		MathObject^ mo;
+		Message^  msg;
+		msg = iptr->arithmeticEngine->execute(rawArgs[1], mo);
+
+		if (mo == nullptr) {
+			return msg;
+		}
+
+		Matrix^ mat;
+		if (Matrix::matrixCast(mo, mat)) {
+
+			iptr->variableTable->addVariable(varName, mat);
+			msg = Message::PASS_NO_CONTENT_MSG;
+		} else {
+			msg = gcnew Message(Message::State::ERROR, "Type error, can not assign a " + mo->mathType->ToLower() + " to a matrix");
+		}
+
+		return msg;
+	}
+
 	if (typeIndex == 1 || typeIndex == 2) {
 
 		String^ vn = rawArgs[rawArgs->Length - 1];
@@ -22,7 +43,7 @@ Message^ CreateMatrixCommand::createMathObject(int typeIndex, String^ varName, a
 		}
 
 		Matrix^ mat;
-		if (!Matrix::martixCast(mo, mat)) {
+		if (!Matrix::matrixCast(mo, mat)) {
 			return gcnew Message(Message::State::ERROR, "Cannot initialize a matrix with a non-matrix variable in the same line");
 		}
 

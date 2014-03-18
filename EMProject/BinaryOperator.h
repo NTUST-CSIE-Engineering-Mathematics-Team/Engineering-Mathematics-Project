@@ -1,7 +1,7 @@
 #pragma once
 #include "Expression.h"
 #include "Message.h"
-
+#include "All_Math.h"
 namespace em {
 	namespace math {
 		namespace engine {
@@ -11,10 +11,31 @@ namespace em {
 					using em::intrprt::Message;
 					using em::math::engine::expression::Expression;
 					using System::String;
-					
+					using System::Collections::Generic::Dictionary;
+
 					ref class BinaryOperator abstract : public Expression {
-					public:
-						delegate BinaryOperator^ OperatorConstructor(Expression^ opndA, Expression^ opndB);
+					protected:
+						generic<typename A, typename B> where A : MathObject where B : MathObject
+						delegate MathObject^ Operation(A opndA, B opndB, Message^% msg);
+
+					private:
+						interface class CasterInterface {
+						public:
+							virtual MathObject^ castInvoke(MathObject^ a, MathObject^ b, Message^% message) abstract;
+						};
+
+						generic<typename A, typename B> where A : MathObject where B : MathObject
+						ref class Caster : public CasterInterface {
+
+						private:
+							Operation<A, B>^ operation;
+
+						public:
+							Caster(Operation<A, B>^ op);
+							~Caster();
+
+							virtual MathObject^ castInvoke(MathObject^ a, MathObject^ b, Message^% message);
+						};
 
 					public:
 						property String^ operatorSymbol {
@@ -28,16 +49,20 @@ namespace em {
 						Expression^ opndA;
 						Expression^ opndB;
 
+						Dictionary<String^, CasterInterface^>^ operationMap;
+
 					public:
-						
 						BinaryOperator(String^ symbol, Expression^ opndA, Expression^ opndB);
 						virtual ~BinaryOperator();
 
+						generic<typename A, typename B> where A : MathObject where B : MathObject
+						virtual void addOperation(String^ types, Operation<A, B>^ caster);
+
 						virtual MathObject^ compute(Message^% message);
-						
 
 					protected:
-						virtual MathObject^ calculate(MathObject^ a, MathObject^ b, Message^% message) abstract;
+						MathObject^ castInvoke(String^ types, MathObject^ a, MathObject^ b, Message^% message);
+					
 					};
 
 				}

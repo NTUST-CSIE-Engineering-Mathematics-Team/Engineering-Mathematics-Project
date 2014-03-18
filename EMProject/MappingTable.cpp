@@ -22,6 +22,6 @@ bool MappingTable<K, V>::checkGet(K key, V% v) {
 		v = this[key];
 		return true;
 	}
-
+	
 	return false;
 }

@@ -18,32 +18,35 @@ namespace em {
 			using namespace expression::functions;
 
 			ref class ArithmeticEngine {
+			public:
+				static String^ const parentheseTag = "p";
+				static String^ const OPEN_PARENTHESE_PATTERN = "(?<" + parentheseTag + ">\\()?";
+				static String^ const CLOSE_PARENTHESE_PATTERN = "(?(" + parentheseTag + ")(?<-" + parentheseTag + ">\\)))";
 
 			private:
 				interface class ExpressionFactory {
 
 				public:
-					delegate Expression^ ConcreteExpression(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable);
+					delegate Expression^ ConcreteExpression(Match^ m, ArithmeticEngine^ engine);
 					
-					static Expression^ concreteScalarExp(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable);
-					static Expression^ concreteMathObjExp(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable);
-					static Expression^ concreteFunction(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable);
-					static Expression^ concreteCompoundExp(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable);
+					static Expression^ concreteScalarExp(Match^ m, ArithmeticEngine^ engine);
+					static Expression^ concreteMathObjExp(Match^ m, ArithmeticEngine^ engine);
+					static Expression^ concreteFunction(Match^ m, ArithmeticEngine^ engine);
+					static Expression^ concreteCompoundExp(Match^ m, ArithmeticEngine^ engine);
 
 				};
 
 			private:
+				VariableTable^ const vTable;
 				Expression^ root;
 				
-				static String^ const parentheseTag = "p";
 				static String^ const innerParentheseTag = "i";
 				static String^ const functionArgParentheseTag = "f";
 			
 				static String^ const NAME_PATTERN = "^(-)?([A-Za-z_]\\w*)$";
 				static String^ const DOUBLE_PATTERN = "^-?\\d+(?:\\.\\d+)?$";
 				static String^ const UNSIGNED_DOUBLE_PATTERN = "(?:\\d+(?:\\.\\d+)?)";
-				static String^ const OPEN_PARENTHESE_PATTERN = "(?<" + parentheseTag + ">\\()?";
-				static String^ const CLOSE_PARENTHESE_PATTERN = "(?(" + parentheseTag + ")(?<-" + parentheseTag + ">\\)))";
+				
 				static String^ const OPERATOR_PATTERN = "([-+*/x])";
 				static String^ const NAME_OR_FUNCTION_PATTERN = "(?:[A-Za-z_]\\w*(?:\\(" + arithmeticContentPattern(functionArgParentheseTag) + "\\))?)";
 
@@ -90,19 +93,21 @@ namespace em {
 					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteCompoundExp)
 				};
 			public:
-				ArithmeticEngine();
+				ArithmeticEngine(VariableTable^ vTable);
 				virtual ~ArithmeticEngine(); 
 
-				bool analyze(String^ expression, VariableTable^ vTable, Message^% msg);
-				bool compute(MathObject^% mo, Message^% message);
+				Message^ execute(String^ expressionString, MathObject^% mo);
 
 				static String^ arithmeticContentPattern(String^ tag);
 
 			private:
-				Expression^ anaylzeCompoundExpression(String^ expression, VariableTable^ vTable);
+				Expression^ anaylzeCompoundExpression(String^ expression);
 
-				bool loadTokens(GroupCollection^ groups, VariableTable^ vTable, LinkedList<Expression^>^% opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% optors);
-				Expression^ convertToExpression(String^ s, VariableTable^ vTable);
+				bool analyze(String^ expression, Message^% msg);
+				bool compute(MathObject^% mo, Message^% message);
+
+				bool loadTokens(GroupCollection^ groups, LinkedList<Expression^>^% opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% optors);
+				Expression^ convertToExpression(String^ s);
 				Expression^ buildArithmeticTree(LinkedList<Expression^>^ opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^ optors);
 				void CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% optors,
 								  LinkedListNode<Expression^>^% rndNode, LinkedListNode<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% torNode,

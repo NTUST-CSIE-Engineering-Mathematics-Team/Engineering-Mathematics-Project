@@ -6,7 +6,7 @@ using namespace em::math::engine;
 using namespace System::Text::RegularExpressions;
 using em::math::MathObject;
 
-ArithmeticEngine::ArithmeticEngine() {
+ArithmeticEngine::ArithmeticEngine(VariableTable^ vTable) : vTable(vTable) {
 	root = nullptr;
 }
 
@@ -14,8 +14,21 @@ ArithmeticEngine::ArithmeticEngine() {
 ArithmeticEngine::~ArithmeticEngine() {
 }
 
-bool ArithmeticEngine::analyze(String^ expression, VariableTable^ vTable, Message^% msg) {
-	this->root = this->anaylzeCompoundExpression(expression, vTable);
+Message^ ArithmeticEngine::execute(String^ expressionString, MathObject^% mo) {
+	Message^ msg;
+	if (!this->analyze(expressionString, msg)) {
+		return msg;
+	}
+	
+	if (!this->compute(mo, msg)) {
+		return msg;
+	}
+
+	return Message::PASS_NO_CONTENT_MSG;
+}
+
+bool ArithmeticEngine::analyze(String^ expression, Message^% msg) {
+	this->root = this->anaylzeCompoundExpression(expression);
 	if (this->root == nullptr) {
 		msg = gcnew Message(Message::State::ERROR, "The arithmetic expression have some errors, perhaps caused by wrong arithmetic syntax or wrong function call");
 		return false;
@@ -23,7 +36,15 @@ bool ArithmeticEngine::analyze(String^ expression, VariableTable^ vTable, Messag
 	return true;
 }
 
-Expression^ ArithmeticEngine::anaylzeCompoundExpression(String^ expression, VariableTable^ vTable) {
+bool ArithmeticEngine::compute(MathObject^% mo, Message^% message) {
+	mo = root->compute(message);
+
+	delete root;
+	root = nullptr;
+	return mo != nullptr;
+}
+
+Expression^ ArithmeticEngine::anaylzeCompoundExpression(String^ expression) {
 	 Match^ match = this->COMPOUND_EXP_REGEX->Match(expression);
 
 	 if (!match->Success) {
@@ -37,14 +58,14 @@ Expression^ ArithmeticEngine::anaylzeCompoundExpression(String^ expression, Vari
 
 	LinkedList<Expression^>^ opnds;
 	LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^ optors;
-	if (!loadTokens(groups, vTable, opnds, optors)) {
+	if (!loadTokens(groups, opnds, optors)) {
 		return nullptr;
 	}
 
 	return buildArithmeticTree(opnds, optors);
 }
 
-bool ArithmeticEngine::loadTokens(GroupCollection^ groups, VariableTable^ vTable, LinkedList<Expression^>^% opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% optors) {
+bool ArithmeticEngine::loadTokens(GroupCollection^ groups, LinkedList<Expression^>^% opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% optors) {
 	
 	CaptureCollection^ opndB = groups[3]->Captures;
 	CaptureCollection^ optorsC = groups[2]->Captures;
@@ -54,13 +75,13 @@ bool ArithmeticEngine::loadTokens(GroupCollection^ groups, VariableTable^ vTable
 	opnds = gcnew LinkedList<Expression^>();
 	optors = gcnew LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>();
 
-	opnds->AddLast(convertToExpression(groups[1]->Value, vTable));
+	opnds->AddLast(convertToExpression(groups[1]->Value));
 	if (opnds->Last->Value == nullptr) {
 		return false;
 	}
 
 	for (int i = 1; i < opndCount; i++) {
-		opnds->AddLast(convertToExpression(opndB[i - 1]->Value, vTable));
+		opnds->AddLast(convertToExpression(opndB[i - 1]->Value));
 		if (opnds->Last->Value == nullptr) {
 			return false;
 		}
@@ -96,8 +117,6 @@ Expression^ ArithmeticEngine::buildArithmeticTree(LinkedList<Expression^>^ opnds
 	return opnds->First->Value;
 }
 
-
-
 void ArithmeticEngine::CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% optors,
 									LinkedListNode<Expression^>^% rndNode, LinkedListNode<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% torNode,
 									LinkedListNode<Expression^>^% preRndNode, LinkedListNode<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% preTorNode) {
@@ -115,7 +134,7 @@ void ArithmeticEngine::CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<
 
 }
 
-Expression^ ArithmeticEngine::convertToExpression(String^ s, VariableTable^ vTable) {
+Expression^ ArithmeticEngine::convertToExpression(String^ s) {
 	if (String::IsNullOrWhiteSpace(s)) {
 		return nullptr;
 	}
@@ -125,7 +144,7 @@ Expression^ ArithmeticEngine::convertToExpression(String^ s, VariableTable^ vTab
 		match = regexList[i]->Match(s);
 		
 		if (match->Success) {
-			return constrctorList[i](match, this, vTable);
+			return constrctorList[i](match, this);
 		}
 	}
 
@@ -133,12 +152,7 @@ Expression^ ArithmeticEngine::convertToExpression(String^ s, VariableTable^ vTab
 
 }
 
-bool ArithmeticEngine::compute(MathObject^% mo, Message^% message) {
-	mo = root->compute(message);
 
-	root = nullptr;
-	return mo != nullptr;
-}
 
 bool ArithmeticEngine::isParentheseBalanced(GroupCollection^ groups) {
 	return !((groups[parentheseTag]->Success) ||
@@ -149,13 +163,13 @@ bool ArithmeticEngine::isParentheseBalanced(GroupCollection^ groups) {
 static ArithmeticEngine::ArithmeticEngine() {
 }
 
-Expression^ ArithmeticEngine::ExpressionFactory::concreteScalarExp(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable) {
+Expression^ ArithmeticEngine::ExpressionFactory::concreteScalarExp(Match^ m, ArithmeticEngine^ engine) {
 	return gcnew MathObjExp(gcnew Scalar(System::Convert::ToDouble(m->Value)));
 }
 
-Expression^ ArithmeticEngine::ExpressionFactory::concreteMathObjExp(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable) {
+Expression^ ArithmeticEngine::ExpressionFactory::concreteMathObjExp(Match^ m, ArithmeticEngine^ engine) {
 	MathObject^ mo;
-	if (!vTable->checkGet(m->Groups[2]->Value, mo)) {
+	if (!engine->vTable->checkGet(m->Groups[2]->Value, mo)) {
 		return nullptr;
 	}
 
@@ -166,7 +180,7 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteMathObjExp(Match^ m, Ar
 	return gcnew MathObjExp(mo);
 }
 
-Expression^ ArithmeticEngine::ExpressionFactory::concreteFunction(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable) {
+Expression^ ArithmeticEngine::ExpressionFactory::concreteFunction(Match^ m, ArithmeticEngine^ engine) {
 
 	GroupCollection^ groups = m->Groups;
 	String^ funName = groups[2]->Value;
@@ -177,13 +191,13 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteFunction(Match^ m, Arit
 	CaptureCollection^ argL = groups[4]->Captures;
 	array<Expression^>^ args = gcnew array<Expression^>(1 + argL->Count);
 
-	args[0] = engine->convertToExpression(groups[3]->Value, vTable);
+	args[0] = engine->convertToExpression(groups[3]->Value);
 	if (args[0] == nullptr) {
 		return nullptr;
 	}
 
 	for (int i = 1; i < args->Length; i++) {
-		args[i] = engine->convertToExpression(argL[i - 1]->Value, vTable);
+		args[i] = engine->convertToExpression(argL[i - 1]->Value);
 		if (args[i] == nullptr) {
 			return nullptr;
 		}
@@ -197,8 +211,8 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteFunction(Match^ m, Arit
 	return function;
 }
 
-Expression^ ArithmeticEngine::ExpressionFactory::concreteCompoundExp(Match^ m, ArithmeticEngine^ engine, VariableTable^ vTable) {
-	return engine->anaylzeCompoundExpression(m->Value, vTable);
+Expression^ ArithmeticEngine::ExpressionFactory::concreteCompoundExp(Match^ m, ArithmeticEngine^ engine) {
+	return engine->anaylzeCompoundExpression(m->Value);
 }
 
 String^ ArithmeticEngine::arithmeticContentPattern(String^ tag) {

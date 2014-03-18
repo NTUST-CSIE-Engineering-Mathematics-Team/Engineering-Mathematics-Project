@@ -1,11 +1,11 @@
 #include "ArithmeticPatternAnalyzer.h"
-#include "MathObject.h"
+#include "All_Math.h"
 #include "VariableTable.h"
 #include "Interpreter.h"
 
 using namespace em::intrprt::pattern;
 using namespace em::intrprt;
-using em::math::MathObject;
+using namespace em::math;
 using em::math::engine::ArithmeticEngine;
 using System::Text::StringBuilder;
 
@@ -26,18 +26,31 @@ Message^ ArithmeticPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 		return Message::varNotFoundMsg(lObjName);
 	}
 
-	if (!iptr->arithmeticEngine->analyze(result->Groups[2]->Value, iptr->variableTable, msg)) {
-		return msg;
-	}
-
 	MathObject^ mo;
-	if (!iptr->arithmeticEngine->compute(mo, msg)) {
-		return msg;
+	msg = iptr->arithmeticEngine->execute(result->Groups[2]->Value, mo);
+
+	if (mo != nullptr) {
+		MathObject^ v = vTable[lObjName];
+		if (mo->mathType->Equals(v->mathType)) {
+			Scalar^ scl;
+			Vector^ vec;
+			if (Scalar::scalarCast(v, scl)) {
+				scl->overrideAssign(dynamic_cast<Scalar^>(mo));
+			} else if (Vector::vectorCast(v, vec)) {
+				vec->overrideAssign(dynamic_cast<Vector^>(mo));
+			} else {
+				dynamic_cast<Matrix^>(v)->overrideAssign(dynamic_cast<Matrix^>(mo));
+			}
+		} else {
+			StringBuilder^ sb = gcnew StringBuilder();
+			sb->AppendFormat("Type error, can not assign a {0} to a {1}", mo->mathType->ToLower(), v->mathType->ToLower());
+			return gcnew Message(Message::State::ERROR, sb->ToString());
+
+		}
+		 
 	}
 
-	vTable[lObjName] = mo;
-
-	return Message::PASS_NO_CONTENT_MSG;
+	return msg;
 }
 
 

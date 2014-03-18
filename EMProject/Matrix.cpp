@@ -60,24 +60,20 @@ String^ Matrix::ToString() {
 	StringBuilder^ sb = gcnew StringBuilder();
 	int i,j;
 
-	for (i = value->GetLowerBound(0); i < this->value->GetUpperBound(0); i++) {
-		for (j = value->GetLowerBound(1); j < this->value->GetUpperBound(1); j++) {
+	for (i = 0; i < this->columnLength - 1; i++) {
+		for (j = 0; j < this->rowLength; j++) {
 
 			sb->AppendFormat(MathObject::NUMERAL_FORMAT, this[i, j]);
-			sb->Append("\t");
+			
 		}
-
-		sb->AppendFormat(MathObject::NUMERAL_FORMAT, this[i, j]);
 		sb->Append("\n");
 	}
 
-	for (j = value->GetLowerBound(1); j < this->value->GetUpperBound(1); j++) {
+	for (j = 0; j < this->rowLength; j++) {
 
 		sb->AppendFormat(MathObject::NUMERAL_FORMAT, this[i, j]);
-		sb->Append("\t");
+		
 	}
-
-	sb->AppendFormat(MathObject::NUMERAL_FORMAT, this[i, j]);
 	
 	String^ result = sb->ToString();
 	delete sb;
@@ -108,18 +104,100 @@ Matrix^ Matrix::overrideAssign(Matrix^ mat) {
 	return this;
 }
 
-bool Matrix::martixCast(MathObject^ mo, Matrix^% mat) {
+bool Matrix::matrixCast(MathObject^ mo, Matrix^% mat) {
 	mat = dynamic_cast<Matrix^>(mo);
 	return mat != nullptr;
 }
 
 MathObject^ Matrix::operator-() {
-	Matrix^ mat = gcnew Matrix(this->columnLength, this->rowLength);
+	Matrix^ newMat = gcnew Matrix(this->columnLength, this->rowLength);
 
-	for (int i = value->GetLowerBound(0); i <= this->value->GetUpperBound(0); i++) {
-		for (int j = value->GetLowerBound(1); j <= this->value->GetUpperBound(1); j++) {
-			mat[i, j] = -this[i, j];
+	for (int i = 0; i < this->columnLength; i++) {
+		for (int j = 0; j < this->rowLength; j++) {
+			newMat[i, j] = -this[i, j];
 		}
 	}
-	return mat;
+	return newMat;
+}
+
+Matrix^ Matrix::operator- (Matrix^ m) {
+	if (!this->isSameSize(m)) {
+		return nullptr;
+	}
+
+	Matrix^ newMat = gcnew Matrix(this->columnLength, this->rowLength);
+
+	for (int i = 0; i < this->columnLength; i++) {
+		for (int j = 0; j < this->rowLength; j++) {
+			newMat[i, j] = this[i, j] - newMat[i, j];
+		}
+	}
+
+	return newMat;
+}
+
+Matrix^ Matrix::operator+(Matrix^ m) {
+	if (!this->isSameSize(m)) {
+		return nullptr;
+	}
+
+	Matrix^ newMat = gcnew Matrix(this->columnLength, this->rowLength);
+
+	for (int i = 0; i < this->columnLength; i++) {
+		for (int j = 0; j < this->rowLength; j++) {
+			newMat[i, j] = this[i, j] + newMat[i, j];
+		}
+	}
+
+	return newMat;
+}
+
+Matrix^ Matrix::operator*(Matrix^ m) {
+	if (this->rowLength != m->columnLength) {
+		return nullptr;
+	}
+
+	Matrix^ newMat = gcnew Matrix(this->columnLength, m->rowLength);
+
+	for (int i = 0; i < newMat->columnLength; i++) {
+		for (int j = 0; j < newMat->rowLength; j++) {
+			for (int k = 0; k < this->rowLength; k++) {
+				newMat[i, j] += this[i, k] * m[k, j];
+			}
+		}
+	}
+
+	return newMat;
+}
+
+Vector^ Matrix::operator*(Vector^ v) {
+	if (this->rowLength != v->rank) {
+		return nullptr;
+	}
+
+	Vector^ newVec = gcnew Vector(this->columnLength);
+
+	for (int i = 0; i < this->columnLength; i++) {
+		for (int j = 0; j < v->rank; j++) {
+			newVec[i] += this[i, j] * v[j];
+		}
+	}
+
+	return newVec;
+}
+
+Matrix^ Matrix::operator*(Scalar^ s) {
+	Matrix^ newMat = gcnew Matrix(this->columnLength, this->rowLength);
+
+	for (int i = 0; i < this->columnLength; i++) {
+		for (int j = 0; j < this->rowLength; j++) {
+			newMat[i, j] *= s;
+		}
+	}
+
+	return newMat;
+}
+
+bool Matrix::isSameSize(Matrix^ m) {
+	return this->columnLength == m->columnLength && this->rowLength == m->rowLength;
 }

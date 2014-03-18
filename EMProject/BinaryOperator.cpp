@@ -1,11 +1,11 @@
 #include "BinaryOperator.h"
-#include "All_Math.h"
+
 
 using namespace em::math::engine::expression::operators;
 
 BinaryOperator::BinaryOperator(String^ symbol, Expression^ opndA, Expression^ opndB) : symbol(symbol), opndA(opndA), opndB(opndB) {
+	this->operationMap = gcnew Dictionary<String^, CasterInterface^>(12);
 }
-
 
 BinaryOperator::~BinaryOperator() {
 	delete this->opndA;
@@ -20,7 +20,36 @@ MathObject^ BinaryOperator::compute(Message^% message) {
 		return nullptr;
 	}
 
-	MathObject^ result = this->calculate(moA, moB, message);
+	String^ types = String::Concat(moA->mathType[0], moB->mathType[0]);
+
+	if (!this->operationMap->ContainsKey(types)) {
+		message = gcnew Message(Message::State::ERROR, "Wrong arithmetic operation, the operands are not match to this \"" + this->symbol + "\" operation");
+		return nullptr;
+	}
 	
-	return result;
+	return this->castInvoke(types, moA, moB, message);
+}
+
+MathObject^ BinaryOperator::castInvoke(String^ types, MathObject^ a, MathObject^ b, Message^% message) {
+	return this->operationMap[types]->castInvoke(a, b, message);
+}
+
+generic<typename A, typename B> where A : MathObject where B : MathObject
+void BinaryOperator::addOperation(String^ types, Operation<A, B>^ operation) {
+	this->operationMap->Add(types, gcnew Caster<A, B>(operation));
+}
+
+generic<typename A, typename B> where A : MathObject where B : MathObject
+BinaryOperator::Caster<A, B>::Caster(Operation<A, B>^ op) : operation(op) {
+
+}
+
+generic<typename A, typename B> where A : MathObject where B : MathObject
+BinaryOperator::Caster<A, B>::~Caster() {
+	delete this->operation;
+}
+
+generic<typename A, typename B> where A : MathObject where B : MathObject
+MathObject^ BinaryOperator::Caster<A, B>::castInvoke(MathObject^ a, MathObject^ b, Message^% message) {
+	return this->operation(safe_cast<A>(a), safe_cast<B>(b), message);
 }

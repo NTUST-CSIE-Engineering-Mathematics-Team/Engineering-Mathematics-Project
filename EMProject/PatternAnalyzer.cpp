@@ -12,12 +12,13 @@ PatternAnalyzer::PatternAnalyzer() {
 }
 
 static PatternAnalyzer::PatternAnalyzer() {
-	checkTable = gcnew Dictionary<wchar_t, isType^>();
-	checkTable->Add(L'N', gcnew isType(isName));
-	checkTable->Add(L'I', gcnew isType(isInteger));
-	checkTable->Add(L'D', gcnew isType(isDouble));
-	checkTable->Add(L'C', gcnew isType(isChar));
-	checkTable->Add(L'V', gcnew isType(isNameOrValue));
+	checkTable = gcnew Dictionary<wchar_t, IsType^>();
+	checkTable->Add(L'N', gcnew IsType(isName));
+	checkTable->Add(L'I', gcnew IsType(isInteger));
+	checkTable->Add(L'D', gcnew IsType(isDouble));
+	checkTable->Add(L'C', gcnew IsType(isChar));
+	checkTable->Add(L'V', gcnew IsType(isNameOrValue));
+	checkTable->Add(L'E', gcnew IsType(isExpression));
 }
 
 PatternAnalyzer::~PatternAnalyzer() {
@@ -48,6 +49,21 @@ int PatternAnalyzer::checkVarTypes(array<String^>^ rawArgs, array<String^>^ type
 
 bool PatternAnalyzer::isName(String^ arg) {
 	return namePattern->IsMatch(arg) && !KeywordCollection::contains(arg);
+}
+
+bool PatternAnalyzer::isExpression(String^ arg, String^% v) {
+	Match^ m = expressionPattern->Match(arg);
+	if (!m->Success || m->Groups["i"]->Success) {
+		return false;
+	}
+
+	v = m->Groups[1]->Value;
+	return true;
+}
+
+bool PatternAnalyzer::isExpression(String^ arg) {
+	String^ empty;
+	return isExpression(arg, empty);
 }
 
 bool PatternAnalyzer::isDouble(String^ arg, double% v) {
@@ -83,7 +99,7 @@ bool PatternAnalyzer::isNameOrValue(String^ arg) {
 
 String^ PatternAnalyzer::rowValuePattern(int maxPattern) {
 
-	StringBuilder^ sb = gcnew StringBuilder("^\\s*(?>" + PatternAnalyzer::NAME_OR_VALUE_PATTERN + "\\s*){1,");
+	StringBuilder^ sb = gcnew StringBuilder("^\\s*(?>(" + PatternAnalyzer::NAME_OR_VALUE_PATTERN + ")\\s*){1,");
 	sb->Append(maxPattern);
 	sb->Append("}$");
 	String^ p = sb->ToString();

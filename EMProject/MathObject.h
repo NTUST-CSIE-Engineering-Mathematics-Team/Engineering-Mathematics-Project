@@ -37,7 +37,7 @@ namespace em {
 			String^ mType;
 
 			static int precision = 2;
-			static int width = 8;
+			static int width = 7;
 	
 		public:
 			virtual ~MathObject();

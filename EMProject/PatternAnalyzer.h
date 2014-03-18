@@ -1,6 +1,6 @@
 #pragma once
 #include "Message.h"
-
+#include "ArithmeticEngine.h"
 namespace em {
 	namespace intrprt {
 		ref class Interpreter;
@@ -9,13 +9,14 @@ namespace em {
 			using namespace em::intrprt;
 			using namespace System::Text::RegularExpressions;
 			using System::Collections::Generic::Dictionary;
+			using em::math::engine::ArithmeticEngine;
 
 			ref class PatternAnalyzer abstract {
 
 			public:
 				static String^ const NAME_PATTERN = "(?:[A-Za-z_]\\w*)";
 				static String^ const DOUBLE_PATTERN = "(?:-?\\d+(?:\\.\\d+)?)";
-				static String^ const NAME_OR_VALUE_PATTERN = "(" + NAME_PATTERN + "|" + DOUBLE_PATTERN + ")";
+				static String^ const NAME_OR_VALUE_PATTERN = "(?:" + NAME_PATTERN + "|" + DOUBLE_PATTERN + ")";
 				
 
 				property Regex^ bindingPattern {
@@ -28,10 +29,11 @@ namespace em {
 				Regex^ regex;
 
 			private:
-				delegate bool isType(String^ var);
+				delegate bool IsType(String^ var);
 
 				static Regex^ const namePattern = gcnew Regex("^" + NAME_PATTERN + "$", RegexOptions::Compiled);
-				static Dictionary<wchar_t, isType^>^ checkTable;
+				static Regex^ const expressionPattern = gcnew Regex("^\\((" + ArithmeticEngine::arithmeticContentPattern("i") + ")\\)$");
+				static Dictionary<wchar_t, IsType^>^ checkTable;
 
 			public:
 				virtual ~PatternAnalyzer();
@@ -39,6 +41,9 @@ namespace em {
 				virtual Message^ analyze(Match^ result, Interpreter^ iptr) abstract;
 
 				static bool isName(String^ arg);
+
+				static bool isExpression(String^ arg);
+				static bool isExpression(String^ arg, String^% v);
 
 				static bool isDouble(String^ arg, double% v);
 				static bool isDouble(String^ arg);

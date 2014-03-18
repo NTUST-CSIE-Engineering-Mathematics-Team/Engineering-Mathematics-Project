@@ -1,8 +1,11 @@
 #include "CommandPatternAnalyzer.h"
 #include "Command.h"
+#include "ArithmeticEngine.h"
 
 using namespace em::intrprt::pattern;
 using em::intrprt::cmd::Command;
+using System::Text::StringBuilder;
+using em::math::engine::ArithmeticEngine;
 
 CommandPatternAnalyzer::CommandPatternAnalyzer(array<Command^>^ commands) {
 	this->commandTable = gcnew CommandTable(commands);
@@ -14,6 +17,10 @@ CommandPatternAnalyzer::~CommandPatternAnalyzer() {
 
 Message^ CommandPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 	
+	if (result->Groups["i"]->Success) {
+		return gcnew Message(Message::State::ERROR, "The parenthese is not balanced");
+	}
+
 	String^ cmdL = result->Groups[1]->Value;
 	Command^ cmd;
 	if (this->commandTable->checkGet(cmdL, cmd)) {
@@ -40,7 +47,16 @@ Message^ CommandPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 }
 
 String^ CommandPatternAnalyzer::buildInitPattern() {
-	return "^\\s*(\\w+)\\s*(?>\\s+" + PatternAnalyzer::NAME_OR_VALUE_PATTERN + ")*$";
+	StringBuilder^ sb = gcnew StringBuilder();
+
+	sb->AppendFormat("^\\s*(\\w+)(?:\\s+({0}(?({1}){2}|{3}){4}))*$",
+	 				 ArithmeticEngine::OPEN_PARENTHESE_PATTERN,
+					 ArithmeticEngine::parentheseTag,
+					 ArithmeticEngine::arithmeticContentPattern("i"),
+					 NAME_OR_VALUE_PATTERN,
+					 ArithmeticEngine::CLOSE_PARENTHESE_PATTERN);
+
+	return sb->ToString();
 }
 
 FileCommandPatternAnalyzer::FileCommandPatternAnalyzer(array<Command^>^ commands) : CommandPatternAnalyzer(commands) {

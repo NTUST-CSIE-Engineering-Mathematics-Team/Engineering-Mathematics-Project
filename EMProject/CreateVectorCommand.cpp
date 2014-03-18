@@ -4,7 +4,7 @@
 
 using namespace em::intrprt::cmd;
 
-CreateVectorCommand::CreateVectorCommand() : CreateMathObjectCommand(KeywordCollection::CREATE_VECTOR_CMD, "In", "InN", "nN") {
+CreateVectorCommand::CreateVectorCommand() : CreateMathObjectCommand(KeywordCollection::CREATE_VECTOR_CMD, "In", "InN", "nN", "nE") {
 }
 
 
@@ -12,6 +12,27 @@ CreateVectorCommand::~CreateVectorCommand() {
 }
 
 Message^ CreateVectorCommand::createMathObject(int typeIndex, String^ varName, array<String^>^ rawArgs, Interpreter^ iptr) {
+
+	if (typeIndex == 3) {
+		MathObject^ mo;
+		Message^  msg;
+		msg = iptr->arithmeticEngine->execute(rawArgs[1], mo);
+
+		if (mo == nullptr) {
+			return msg;
+		}
+
+		Vector^ vec;
+		if (Vector::vectorCast(mo, vec)) {
+			
+			iptr->variableTable->addVariable(varName, vec);
+			msg = Message::PASS_NO_CONTENT_MSG;
+		} else {
+			msg = gcnew Message(Message::State::ERROR, "Type error, can not assign a " + mo->mathType->ToLower() + " to a vector");
+		}
+
+		return msg;
+	}
 
 	if (typeIndex == 1 || typeIndex == 2) {
 

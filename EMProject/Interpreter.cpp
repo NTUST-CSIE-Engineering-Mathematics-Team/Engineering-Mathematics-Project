@@ -7,10 +7,11 @@ Interpreter::Interpreter(array<PatternAnalyzer^>^ patternList) {
 	this->needNext = nullptr;
 	this->pTable = gcnew PatternTable(patternList);
 	this->proxyVTable = gcnew VariableTableProxy();
-	this->engine = gcnew ArithmeticEngine();
+	this->engine = gcnew ArithmeticEngine(this->variableTable);
 }
 
 Message^ Interpreter::interpret(String^ line) {
+	line = line->Trim();
 	Match^ result = this->commentPattern->bindingPattern->Match(line);
 	if (result->Success) {
 		return this->commentPattern->analyze(result, this);
