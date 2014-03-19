@@ -2,12 +2,25 @@
 
 using namespace em::math;
 
-Matrix::Matrix(int dim1, int dim2) : MathObject(tag) {
+Matrix::Matrix(int dim1, int dim2) : MathObject(TAG, ID) {
 	this->value = gcnew array<double, 2>(dim1, dim2);
 }
 
-Matrix::Matrix(Matrix^ mat) : MathObject(tag) {
+Matrix::Matrix(Matrix^ mat) : MathObject(TAG, ID) {
 	this->overrideAssign(mat);
+}
+
+
+Matrix::Matrix(VectorOption op, Vector^ vec) : MathObject(TAG, ID) {
+
+	if (op == VectorOption::ROW) {
+		this->value = gcnew array<double, 2>(1, vec->rank);
+		this[VectorOption::ROW, 0] = vec;
+	} else {
+		this->value = gcnew array<double, 2>(vec->rank, 1);
+		this[VectorOption::COLUMN, 0] = vec;
+	}
+
 }
 
 Matrix::~Matrix() {

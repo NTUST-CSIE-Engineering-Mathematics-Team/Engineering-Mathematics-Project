@@ -192,8 +192,11 @@
     <ClCompile Include="RegistrationArea.cpp">
       <Filter>Source Files\intrprt</Filter>
     </ClCompile>
+    <ClCompile Include="JudgeCommand.cpp">
+      <Filter>Source Files\intrprt\cmd</Filter>
+    </ClCompile>
     <ClCompile Include="CommandFactory.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +352,9 @@
     </ClInclude>
     <ClInclude Include="RegistrationArea.h">
       <Filter>Header Files\intrprt</Filter>
+    </ClInclude>
+    <ClInclude Include="JudgeCommand.h">
+      <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

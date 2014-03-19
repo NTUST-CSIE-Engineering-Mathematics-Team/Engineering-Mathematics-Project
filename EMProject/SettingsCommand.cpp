@@ -23,14 +23,14 @@ Message^ SettingsCommand::performCommand(array<String^>^ args, int typeIndex, In
 	switch (flag) {
 	case L'W':
 		MathObject::numWidth = value;
-		return gcnew Message(Message::State::PASS, "Set numeral width to " + value, Message::SETTING_COLOR);
+		return gcnew Message(Message::State::PASS, Message::SETTING_COLOR, "Set numeral width to " + value);
 
 	case L'F':
 		MathObject::numPrecision = value;
-		return gcnew Message(Message::State::PASS, "Set floating precision to " + value, Message::SETTING_COLOR);
+		return gcnew Message(Message::State::PASS, Message::SETTING_COLOR, "Set floating precision to " + value);
 	case L'C':
 		CommentPatternAnalyzer::displayComment = value >= 0 ? true : false;
-		return gcnew Message(Message::State::PASS, "Comments will" + (CommentPatternAnalyzer::displayComment ?" " : " not ") + "be display", Message::SETTING_COLOR);
+		return gcnew Message(Message::State::PASS, Message::SETTING_COLOR, "Comments will" + (CommentPatternAnalyzer::displayComment ? " " : " not ") + "be display");
 	}
 
 	return gcnew Message(Message::State::ERROR, "cannot find the flag \"" + flag + "\"");

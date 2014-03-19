@@ -8,11 +8,11 @@
 
 using namespace em::intrprt::cmd;
 using namespace em::math;
-ShowStorageCommand::ShowStorageCommand() : Command(KeywordCollection::STORAGE_CMD, "", "C") {
+ShowStorageCommand::ShowStorageCommand() : Command(KeywordCollection::STORAGE_CMD, "", "K") {
 	this->map = gcnew Dictionary<String^, String^>(3);
-	this->map->Add("M", Matrix::tag);
-	this->map->Add("V", Vector::tag);
-	this->map->Add("S", Scalar::tag);
+	this->map->Add(KeywordCollection::CREATE_MATRIX_CMD, Matrix::TAG);
+	this->map->Add(KeywordCollection::CREATE_VECTOR_CMD, Vector::TAG);
+	this->map->Add(KeywordCollection::CREATE_SCALAR_CMD, Scalar::TAG);
 }
 
 
@@ -33,9 +33,9 @@ Message^ ShowStorageCommand::performCommand(array<String^>^ args, int typeIndex,
 			sb->AppendFormat("{0}\n", PrintCommand::buildHeader(pair.Value, pair.Key));
 		}
 	} else {
-		String^ t = args[0]->ToUpper();
+		String^ t = args[0];
 		if (!this->map->ContainsKey(t)) {
-			return gcnew Message(Message::State::ERROR, "cannot find the type flag \"" + t + "\"");
+			return gcnew Message(Message::State::ERROR, "\"" + t + "\" is not a type keyword");
 		}
 		t = this->map[t];
 
@@ -52,13 +52,13 @@ Message^ ShowStorageCommand::performCommand(array<String^>^ args, int typeIndex,
 		sb->Append("There is no ");
 		
 		if (typeIndex == 1) {
-			sb->AppendFormat("{0} ", this->map[args[0]->ToUpper()]->ToLower());
+			sb->AppendFormat("{0} ", this->map[args[0]->ToLower()]->ToLower());
 		}
 
 		sb->Append("variable");
 	} else {
-		sb->Insert(0, (typeIndex == 0 ? "All" : this->map[args[0]->ToUpper()]) + " variables in the storage:\n");
+		sb->Insert(0, (typeIndex == 0 ? "All" : this->map[args[0]->ToLower()])->ToLower() + " variables in the storage:\n");
 	}
 
-	return gcnew Message(Message::State::PASS, sb->ToString(), Message::STORAGE_COLOR);
+	return gcnew Message(Message::State::PASS, Message::STORAGE_COLOR, sb->ToString());
 }

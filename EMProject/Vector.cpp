@@ -2,12 +2,12 @@
 
 using namespace em::math;
 
-Vector::Vector(int dim) : MathObject(tag) {
+Vector::Vector(int dim) : MathObject(TAG, ID) {
 	
 	this->value = gcnew array<double>(dim);
 }
 
-Vector::Vector(Vector^ vec) : MathObject(tag) {
+Vector::Vector(Vector^ vec) : MathObject(TAG, ID) {
 	this->overrideAssign(vec);
 }
 

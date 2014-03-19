@@ -4,7 +4,7 @@
 
 using namespace em::intrprt::cmd;
 
-CreateVectorCommand::CreateVectorCommand() : CreateMathObjectCommand(KeywordCollection::CREATE_VECTOR_CMD, "In", "InN", "nN", "nE") {
+CreateVectorCommand::CreateVectorCommand() : CreateMathObjectCommand(KeywordCollection::CREATE_VECTOR_CMD, "In", "InE" "nE") {
 }
 
 
@@ -34,13 +34,16 @@ Message^ CreateVectorCommand::createMathObject(int typeIndex, String^ varName, a
 		return msg;
 	}
 
-	if (typeIndex == 1 || typeIndex == 2) {
+	if (typeIndex > 0) {
 
 		String^ vn = rawArgs[rawArgs->Length - 1];
 
 		MathObject^ mo;
-		if (!iptr->variableTable->checkGet(vn, mo)) {
-			return Message::varNotFoundMsg(vn);
+		Message^  msg;
+		msg = iptr->arithmeticEngine->execute(vn, mo);
+
+		if (mo == nullptr) {
+			return msg;
 		}
 
 		Vector^ vec;

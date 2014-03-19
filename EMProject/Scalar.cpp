@@ -2,10 +2,10 @@
 
 using namespace em::math;
 
-Scalar::Scalar(double v) : MathObject(tag), value(v) {
+Scalar::Scalar(double v) : MathObject(TAG, ID), value(v) {
 }
 
-Scalar::Scalar(Scalar^ scl) : MathObject(tag) {
+Scalar::Scalar(Scalar^ scl) : MathObject(TAG, ID) {
 	this->overrideAssign(scl);
 }
 

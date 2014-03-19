@@ -8,8 +8,8 @@ namespace em {
 		ref class Scalar : public MathObject {
 		public:
 			
-			static String^ const tag = "Scalar";
-
+			static String^ const TAG = "Scalar";
+			static wchar_t const ID = L'S';
 			property double doubleValue {
 				double get() {
 					return value;

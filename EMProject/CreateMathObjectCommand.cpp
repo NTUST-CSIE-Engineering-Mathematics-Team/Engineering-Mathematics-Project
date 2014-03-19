@@ -76,7 +76,7 @@ Message^ CreateFileMathObjectCommand::FileMatrixConstructionAnalyzer::analyze(Ma
 		this->rowIndex = -1;
 		this->regex = this->initRegex;
 		this->tmpMat = nullptr;
-		return gcnew Message(Message::State::PASS, "Loaded matrix \"" + mName + "\" into the static storage", Message::STORAGE_COLOR);
+		return gcnew Message(Message::State::PASS, Message::STORAGE_COLOR, "Loaded matrix \"" + mName + "\" into the static storage");
 	}
 
 	return Message::PARSING_MSG;
@@ -124,7 +124,7 @@ Message^ CreateFileMathObjectCommand::FileVectorConstructionAnalyzer::analyze(Ma
 
 	iptr->releaseNextLine();
 	this->regex = this->initRegex;
-	return gcnew Message(Message::State::PASS, "Loaded vector \"" + vName + "\" into the static storage", Message::STORAGE_COLOR);
+	return gcnew Message(Message::State::PASS, Message::STORAGE_COLOR, "Loaded vector \"" + vName + "\" into the static storage");
 
 }
 

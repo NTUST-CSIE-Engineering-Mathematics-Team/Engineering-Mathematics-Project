@@ -17,7 +17,9 @@ namespace em {
 				virtual ~PrintCommand();
 
 				virtual Message^ performCommand(array<String^>^ args, int typeIndex, Interpreter^ iptr) override;
+				
 				static StringBuilder^ buildHeader(MathObject^ mo, String^ vName);
+				static StringBuilder^ PrintCommand::buildHeader(MathObject^ mo);
 			};
 		}
 	}

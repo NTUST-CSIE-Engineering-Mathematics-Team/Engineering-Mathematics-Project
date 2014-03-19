@@ -26,6 +26,11 @@ namespace em {
 				}
 			}
 
+			property wchar_t mathID{
+				wchar_t get() {
+					return mID;
+				}
+			}
 		protected:
 			static property String^ NUMERAL_FORMAT {
 				String^ get() {
@@ -35,7 +40,7 @@ namespace em {
 
 		private:
 			String^ mType;
-
+			wchar_t mID;
 			static int precision = 2;
 			static int width = 7;
 	
@@ -45,7 +50,7 @@ namespace em {
 			virtual String^ ToString()override abstract;
 			virtual MathObject^ operator-() abstract;
 		public:
-			MathObject(String^ type);
+			MathObject(String^ type, wchar_t mID);
 		};
 	}
 }

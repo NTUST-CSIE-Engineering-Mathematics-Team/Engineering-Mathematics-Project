@@ -21,7 +21,7 @@ MathObject^ Function::compute(Message^% message) {
 	int i;
 	for (i = 0; i < mos->Length; i++) {
 		mos[i] = args[i]->compute(message);
-		if (mos[i] == nullptr || mos[i]->mathType[0] != argT[i]) {
+		if (mos[i] == nullptr || mos[i]->mathID != argT[i]) {
 			if (message == nullptr) {
 				message = gcnew Message(Message::State::ERROR, "Incorrect argument types in functoin \"" + this->functionName + "\"");
 			}

@@ -41,6 +41,7 @@ namespace em {
 				virtual Message^ analyze(Match^ result, Interpreter^ iptr) abstract;
 
 				static bool isName(String^ arg);
+				static bool PatternAnalyzer::isKeyword(String^ arg);
 
 				static bool isExpression(String^ arg);
 				static bool isExpression(String^ arg, String^% v);
@@ -53,8 +54,6 @@ namespace em {
 
 				static bool isChar(String^ arg, wchar_t% v);
 				static bool isChar(String^ arg);
-
-				static bool isNameOrValue(String^ arg);
 
 				static String^ rowValuePattern(int maxArgs);
 				static int checkVarTypes(array<String^>^ rawArgs, array<String^>^ types);

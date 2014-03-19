@@ -5,41 +5,24 @@
 
 using namespace em::intrprt::cmd;
 
-CreateMatrixCommand::CreateMatrixCommand() : CreateMathObjectCommand(KeywordCollection::CREATE_MATRIX_CMD, "IIn", "IInN", "nN", "nE") {
+CreateMatrixCommand::CreateMatrixCommand() : CreateMathObjectCommand(KeywordCollection::CREATE_MATRIX_CMD, "IIn", "IInE", "nE") {
 }
 
 CreateMatrixCommand::~CreateMatrixCommand() {
 }
 
 Message^ CreateMatrixCommand::createMathObject(int typeIndex, String^ varName, array<String^>^ rawArgs, Interpreter^ iptr) {
-	
-	if (typeIndex == 3) {
-		MathObject^ mo;
-		Message^  msg;
-		msg = iptr->arithmeticEngine->execute(rawArgs[1], mo);
 
-		if (mo == nullptr) {
-			return msg;
-		}
-
-		Matrix^ mat;
-		if (Matrix::matrixCast(mo, mat)) {
-
-			iptr->variableTable->addVariable(varName, mat);
-			msg = Message::PASS_NO_CONTENT_MSG;
-		} else {
-			msg = gcnew Message(Message::State::ERROR, "Type error, can not assign a " + mo->mathType->ToLower() + " to a matrix");
-		}
-
-		return msg;
-	}
-
-	if (typeIndex == 1 || typeIndex == 2) {
+	if (typeIndex > 0) {
 
 		String^ vn = rawArgs[rawArgs->Length - 1];
 		MathObject^ mo;
-		if (!iptr->variableTable->checkGet(vn, mo)) {
-			return Message::varNotFoundMsg(vn);
+		
+		Message^  msg;
+		msg = iptr->arithmeticEngine->execute(vn, mo);
+
+		if (mo == nullptr) {
+			return msg;
 		}
 
 		Matrix^ mat;

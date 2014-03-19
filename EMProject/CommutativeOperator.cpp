@@ -25,5 +25,5 @@ void CommutativeOperator::addCommutativeOperation(Operation<A, B>^ operation) {
 
 generic<typename A, typename B> where A : MathObject where B : MathObject
 MathObject^ CommutativeOperator::OperandSwaper(A opndA, B opndB, Message^% msg) {
-	return this->castInvoke(String::Concat(opndB->mathType[0], opndA->mathType[0]), opndB, opndA, msg);
+	return this->castInvoke(String::Concat(opndB->mathID, opndA->mathID), opndB, opndA, msg);
 }

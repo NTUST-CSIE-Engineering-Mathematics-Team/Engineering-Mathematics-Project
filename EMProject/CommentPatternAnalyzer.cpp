@@ -10,7 +10,7 @@ CommentPatternAnalyzer::~CommentPatternAnalyzer() {
 }
 
 Message^ CommentPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
-	return displayComment ? gcnew Message(Message::State::PASS, result->Groups[1]->Value, Message::COMMENT_COLOR) : Message::PASS_NO_CONTENT_MSG;
+	return displayComment ? gcnew Message(Message::State::PASS, Message::COMMENT_COLOR, result->Groups[1]->Value) : Message::PASS_NO_CONTENT_MSG;
 }
 
 

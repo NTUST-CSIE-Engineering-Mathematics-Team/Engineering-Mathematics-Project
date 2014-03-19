@@ -13,8 +13,8 @@ namespace em {
 		public:
 			enum class VectorOption { ROW, COLUMN };
 
-			static String^ const tag = "Matrix";
-			
+			static String^ const TAG = "Matrix";
+			static wchar_t const ID = L'M';
 
 			property double default[int, int] {
 				double get(int i, int j) {
@@ -42,12 +42,18 @@ namespace em {
 				}
 			}
 
+			property bool square {
+				bool get() {
+					return this->rowLength == this->columnLength;
+				}
+			}
 		private: 
 			array<double, 2>^ value;
 		
 		public:
 			Matrix(int dim1, int dim2);
 			Matrix(Matrix^ mat);
+			Matrix(VectorOption op, Vector^ vec);
 			virtual ~Matrix();
 
 			virtual String^ ToString() override;
@@ -64,6 +70,7 @@ namespace em {
 			Matrix^ operator/(Scalar^ s);
 
 			bool isSameSize(Matrix^ m);
+
 			static bool matrixCast(MathObject^ mo, Matrix^% mat);
 		};
 	}

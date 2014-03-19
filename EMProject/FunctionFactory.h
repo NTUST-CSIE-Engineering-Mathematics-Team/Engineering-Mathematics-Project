@@ -18,8 +18,10 @@ namespace em {
 							
 					public:
 						template<typename F>
-						static void addFunction(String^ name) {
-							functionConstructors->Add(name, gcnew ConcreteFunction(concreteFunction<F>));
+						static void addFunction() {
+							F^ tmpF = gcnew F(false, nullptr);
+							functionConstructors->Add(tmpF->functionName, gcnew ConcreteFunction(concreteFunction<F>));
+							delete tmpF;
 						}
 
 						static bool hasFunction(String^ name);

@@ -11,8 +11,9 @@ namespace em {
 
 		public:
 			
-			static String^ const tag = "Vector";
-			
+			static String^ const TAG = "Vector";
+			static wchar_t const ID = L'V';
+
 			property double default[int] {
 				double get(int i) {
 					return this->value[i];
