@@ -10,6 +10,7 @@ namespace em {
 				using em::intrprt::Message;
 
 				interface class Expression {
+
 				public:
 					virtual MathObject^ compute(Message^% message) abstract;
 				};
