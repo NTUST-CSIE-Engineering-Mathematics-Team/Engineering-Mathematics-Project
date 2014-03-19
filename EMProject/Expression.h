@@ -11,6 +11,7 @@ namespace em {
 
 				interface class Expression {
 
+
 				public:
 					virtual MathObject^ compute(Message^% message) abstract;
 				};
