@@ -7,5 +7,4 @@
 #include "SettingsCommand.h"
 #include "DeleteCommand.h"
 #include "ShowStorageCommand.h"
-#include "JudgeCommand.h"
 #include "CommandFactory.h"

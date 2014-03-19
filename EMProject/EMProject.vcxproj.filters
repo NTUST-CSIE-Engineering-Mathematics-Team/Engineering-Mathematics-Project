@@ -195,9 +195,6 @@
     <ClCompile Include="CommandFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JudgeCommand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainForm.h">
@@ -348,9 +345,6 @@
       <Filter>Header Files\math\engine\expression\functions</Filter>
     </ClInclude>
     <ClInclude Include="CommandFactory.h">
-      <Filter>Header Files\intrprt\cmd</Filter>
-    </ClInclude>
-    <ClInclude Include="JudgeCommand.h">
       <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
     <ClInclude Include="RegistrationArea.h">
