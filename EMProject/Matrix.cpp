@@ -129,7 +129,7 @@ Matrix^ Matrix::operator- (Matrix^ m) {
 
 	for (int i = 0; i < this->columnLength; i++) {
 		for (int j = 0; j < this->rowLength; j++) {
-			newMat[i, j] = this[i, j] - newMat[i, j];
+			newMat[i, j] = this[i, j] - m[i, j];
 		}
 	}
 
@@ -145,7 +145,7 @@ Matrix^ Matrix::operator+(Matrix^ m) {
 
 	for (int i = 0; i < this->columnLength; i++) {
 		for (int j = 0; j < this->rowLength; j++) {
-			newMat[i, j] = this[i, j] + newMat[i, j];
+			newMat[i, j] = this[i, j] + m[i, j];
 		}
 	}
 
@@ -191,7 +191,19 @@ Matrix^ Matrix::operator*(Scalar^ s) {
 
 	for (int i = 0; i < this->columnLength; i++) {
 		for (int j = 0; j < this->rowLength; j++) {
-			newMat[i, j] *= s;
+			newMat[i, j] = this[i, j] * s;
+		}
+	}
+
+	return newMat;
+}
+
+Matrix^ Matrix::operator/(Scalar^ s) {
+	Matrix^ newMat = gcnew Matrix(this->columnLength, this->rowLength);
+
+	for (int i = 0; i < this->columnLength; i++) {
+		for (int j = 0; j < this->rowLength; j++) {
+			newMat[i, j] = this[i, j] / s;
 		}
 	}
 

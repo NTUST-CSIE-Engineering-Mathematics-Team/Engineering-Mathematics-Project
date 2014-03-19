@@ -1,4 +1,4 @@
-#include "ArithmeticPatternAnalyzer.h"
+#include "AssignmentPatternAnalyzer.h"
 #include "All_Math.h"
 #include "VariableTable.h"
 #include "Interpreter.h"
@@ -9,14 +9,14 @@ using namespace em::math;
 using em::math::engine::ArithmeticEngine;
 using System::Text::StringBuilder;
 
-ArithmeticPatternAnalyzer::ArithmeticPatternAnalyzer() {
+AssignmentPatternAnalyzer::AssignmentPatternAnalyzer() {
 }
 
 
-ArithmeticPatternAnalyzer::~ArithmeticPatternAnalyzer() {
+AssignmentPatternAnalyzer::~AssignmentPatternAnalyzer() {
 }
 
-Message^ ArithmeticPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
+Message^ AssignmentPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 
 	Message^ msg;
 	VariableTable^ vTable = iptr->variableTable;
@@ -54,7 +54,7 @@ Message^ ArithmeticPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 }
 
 
-String^ ArithmeticPatternAnalyzer::buildInitPattern() {
+String^ AssignmentPatternAnalyzer::buildInitPattern() {
 	StringBuilder^ sb = gcnew StringBuilder();
 	
 	sb->AppendFormat("^({0})\\s*=\\s*({1})$", NAME_PATTERN, ArithmeticEngine::arithmeticContentPattern("p"));

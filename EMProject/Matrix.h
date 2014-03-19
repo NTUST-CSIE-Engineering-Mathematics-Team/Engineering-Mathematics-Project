@@ -61,7 +61,8 @@ namespace em {
 			Matrix^ operator*(Matrix^ m);
 			Vector^ operator*(Vector^ v);
 			Matrix^ operator*(Scalar^ s);
-			
+			Matrix^ operator/(Scalar^ s);
+
 			bool isSameSize(Matrix^ m);
 			static bool matrixCast(MathObject^ mo, Matrix^% mat);
 		};

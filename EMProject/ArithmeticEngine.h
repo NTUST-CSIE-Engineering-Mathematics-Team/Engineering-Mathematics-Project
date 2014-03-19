@@ -48,7 +48,7 @@ namespace em {
 				static String^ const UNSIGNED_DOUBLE_PATTERN = "(?:\\d+(?:\\.\\d+)?)";
 				
 				static String^ const OPERATOR_PATTERN = "([-+*/x])";
-				static String^ const NAME_OR_FUNCTION_PATTERN = "(?:[A-Za-z_]\\w*(?:\\(" + arithmeticContentPattern(functionArgParentheseTag) + "\\))?)";
+				static String^ const NAME_OR_FUNCTION_PATTERN = "(?:[A-Za-z_]\\w*(?:\\s*\\(" + arithmeticContentPattern(functionArgParentheseTag) + "\\))?)";
 
 				static property String^ COMPOUND_EXP_PATTERN {
 					String^ get() {
@@ -59,7 +59,7 @@ namespace em {
 						duplicate->AppendFormat("(-?(?({0}){1}|(?:{2}|{3})))", parentheseTag, arithmeticContentPattern(innerParentheseTag), NAME_OR_FUNCTION_PATTERN, UNSIGNED_DOUBLE_PATTERN);
 						duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
 
-						full->AppendFormat("^(?:{0}(?:\\s*{1}\\s*{2})*)$", duplicate, OPERATOR_PATTERN, duplicate);
+						full->AppendFormat("^\\s*(?:{0}(?:\\s*{1}\\s*{2})*)\\s*$", duplicate, OPERATOR_PATTERN, duplicate);
 
 						return full->ToString();
 					}
@@ -74,7 +74,7 @@ namespace em {
 						duplicate->AppendFormat("((?:(?<{0}>\\()|(?<-{1}>\\))|\\s|(?({2})[-+*/A-Za-z0-9._,]|[-+*/A-Za-z0-9._]))+)", innerParentheseTag, innerParentheseTag, innerParentheseTag);
 						duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
 
-						full->AppendFormat("^(-?)([A-Za-z_]\\w*)\\(\\s*{0}(?:\\s*,\\s*{1})*\\s*\\)$", duplicate, duplicate);
+						full->AppendFormat("^(-)?([A-Za-z_]\\w*)\\s*\\(\\s*{0}(?:\\s*,\\s*{1})*\\s*\\)$", duplicate, duplicate);
 
 						return full->ToString();
 					}
@@ -92,6 +92,7 @@ namespace em {
 					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteFunction),
 					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteCompoundExp)
 				};
+
 			public:
 				ArithmeticEngine(VariableTable^ vTable);
 				virtual ~ArithmeticEngine(); 
@@ -106,14 +107,13 @@ namespace em {
 				bool analyze(String^ expression, Message^% msg);
 				bool compute(MathObject^% mo, Message^% message);
 
-				bool loadTokens(GroupCollection^ groups, LinkedList<Expression^>^% opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% optors);
+				bool loadTokens(GroupCollection^ groups, LinkedList<Expression^>^% opnds, LinkedList<String^>^% optors);
 				Expression^ convertToExpression(String^ s);
-				Expression^ buildArithmeticTree(LinkedList<Expression^>^ opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^ optors);
-				void CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% optors,
-								  LinkedListNode<Expression^>^% rndNode, LinkedListNode<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% torNode,
-								  LinkedListNode<Expression^>^% preRndNode, LinkedListNode<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% preTorNode);
+				Expression^ buildArithmeticTree(LinkedList<Expression^>^ opnds, LinkedList<String^>^ optors);
+				void CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<String^>^% optors,
+								  LinkedListNode<Expression^>^% rndNode, LinkedListNode<String^>^% torNode,
+								  LinkedListNode<Expression^>^% preRndNode, LinkedListNode<String^>^% preTorNode);
 				
-				static ArithmeticEngine();
 				static bool isParentheseBalanced(GroupCollection^ groups);
 
 			};

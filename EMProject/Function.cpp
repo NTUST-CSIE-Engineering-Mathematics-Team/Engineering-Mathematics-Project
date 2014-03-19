@@ -2,7 +2,7 @@
 
 using namespace em::math::engine::expression::functions;
 
-Function::Function(bool negative, array<Expression^>^ exps, String^ name, int argN) : negative(negative), args(exps), name(name), argCount(argN) {
+Function::Function(bool negative, array<Expression^>^ exps, String^ name, String^ argT) : negative(negative), args(exps), name(name), argT(argT) {
 }
 
 
@@ -12,21 +12,26 @@ Function::~Function() {
 }
 
 bool Function::isArgsNumCorrect() {
-	return this->args->Length == this->argCount;
+	return this->args->Length == this->argT->Length;
 }
 
 MathObject^ Function::compute(Message^% message) {
 
-	if (!isArgsNumCorrect()) {
-		return nullptr;
-	}
-
 	array<MathObject^>^ mos = gcnew array<MathObject^>(this->args->Length);
-	for (int i = 0; i < mos->Length; i++) {
+	int i;
+	for (i = 0; i < mos->Length; i++) {
 		mos[i] = args[i]->compute(message);
-		if (mos[i] == nullptr) {
+		if (mos[i] == nullptr || mos[i]->mathType[0] != argT[i]) {
+			if (message == nullptr) {
+				message = gcnew Message(Message::State::ERROR, "Incorrect argument types in functoin \"" + this->functionName + "\"");
+			}
+
 			return nullptr;
 		}
+	}
+	if (i != this->argT->Length) {
+		message = gcnew Message(Message::State::ERROR, "Incorrect argument numbers in functoin \"" + this->functionName + "\".\nIt should be " + argT->Length);
+		return nullptr;
 	}
 
 	MathObject^ mo = this->performFunction(mos);

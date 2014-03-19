@@ -40,8 +40,13 @@ void BinaryOperator::addOperation(String^ types, Operation<A, B>^ operation) {
 }
 
 generic<typename A, typename B> where A : MathObject where B : MathObject
-BinaryOperator::Caster<A, B>::Caster(Operation<A, B>^ op) : operation(op) {
+void BinaryOperator::addOperation(Operation<A, B>^ operation) {
+	this->addOperation(operation->Method->Name, operation);
+}
 
+generic<typename A, typename B> where A : MathObject where B : MathObject
+BinaryOperator::Caster<A, B>::Caster(Operation<A, B>^ op) : operation(op) {
+	
 }
 
 generic<typename A, typename B> where A : MathObject where B : MathObject

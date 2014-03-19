@@ -8,11 +8,11 @@ namespace em {
 
 			using em::math::engine::ArithmeticEngine;
 
-			ref class ArithmeticPatternAnalyzer : public PatternAnalyzer {
+			ref class AssignmentPatternAnalyzer : public PatternAnalyzer {
 			
 			public:
-				ArithmeticPatternAnalyzer();
-				virtual ~ArithmeticPatternAnalyzer();
+				AssignmentPatternAnalyzer();
+				virtual ~AssignmentPatternAnalyzer();
 
 				virtual Message^ analyze(Match^ result, Interpreter^ iptr) override;
 

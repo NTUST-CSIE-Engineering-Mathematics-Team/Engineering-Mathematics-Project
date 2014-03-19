@@ -3,4 +3,4 @@
 #include "PatternAnalyzer.h"
 #include "CommandPatternAnalyzer.h"
 #include "CommentPatternAnalyzer.h"
-#include "ArithmeticPatternAnalyzer.h"
+#include "AssignmentPatternAnalyzer.h"

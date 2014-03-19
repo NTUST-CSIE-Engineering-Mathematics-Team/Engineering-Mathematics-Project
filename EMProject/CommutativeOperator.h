@@ -14,6 +14,8 @@ namespace em {
 
 						generic<typename A, typename B> where A:MathObject where B : MathObject
 						virtual void addCommutativeOperation(String^ types, Operation<A, B>^ operation);
+						generic<typename A, typename B> where A:MathObject where B : MathObject
+						virtual void addCommutativeOperation(Operation<A, B>^ operation);
 
 					private:
 						generic<typename A, typename B> where A : MathObject where B : MathObject

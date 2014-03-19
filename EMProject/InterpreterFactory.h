@@ -23,20 +23,10 @@ namespace em {
 			ref class RuntimeInterpreter : public Interpreter {
 
 			private:
-				static array<Command^>^ commands = {
-					gcnew PrintCommand(),
-					gcnew CreateMatrixCommand(),
-					gcnew CreateVectorCommand(),
-					gcnew CreateScalarCommand(),
-					gcnew SettingsCommand(),
-					gcnew DeleteCommand(),
-					gcnew ShowStorageCommand()
-				};
-
 				static array<PatternAnalyzer^>^ analyzers = {
-					gcnew CommentPatternAnalyzer(), 
-					gcnew ArithmeticPatternAnalyzer(),
-					gcnew CommandPatternAnalyzer(commands)
+					gcnew CommentPatternAnalyzer(),
+					gcnew AssignmentPatternAnalyzer(),
+					gcnew CommandPatternAnalyzer(CommandFactory::getCommandArray())
 				};
 
 			public:

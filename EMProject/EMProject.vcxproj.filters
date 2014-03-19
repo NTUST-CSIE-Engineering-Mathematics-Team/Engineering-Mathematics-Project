@@ -138,9 +138,6 @@
     <ClCompile Include="MathHelper.cpp">
       <Filter>Source Files\math</Filter>
     </ClCompile>
-    <ClCompile Include="ArithmeticPatternAnalyzer.cpp">
-      <Filter>Source Files\intrprt\pattern</Filter>
-    </ClCompile>
     <ClCompile Include="Expression.cpp">
       <Filter>Source Files\math\engine</Filter>
     </ClCompile>
@@ -182,6 +179,24 @@
     </ClCompile>
     <ClCompile Include="CommutativeOperator.cpp">
       <Filter>Source Files\math\engine\operators</Filter>
+    </ClCompile>
+    <ClCompile Include="AssignmentPatternAnalyzer.cpp">
+      <Filter>Source Files\intrprt\pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="MagFunction.cpp">
+      <Filter>Source Files\math\engine\functions</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjFunction.cpp">
+      <Filter>Source Files\math\engine\functions</Filter>
+    </ClCompile>
+    <ClCompile Include="RegistrationArea.cpp">
+      <Filter>Source Files\intrprt</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JudgeCommand.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -275,9 +290,6 @@
     <ClInclude Include="All_Math.h">
       <Filter>Header Files\math</Filter>
     </ClInclude>
-    <ClInclude Include="ArithmeticPatternAnalyzer.h">
-      <Filter>Header Files\intrprt\pattern</Filter>
-    </ClInclude>
     <ClInclude Include="ArithmeticEngine.h">
       <Filter>Header Files\math\engine</Filter>
     </ClInclude>
@@ -322,6 +334,27 @@
     </ClInclude>
     <ClInclude Include="CommutativeOperator.h">
       <Filter>Header Files\math\engine\expression\operators</Filter>
+    </ClInclude>
+    <ClInclude Include="All_Functions.h">
+      <Filter>Header Files\math\engine\expression\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="AssignmentPatternAnalyzer.h">
+      <Filter>Header Files\intrprt\pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="MagFunction.h">
+      <Filter>Header Files\math\engine\expression\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjFunction.h">
+      <Filter>Header Files\math\engine\expression\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandFactory.h">
+      <Filter>Header Files\intrprt\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="JudgeCommand.h">
+      <Filter>Header Files\intrprt\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="RegistrationArea.h">
+      <Filter>Header Files\intrprt</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

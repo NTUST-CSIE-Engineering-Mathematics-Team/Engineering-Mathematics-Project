@@ -57,7 +57,7 @@ Expression^ ArithmeticEngine::anaylzeCompoundExpression(String^ expression) {
 	}
 
 	LinkedList<Expression^>^ opnds;
-	LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^ optors;
+	LinkedList<String^>^ optors;
 	if (!loadTokens(groups, opnds, optors)) {
 		return nullptr;
 	}
@@ -65,7 +65,7 @@ Expression^ ArithmeticEngine::anaylzeCompoundExpression(String^ expression) {
 	return buildArithmeticTree(opnds, optors);
 }
 
-bool ArithmeticEngine::loadTokens(GroupCollection^ groups, LinkedList<Expression^>^% opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% optors) {
+bool ArithmeticEngine::loadTokens(GroupCollection^ groups, LinkedList<Expression^>^% opnds, LinkedList<String^>^% optors) {
 	
 	CaptureCollection^ opndB = groups[3]->Captures;
 	CaptureCollection^ optorsC = groups[2]->Captures;
@@ -73,7 +73,7 @@ bool ArithmeticEngine::loadTokens(GroupCollection^ groups, LinkedList<Expression
 	int opndCount = 1 + opndB->Count;
 	int optorsCount = optorsC->Count;
 	opnds = gcnew LinkedList<Expression^>();
-	optors = gcnew LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>();
+	optors = gcnew LinkedList<String^>();
 
 	opnds->AddLast(convertToExpression(groups[1]->Value));
 	if (opnds->Last->Value == nullptr) {
@@ -88,21 +88,21 @@ bool ArithmeticEngine::loadTokens(GroupCollection^ groups, LinkedList<Expression
 	}
 
 	for (int i = 0; i < optorsCount; i++) {
-		optors->AddLast(KeyValuePair<String^, OperatorFactory::ConcreteOperator^>(optorsC[i]->Value, OperatorFactory::operatorConstructors[optorsC[i]->Value]));
+		optors->AddLast(optorsC[i]->Value);
 	}
 
 	return true;
 }
 
-Expression^ ArithmeticEngine::buildArithmeticTree(LinkedList<Expression^>^ opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^ optors) {
+Expression^ ArithmeticEngine::buildArithmeticTree(LinkedList<Expression^>^ opnds, LinkedList<String^>^ optors) {
 	String^ lowPriorityOptor = "+-";
 	LinkedListNode<Expression^>^ rndNode = opnds->First;
 	LinkedListNode<Expression^>^ preRndNode;
-	LinkedListNode<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^ torNode = optors->First;
-	LinkedListNode<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^ preTorNode;
+	LinkedListNode<String^>^ torNode = optors->First;
+	LinkedListNode<String^>^ preTorNode;
 
 	for (; torNode != nullptr;) {
-		if (!lowPriorityOptor->Contains(torNode->Value.Key)) {
+		if (!lowPriorityOptor->Contains(torNode->Value)) {
 			this->CombineNodes(opnds, optors, rndNode, torNode, preRndNode, preTorNode);
 		} else {
 			rndNode = rndNode->Next;
@@ -117,11 +117,11 @@ Expression^ ArithmeticEngine::buildArithmeticTree(LinkedList<Expression^>^ opnds
 	return opnds->First->Value;
 }
 
-void ArithmeticEngine::CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% optors,
-									LinkedListNode<Expression^>^% rndNode, LinkedListNode<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% torNode,
-									LinkedListNode<Expression^>^% preRndNode, LinkedListNode<KeyValuePair<String^, OperatorFactory::ConcreteOperator^>>^% preTorNode) {
+void ArithmeticEngine::CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<String^>^% optors,
+									LinkedListNode<Expression^>^% rndNode, LinkedListNode<String^>^% torNode,
+									LinkedListNode<Expression^>^% preRndNode, LinkedListNode<String^>^% preTorNode) {
 
-	BinaryOperator^ optor = torNode->Value.Value(rndNode->Value, rndNode->Next->Value);
+	BinaryOperator^ optor = OperatorFactory::createOperatorInstance(torNode->Value, rndNode->Value, rndNode->Next->Value);
 
 	preRndNode = rndNode;
 	preTorNode = torNode;
@@ -160,9 +160,6 @@ bool ArithmeticEngine::isParentheseBalanced(GroupCollection^ groups) {
 			 (groups[functionArgParentheseTag]->Success));
 }
 
-static ArithmeticEngine::ArithmeticEngine() {
-}
-
 Expression^ ArithmeticEngine::ExpressionFactory::concreteScalarExp(Match^ m, ArithmeticEngine^ engine) {
 	return gcnew MathObjExp(gcnew Scalar(System::Convert::ToDouble(m->Value)));
 }
@@ -184,7 +181,7 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteFunction(Match^ m, Arit
 
 	GroupCollection^ groups = m->Groups;
 	String^ funName = groups[2]->Value;
-	if (!FunctionFactory::functionConstructors->ContainsKey(funName)) {
+	if (!FunctionFactory::hasFunction(funName)) {
 		return nullptr;
 	}
 
@@ -203,7 +200,7 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteFunction(Match^ m, Arit
 		}
 	}
 
-	Function^ function = FunctionFactory::functionConstructors[funName](groups[1]->Success, args);
+	Function^ function = FunctionFactory::createFunctionInstance(funName, groups[1]->Success, args);
 	if (!function->isArgsNumCorrect()) {
 		return nullptr;
 	}

@@ -44,6 +44,9 @@ namespace em {
 			
 		protected:
 			Interpreter(array<PatternAnalyzer^>^ patternList);
+		
+		private:
+			static Interpreter();
 
 		private:
 			ref class VariableTableProxy : public VariableTable {
@@ -57,7 +60,7 @@ namespace em {
 
 			private:
 				static VariableTable^ const allVTable = gcnew VariableTable();
-
+				
 			public:
 				VariableTableProxy();
 				virtual ~VariableTableProxy();
@@ -70,6 +73,7 @@ namespace em {
 				virtual void unload(VariableTable^ vTable) override;
 				virtual bool checkGet(String^ name, MathObject^% mo) override;
 				virtual Dictionary<String^, MathObject^>::Enumerator getEnumerator() override;
+
 			};
 		};
 	}

@@ -15,6 +15,8 @@ namespace em {
 			static String^ const PRINT_CMD = "print";
 			static String^ const DELETE_CMD = "delete";
 			static String^ const STORAGE_CMD = "stg";
+			static String^ const JUDGE_CMD = "judge";
+
 		private:
 			static StringCollection^ const keywordsSet = gcnew StringCollection();
 

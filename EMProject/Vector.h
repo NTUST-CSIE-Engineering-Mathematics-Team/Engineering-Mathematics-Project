@@ -21,6 +21,13 @@ namespace em {
 					this->value[i] = v;
 				}
 			}
+
+			property Vector^ normalized{
+				Vector^ get() {
+					return this / gcnew Scalar(this->magnitude);
+				}
+			}
+
 			property double magnitude {
 				double get() {
 					double s = 0;
@@ -56,11 +63,14 @@ namespace em {
 			Vector^ operator+(Vector^ v);
 			Vector^ operator*(Scalar^ s);
 			Scalar^ operator*(Vector^ v);
+			Vector^ operator/(Scalar^ s);
 			Vector^ cross(Vector^ v);
+			Scalar^ projection(Vector^ v);
 
 			static bool isSameRank(Vector^ a, Vector^ b);
 			static bool vectorCast(MathObject^ mo, Vector^% vec);
 			static int getWiderRank(Vector^ a, Vector^ b);
+			static void widerConvert(Vector^% a, Vector^% b);
 		};
 	}
 	

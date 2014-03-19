@@ -117,7 +117,7 @@ namespace em {
 			// 
 			// openCodeFileDialog
 			// 
-			this->openCodeFileDialog->FileName = L"vector_or_matrix";
+			this->openCodeFileDialog->FileName = L"sample.txt";
 			this->openCodeFileDialog->Filter = L"Text files (*.txt)|*.txt";
 			this->openCodeFileDialog->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &MainForm::openCodeFileDialog_FileOk);
 			// 
@@ -199,7 +199,7 @@ namespace em {
 					this->loadObjectToolStripMenuItem
 			});
 			this->openGroupFileToolStripMenuItem->Name = L"openGroupFileToolStripMenuItem";
-			this->openGroupFileToolStripMenuItem->Size = System::Drawing::Size(103, 22);
+			this->openGroupFileToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->openGroupFileToolStripMenuItem->Text = L"Open";
 			// 
 			// openCodeToolStripMenuItem
@@ -223,7 +223,7 @@ namespace em {
 					this->saveAsToolStripMenuItem, this->saveOutputToolStripMenuItem1
 			});
 			this->saveGroupFileToolStripMenuItem->Name = L"saveGroupFileToolStripMenuItem";
-			this->saveGroupFileToolStripMenuItem->Size = System::Drawing::Size(103, 22);
+			this->saveGroupFileToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->saveGroupFileToolStripMenuItem->Text = L"Save";
 			// 
 			// saveCodeToolStripMenuItem

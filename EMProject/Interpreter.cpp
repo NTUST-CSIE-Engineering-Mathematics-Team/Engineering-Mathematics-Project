@@ -1,7 +1,9 @@
 #include "Interpreter.h"
-
+#include "RegistrationArea.h"
 using namespace em::intrprt;
-
+static Interpreter::Interpreter() {
+	RegistrationArea::registerHere();
+}
 Interpreter::Interpreter(array<PatternAnalyzer^>^ patternList) {
 
 	this->needNext = nullptr;

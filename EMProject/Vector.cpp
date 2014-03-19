@@ -73,33 +73,14 @@ MathObject^ Vector::operator-() {
 
 Vector^ Vector::operator-(Vector^ v) {
 
-	bool s;
-	int wRank, sRank;
-	if (this->rank < v->rank) {
-		wRank = v->rank;
-		sRank = this->rank;
-		s = true;
-	} else {
-		wRank = this->rank;
-		sRank = v->rank;
-		s = false;
-	}
+	Vector^ t = this;
+	widerConvert(t, v);
 
-	Vector^ newVec = gcnew Vector(wRank);
+	Vector^ newVec = gcnew Vector(t->rank);
 
 	int i;
-	for (i = 0; i < sRank; i++) {
-		newVec[i] = this[i] - v[i];
-	}
-
-	if (s) {
-		for (; i < newVec->rank; i++) {
-			newVec[i] = -v[i];
-		}
-	} else {
-		for (; i < newVec->rank; i++) {
-			newVec[i] = this[i];
-		}
+	for (i = 0; i < newVec->rank; i++) {
+		newVec[i] = t[i] - v[i];
 	}
 
 	return newVec;
@@ -107,25 +88,16 @@ Vector^ Vector::operator-(Vector^ v) {
 }
 
 Vector^ Vector::operator+(Vector^ v) {
-	Vector^ w = this;
-	Vector^ s = v;
-	int wRank = this->rank;
-	if (v->rank > wRank) {
-		wRank = v->rank;
-		w = v;
-		s = w;
-	}
-	Vector^ newVec = gcnew Vector(wRank);
+	Vector^ t = this;
+	widerConvert(t, v);
+	
+	Vector^ newVec = gcnew Vector(t->rank);
 
-	int i;
-	for (i = 0; i < s->rank; i++) {
-		newVec[i] = w[i] + s[i];
+	for (int i = 0; i < newVec->rank; i++) {
+		newVec[i] = t[i] + v[i];
 	}
 
-	for (; i < newVec->rank; i++) {
-		newVec[i] = w[i];
-	}
-
+	
 	return newVec;
 }
 
@@ -141,17 +113,27 @@ Vector^ Vector::operator*(Scalar^ s) {
 }
 
 Scalar^ Vector::operator*(Vector^ v) {
-	if (!isSameRank(this, v)) {
-		return nullptr;
-	}
+	
+	Vector^ t = this;
+	widerConvert(t, v);
 
 	double product = 0;
 	
-	for (int i = 0; i < this->rank; i++) {
-		product += this[i] * v[i];
+	for (int i = 0; i < t->rank; i++) {
+		product += t[i] * v[i];
 	}
 
 	return gcnew Scalar(product);
+}
+
+Vector^ Vector::operator/(Scalar^ s) {
+	Vector^ newVec = gcnew Vector(this->rank);
+
+	for (int i = 0; i < this->rank; i++) {
+		newVec[i] = this[i] / s;
+	}
+
+	return newVec;
 }
 
 Vector^ Vector::cross(Vector^ v) {
@@ -180,10 +162,33 @@ Vector^ Vector::cross(Vector^ v) {
 	return crs;
 }
 
+Scalar^ Vector::projection(Vector^ v) {
+	
+	return this * v->normalized;
+}
+
 bool Vector::isSameRank(Vector^ a, Vector^ b) {
 	return a->rank == b->rank;
 }
 
 int Vector::getWiderRank(Vector^ a, Vector^ b) {
 	return a->rank > b->rank ? a->rank : b->rank;
+}
+
+void Vector::widerConvert(Vector^% a, Vector^% b) {
+	if (isSameRank(a, b)) {
+		return;
+	}
+
+	int wRank = a->rank;
+	if (b->rank > wRank) {
+		wRank = b->rank;
+		Vector^ c = gcnew Vector(wRank);
+		c->fitAssign(a);
+		a = c;
+	} else {
+		Vector^ c = gcnew Vector(wRank);
+		c->fitAssign(b);
+		b = c;
+	}
 }

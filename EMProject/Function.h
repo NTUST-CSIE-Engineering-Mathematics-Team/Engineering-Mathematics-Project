@@ -13,14 +13,12 @@ namespace em {
 					using System::String;
 
 					ref class Function abstract : public Expression {
-					public:
-						delegate Function^ FunctionConstructor(array<Expression^>^ exps);
 
 					private:
 						const bool negative;
 						array<Expression^>^ args;
 						String^ const name;
-						const int argCount;
+						String^ const  argT;
 						
 					public:
 						property String^ functionName {
@@ -34,7 +32,7 @@ namespace em {
 						virtual MathObject^ compute(Message^% message);
 						virtual bool isArgsNumCorrect();
 					protected:
-						Function(bool negative, array<Expression^>^ exps, String^ name, int argN);
+						Function(bool negative, array<Expression^>^ exps, String^ name, String^ argT);
 
 						virtual MathObject^ performFunction(array<MathObject^>^ mos) abstract;
 					};

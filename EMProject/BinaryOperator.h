@@ -57,6 +57,8 @@ namespace em {
 
 						generic<typename A, typename B> where A : MathObject where B : MathObject
 						virtual void addOperation(String^ types, Operation<A, B>^ caster);
+						generic<typename A, typename B> where A : MathObject where B : MathObject
+						virtual void addOperation(Operation<A, B>^ caster);
 
 						virtual MathObject^ compute(Message^% message);
 

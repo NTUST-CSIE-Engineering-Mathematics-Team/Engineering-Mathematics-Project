@@ -12,7 +12,6 @@ namespace em {
 
 			ref class PrintCommand : public Command {
 			
-
 			public:
 				PrintCommand();
 				virtual ~PrintCommand();
