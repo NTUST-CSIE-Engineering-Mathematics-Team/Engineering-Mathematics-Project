@@ -31,7 +31,7 @@ Message^ AssignmentPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 
 	if (mo != nullptr) {
 		MathObject^ v = vTable[lObjName];
-		if (mo->mathID == v->mathID) {
+		if (mo->mathID->Equals(v->mathID)) {
 			Scalar^ scl;
 			Vector^ vec;
 			if (Scalar::scalarCast(v, scl)) {

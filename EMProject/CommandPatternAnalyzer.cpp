@@ -49,7 +49,7 @@ Message^ CommandPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 String^ CommandPatternAnalyzer::buildInitPattern() {
 	StringBuilder^ sb = gcnew StringBuilder();
 
-	sb->AppendFormat("^\\s*(\\w+)(?:\\s+({0}(?({1}){2}|{3}){4}))*$",
+	sb->AppendFormat("^\\s*(\\w+)(?:\\s+{0}((?({1}){2}|{3})){4})*$",
 	 				 ArithmeticEngine::OPEN_PARENTHESE_PATTERN,
 					 ArithmeticEngine::parentheseTag,
 					 ArithmeticEngine::arithmeticContentPattern("i"),

@@ -23,6 +23,10 @@ Message^ PrintCommand::performCommand(array<String^>^ args, int typeIndex, Inter
 			return msg;
 		}
 
+		if (iptr->variableTable->contains(args[0])) {
+			header = args[0];
+		}
+
 	sb = buildHeader(mo, header);
 	sb->AppendFormat("\n{0}\n", mo->ToString());
 	String^ result = sb->ToString();
@@ -34,11 +38,14 @@ StringBuilder^ PrintCommand::buildHeader(MathObject^ mo, String^ vName) {
 	StringBuilder^ sb = gcnew StringBuilder(mo->mathType);
 	Matrix^ mat;
 	Vector^ vec;
+	MathObjSet^ set;
 	if (Matrix::matrixCast(mo, mat)) {
 		sb->AppendFormat(" ({0} x {1})", mat->columnLength, mat->rowLength);
 
 	} else if (Vector::vectorCast(mo, vec)) {
 		sb->AppendFormat(" {0}", vec->rank);
+	} else if (MathObjSet::setCast(mo, set)) {
+		sb->AppendFormat(" {0}", set->size);
 	}
 
 	if (vName != nullptr) {

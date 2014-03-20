@@ -9,7 +9,14 @@ namespace em {
 		public:
 			
 			static String^ const TAG = "Scalar";
-			static wchar_t const ID = L'S';
+			static String^  const ID = "S";
+
+			property MathObject^ clone{
+				virtual MathObject^ get() override {
+					return gcnew Scalar(this);
+				}
+			}
+
 			property double doubleValue {
 				double get() {
 					return value;
@@ -27,14 +34,14 @@ namespace em {
 			virtual String^ ToString() override;
 			virtual MathObject^ operator-() override;
 
-			Scalar^ operator-(Scalar^ s);
-			Scalar^ operator+(Scalar^ s);
-			Scalar^ operator*(Scalar^ s);
-			Scalar^ operator/(Scalar^ s);
+			virtual Scalar^ operator-(Scalar^ s);
+			virtual Scalar^ operator+(Scalar^ s);
+			virtual Scalar^ operator*(Scalar^ s);
+			virtual Scalar^ operator/(Scalar^ s);
 
-			Scalar^ overrideAssign(Scalar^ scl);
+			virtual Scalar^ overrideAssign(Scalar^ scl);
 			
-			operator double();
+			virtual operator double();
 			
 			static bool scalarCast(MathObject^ mo, Scalar^% scl);
 		};

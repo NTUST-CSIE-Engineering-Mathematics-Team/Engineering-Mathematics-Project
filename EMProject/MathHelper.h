@@ -4,12 +4,10 @@
 namespace em {
 	namespace math {
 		ref class MathHelper abstract {
-		public:
+
+
 			virtual ~MathHelper();
-			
-			
-			
-		private:
+		
 			MathHelper();
 		};
 

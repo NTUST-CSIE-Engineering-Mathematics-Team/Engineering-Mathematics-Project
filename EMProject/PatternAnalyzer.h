@@ -32,7 +32,7 @@ namespace em {
 				delegate bool IsType(String^ var);
 
 				static Regex^ const namePattern = gcnew Regex("^" + NAME_PATTERN + "$", RegexOptions::Compiled);
-				static Regex^ const expressionPattern = gcnew Regex("^\\((" + ArithmeticEngine::arithmeticContentPattern("i") + ")\\)$");
+				static Regex^ const expressionPattern = gcnew Regex("^(" + ArithmeticEngine::arithmeticContentPattern("i") + ")$");
 				static Dictionary<wchar_t, IsType^>^ checkTable;
 
 			public:

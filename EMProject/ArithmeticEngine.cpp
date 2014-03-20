@@ -152,12 +152,8 @@ Expression^ ArithmeticEngine::convertToExpression(String^ s) {
 
 }
 
-
-
 bool ArithmeticEngine::isParentheseBalanced(GroupCollection^ groups) {
-	return !((groups[parentheseTag]->Success) ||
-			 (groups[innerParentheseTag]->Success) || 
-			 (groups[functionArgParentheseTag]->Success));
+	return !((groups[parentheseTag]->Success) || (groups[innerParentheseTag]->Success));
 }
 
 Expression^ ArithmeticEngine::ExpressionFactory::concreteScalarExp(Match^ m, ArithmeticEngine^ engine) {
@@ -175,6 +171,30 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteMathObjExp(Match^ m, Ar
 	}
 
 	return gcnew MathObjExp(mo);
+}
+
+Expression^ ArithmeticEngine::ExpressionFactory::concreteSetExp(Match^ m, ArithmeticEngine^ engine) {
+	GroupCollection^ groups = m->Groups;
+
+	CaptureCollection^ argL = groups[3]->Captures;
+	array<Expression^>^ args = gcnew array<Expression^>(1 + argL->Count);
+
+	args[0] = engine->convertToExpression(groups[2]->Value);
+	if (args[0] == nullptr) {
+		return nullptr;
+	}
+
+	for (int i = 1; i < args->Length; i++) {
+		args[i] = engine->convertToExpression(argL[i - 1]->Value);
+
+		if (args[i] == nullptr) {
+			return nullptr;
+		}
+	}
+
+	MathObjSetExp^ setExp = gcnew MathObjSetExp(groups[1]->Success, args);
+	
+	return setExp;
 }
 
 Expression^ ArithmeticEngine::ExpressionFactory::concreteFunction(Match^ m, ArithmeticEngine^ engine) {
@@ -213,6 +233,7 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteCompoundExp(Match^ m, A
 }
 
 String^ ArithmeticEngine::arithmeticContentPattern(String^ tag) {
-	String^ s = "(?:(?<" + tag + ">\\()|(?<-" + tag + ">\\))|[-+*/A-Za-z0-9._,]|\\s)+";
+	String^ s = "(?:(?<" + tag + ">[({])|(?<-" + tag + ">[)}])|[-+*/A-Za-z0-9._,]|\\s)+";
 	return s;
 }
+

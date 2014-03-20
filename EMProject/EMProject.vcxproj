@@ -107,7 +107,10 @@
     <ClCompile Include="MainForm.cpp" />
     <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="MathObject.cpp" />
+    <ClCompile Include="MathObjGenericSet.cpp" />
+    <ClCompile Include="MathObjSet.cpp" />
     <ClCompile Include="MathObjExp.cpp" />
+    <ClCompile Include="MathObjSetExp.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MappingTable.cpp" />
@@ -164,7 +167,10 @@
     </ClInclude>
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="MathObject.h" />
+    <ClInclude Include="MathObjGenericSet.h" />
+    <ClInclude Include="MathObjSet.h" />
     <ClInclude Include="MathObjExp.h" />
+    <ClInclude Include="MathObjSetExp.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MappingTable.h" />

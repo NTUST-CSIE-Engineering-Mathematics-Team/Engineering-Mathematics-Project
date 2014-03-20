@@ -18,7 +18,7 @@ namespace em {
 						const bool negative;
 						array<Expression^>^ args;
 						String^ const name;
-						String^ const  argT;
+						array<String^>^ const  argT;
 						
 					public:
 						property String^ functionName {

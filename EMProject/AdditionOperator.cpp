@@ -4,24 +4,24 @@
 using namespace em::math::engine::expression::operators;
 
 AdditionOperator::AdditionOperator(Expression^ a, Expression^ b) : CommutativeOperator("+", a, b) {
-	this->addOperation<Scalar^, Scalar^>(gcnew Operation<Scalar^, Scalar^>(SS));
-	this->addOperation<Vector^, Vector^>(gcnew Operation<Vector^, Vector^>(VV));
-	this->addOperation<Matrix^, Matrix^>(gcnew Operation<Matrix^, Matrix^>(MM));
+	this->addOperation<Scalar^, Scalar^>(gcnew Operation<Scalar^, Scalar^>(S_S));
+	this->addOperation<Vector^, Vector^>(gcnew Operation<Vector^, Vector^>(V_V));
+	this->addOperation<Matrix^, Matrix^>(gcnew Operation<Matrix^, Matrix^>(M_M));
 }
 
 
 AdditionOperator::~AdditionOperator() {
 }
 
-MathObject^ AdditionOperator::SS(Scalar^ a, Scalar^ b, Message^% msg) {
+MathObject^ AdditionOperator::S_S(Scalar^ a, Scalar^ b, Message^% msg) {
 	return a + b;
 }
 
-MathObject^ AdditionOperator::VV(Vector^ a, Vector^ b, Message^% msg) {
+MathObject^ AdditionOperator::V_V(Vector^ a, Vector^ b, Message^% msg) {
 	return a + b;
 }
 
-MathObject^ AdditionOperator::MM(Matrix^ a, Matrix^ b, Message^% msg) {
+MathObject^ AdditionOperator::M_M(Matrix^ a, Matrix^ b, Message^% msg) {
 
 	Matrix^ m = a + b;
 	if (m == nullptr) {

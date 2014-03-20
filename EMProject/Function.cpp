@@ -2,7 +2,7 @@
 
 using namespace em::math::engine::expression::functions;
 
-Function::Function(bool negative, array<Expression^>^ exps, String^ name, String^ argT) : negative(negative), args(exps), name(name), argT(argT) {
+Function::Function(bool negative, array<Expression^>^ exps, String^ name, String^ argT) : negative(negative), args(exps), name(name), argT(argT->Split(L'_')) {
 }
 
 
@@ -21,11 +21,10 @@ MathObject^ Function::compute(Message^% message) {
 	int i;
 	for (i = 0; i < mos->Length; i++) {
 		mos[i] = args[i]->compute(message);
-		if (mos[i] == nullptr || mos[i]->mathID != argT[i]) {
+		if (mos[i] == nullptr || mos[i]->mathID->Equals(argT[i])) {
 			if (message == nullptr) {
 				message = gcnew Message(Message::State::ERROR, "Incorrect argument types in functoin \"" + this->functionName + "\"");
 			}
-
 			return nullptr;
 		}
 	}

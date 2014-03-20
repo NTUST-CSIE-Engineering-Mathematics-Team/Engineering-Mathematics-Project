@@ -5,7 +5,7 @@ namespace em {
 		using System::String;
 		ref class MathObject abstract{
 		public:
-			static property int a;
+			
 			static property int numPrecision {
 				void set(int p) {
 					precision = p;
@@ -26,11 +26,16 @@ namespace em {
 				}
 			}
 
-			property wchar_t mathID{
-				wchar_t get() {
+			property String^ mathID{
+				String^ get() {
 					return mID;
 				}
 			}
+
+			property MathObject^ clone{
+				virtual MathObject^ get() abstract;
+			}
+
 		protected:
 			static property String^ NUMERAL_FORMAT {
 				String^ get() {
@@ -39,8 +44,8 @@ namespace em {
 			}
 
 		private:
-			String^ mType;
-			wchar_t mID;
+			String^ const mType;
+			String^ const mID;
 			static int precision = 2;
 			static int width = 7;
 	
@@ -49,8 +54,9 @@ namespace em {
 
 			virtual String^ ToString()override abstract;
 			virtual MathObject^ operator-() abstract;
+			
 		public:
-			MathObject(String^ type, wchar_t mID);
+			MathObject(String^ type, String^  mID);
 		};
 	}
 }

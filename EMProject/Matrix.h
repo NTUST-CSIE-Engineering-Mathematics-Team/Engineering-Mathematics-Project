@@ -8,13 +8,19 @@ namespace em {
 		using System::String;
 		using System::Text::StringBuilder;
 
-		ref class Matrix : public MathObject {
+		ref class Matrix : public MathObject{
 
 		public:
 			enum class VectorOption { ROW, COLUMN };
 
 			static String^ const TAG = "Matrix";
-			static wchar_t const ID = L'M';
+			static String^ const ID = "M";
+
+			property MathObject^ clone{
+				virtual MathObject^ get() override {
+					return gcnew Matrix(this);
+				}
+			}
 
 			property double default[int, int] {
 				double get(int i, int j) {
@@ -59,17 +65,17 @@ namespace em {
 			virtual String^ ToString() override;
 			virtual MathObject^ operator-() override;
 
-			Matrix^ fitAssign(Matrix^ mat);
+			virtual Matrix^ fitAssign(Matrix^ mat);
 			virtual Matrix^ overrideAssign(Matrix^ mat);
 
-			Matrix^ operator-(Matrix^ m);
-			Matrix^ operator+(Matrix^ m);
-			Matrix^ operator*(Matrix^ m);
-			Vector^ operator*(Vector^ v);
-			Matrix^ operator*(Scalar^ s);
-			Matrix^ operator/(Scalar^ s);
+			virtual Matrix^ operator-(Matrix^ m);
+			virtual Matrix^ operator+(Matrix^ m);
+			virtual Matrix^ operator*(Matrix^ m);
+			virtual Vector^ operator*(Vector^ v);
+			virtual Matrix^ operator*(Scalar^ s);
+			virtual Matrix^ operator/(Scalar^ s);
 
-			bool isSameSize(Matrix^ m);
+			virtual bool isSameSize(Matrix^ m) sealed;
 
 			static bool matrixCast(MathObject^ mo, Matrix^% mat);
 		};

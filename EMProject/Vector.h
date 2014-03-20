@@ -12,7 +12,13 @@ namespace em {
 		public:
 			
 			static String^ const TAG = "Vector";
-			static wchar_t const ID = L'V';
+			static String^  const ID = "V";
+
+			property MathObject^ clone{
+				virtual MathObject^ get() override {
+					return gcnew Vector(this);
+				}
+			}
 
 			property double default[int] {
 				double get(int i) {
@@ -60,13 +66,13 @@ namespace em {
 			Vector^ fitAssign(Vector^ vec);
 			Vector^ overrideAssign(Vector^ vec);
 			
-			Vector^ operator-(Vector^ v);
-			Vector^ operator+(Vector^ v);
-			Vector^ operator*(Scalar^ s);
-			Scalar^ operator*(Vector^ v);
-			Vector^ operator/(Scalar^ s);
-			Vector^ cross(Vector^ v);
-			Scalar^ projection(Vector^ v);
+			virtual Vector^ operator-(Vector^ v);
+			virtual Vector^ operator+(Vector^ v);
+			virtual Vector^ operator*(Scalar^ s);
+			virtual Scalar^ operator*(Vector^ v);
+			virtual Vector^ operator/(Scalar^ s);
+			virtual Vector^ cross(Vector^ v);
+			virtual Scalar^ projection(Vector^ v);
 
 			static bool isSameRank(Vector^ a, Vector^ b);
 			static bool vectorCast(MathObject^ mo, Vector^% vec);

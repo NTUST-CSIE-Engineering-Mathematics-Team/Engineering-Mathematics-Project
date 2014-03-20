@@ -7,7 +7,6 @@ namespace em {
 	namespace math {
 		namespace engine {
 			namespace expression {
-				using em::intrprt::VariableTable;
 				using em::math::MathObject;
 				using em::intrprt::Message;
 
