@@ -75,9 +75,6 @@
     <ClCompile Include="PrintCommand.cpp">
       <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
-    <ClCompile Include="CreateMatrixCommand.cpp">
-      <Filter>Source Files\intrprt\cmd</Filter>
-    </ClCompile>
     <ClCompile Include="CommandPatternAnalyzer.cpp">
       <Filter>Source Files\intrprt\pattern</Filter>
     </ClCompile>
@@ -113,12 +110,6 @@
     </ClCompile>
     <ClCompile Include="MappingTable.cpp">
       <Filter>Source Files\intrprt</Filter>
-    </ClCompile>
-    <ClCompile Include="CreateVectorCommand.cpp">
-      <Filter>Source Files\intrprt\cmd</Filter>
-    </ClCompile>
-    <ClCompile Include="CreateScalarCommand.cpp">
-      <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
     <ClCompile Include="CreateMathObjectCommand.cpp">
       <Filter>Source Files\intrprt\cmd</Filter>
@@ -233,9 +224,6 @@
     <ClInclude Include="CommandTable.h">
       <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
-    <ClInclude Include="CreateMatrixCommand.h">
-      <Filter>Header Files\intrprt\cmd</Filter>
-    </ClInclude>
     <ClInclude Include="PrintCommand.h">
       <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
@@ -262,12 +250,6 @@
     </ClInclude>
     <ClInclude Include="Message.h">
       <Filter>Header Files\intrprt</Filter>
-    </ClInclude>
-    <ClInclude Include="CreateVectorCommand.h">
-      <Filter>Header Files\intrprt\cmd</Filter>
-    </ClInclude>
-    <ClInclude Include="CreateScalarCommand.h">
-      <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
     <ClInclude Include="CreateMathObjectCommand.h">
       <Filter>Header Files\intrprt\cmd</Filter>
