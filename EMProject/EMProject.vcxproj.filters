@@ -138,9 +138,6 @@
     <ClCompile Include="ArithmeticEngine.cpp">
       <Filter>Source Files\math\engine</Filter>
     </ClCompile>
-    <ClCompile Include="MathObjExp.cpp">
-      <Filter>Source Files\math\engine</Filter>
-    </ClCompile>
     <ClCompile Include="BinaryOperator.cpp">
       <Filter>Source Files\math\engine\expression\operators</Filter>
     </ClCompile>
@@ -199,6 +196,12 @@
       <Filter>Source Files\math</Filter>
     </ClCompile>
     <ClCompile Include="MathObjSetExp.cpp">
+      <Filter>Source Files\math\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="VMConstructExp.cpp">
+      <Filter>Source Files\math\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="MathObjExp.cpp">
       <Filter>Source Files\math\engine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -287,9 +290,6 @@
     <ClInclude Include="ArithmeticEngine.h">
       <Filter>Header Files\math\engine</Filter>
     </ClInclude>
-    <ClInclude Include="MathObjExp.h">
-      <Filter>Header Files\math\engine\expression</Filter>
-    </ClInclude>
     <ClInclude Include="Expression.h">
       <Filter>Header Files\math\engine\expression</Filter>
     </ClInclude>
@@ -357,6 +357,12 @@
       <Filter>Header Files\math</Filter>
     </ClInclude>
     <ClInclude Include="MathObjSetExp.h">
+      <Filter>Header Files\math\engine\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="VMConstructExp.h">
+      <Filter>Header Files\math\engine\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="MathObjExp.h">
       <Filter>Header Files\math\engine\expression</Filter>
     </ClInclude>
   </ItemGroup>

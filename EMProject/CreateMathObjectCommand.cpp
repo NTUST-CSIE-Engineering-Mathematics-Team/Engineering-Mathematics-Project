@@ -3,34 +3,13 @@
 
 using namespace em::intrprt::cmd;
 
-CreateMathObjectCommand::CreateMathObjectCommand(String^ cl, array<String^>^ argTs) : Command(cl, argTs) {
-	this->nameIndices = gcnew array<int>(argTs->Length);
-	int i = 0;
-	for each(String^ t in argTs) {
-		nameIndices[i++] = t->IndexOf('n');
-	}
-}
-
-CreateMathObjectCommand::~CreateMathObjectCommand() {
-}
-
-Message^ CreateMathObjectCommand::performCommand(array<String^>^ args, int typeIndex, Interpreter^ iptr) {
-
-	
-	if (iptr->variableTable->contains(args[this->nameIndices[typeIndex]])) {
-		return Message::varAlreadyExistMsg(args[this->nameIndices[typeIndex]]);
-	}
-	
-	return this->createMathObject(typeIndex, args[this->nameIndices[typeIndex]], args, iptr);
-}
-
-CreateFileMathObjectCommand::CreateFileMathObjectCommand(String^ cl, PatternAnalyzer^ analyzer) : Command(cl, nullptr), analyzer(analyzer) {
+CreateFileMathObjectCommand::CreateFileMathObjectCommand(String^ cl, PatternAnalyzer^ analyzer) : Command(cl, ' '), analyzer(analyzer) {
 }
 
 CreateFileMathObjectCommand::~CreateFileMathObjectCommand() {
 }
 
-Message^ CreateFileMathObjectCommand::performCommand(array<String^>^ args,int typeIndex, Interpreter^ iptr) {
+Message^ CreateFileMathObjectCommand::performCommand(String^ arg, Interpreter^ iptr) {
 	iptr->needNextLine(this->analyzer);
 	return Message::PARSING_MSG;
 }

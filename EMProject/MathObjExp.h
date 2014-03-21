@@ -1,6 +1,5 @@
 #pragma once
 #include "Expression.h"
-#include "VariableTable.h"
 #include "Message.h"
 
 namespace em {
@@ -15,7 +14,7 @@ namespace em {
 					MathObject^ mo;
 
 				public:
-					MathObjExp(MathObject^ mo);
+					MathObjExp(bool negative, MathObject^ mo);
 					virtual ~MathObjExp();
 
 					virtual MathObject^ compute(Message^% message);

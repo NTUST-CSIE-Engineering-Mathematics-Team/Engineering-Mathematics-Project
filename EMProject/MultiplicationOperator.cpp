@@ -22,7 +22,12 @@ MathObject^ MultiplicationOperator::S_S(Scalar^ a, Scalar^ b, Message^% msg) {
 }
 
 MathObject^ MultiplicationOperator::V_V(Vector^ a, Vector^ b, Message^% msg) {
-	return a * b;
+	Scalar^ s = a * b;
+	if (s == nullptr) {
+		msg = gcnew Message(Message::State::ERROR, "The Vectors with different ranks cannot perform dot product");
+	}
+
+	return s;
 }
 
 MathObject^ MultiplicationOperator::M_M(Matrix^ a, Matrix^ b, Message^% msg) {

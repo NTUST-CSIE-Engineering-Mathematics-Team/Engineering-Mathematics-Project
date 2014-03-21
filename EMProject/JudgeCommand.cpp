@@ -6,17 +6,17 @@
 using namespace em::intrprt::cmd;
 using em::math::MathObjSet;
 
-JudgeCommand::JudgeCommand() : Command(KeywordCollection::JUDGE_CMD, "E") {
+JudgeCommand::JudgeCommand() : Command(KeywordCollection::JUDGE_CMD, 'E') {
 }
 
 
 JudgeCommand::~JudgeCommand () {
 }
 
-Message^ JudgeCommand::performCommand(array<String^>^ args, int typeIndex, Interpreter^ iptr) {
+Message^ JudgeCommand::performCommand(String^ arg, Interpreter^ iptr) {
 	MathObject^ mo;
 	Color color;
-	iptr->arithmeticEngine->execute(args[0], mo);
+	iptr->arithmeticEngine->execute(arg, mo);
 	StringBuilder^ result = gcnew StringBuilder("The operation is ");
 
 	if (mo == nullptr) {

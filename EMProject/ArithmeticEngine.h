@@ -30,11 +30,13 @@ namespace em {
 					delegate Expression^ ConcreteExpression(Match^ m, ArithmeticEngine^ engine);
 					
 					static Expression^ concreteScalarExp(Match^ m, ArithmeticEngine^ engine);
-					static Expression^ concreteMathObjExp(Match^ m, ArithmeticEngine^ engine);
+					static Expression^ concreteVarExp(Match^ m, ArithmeticEngine^ engine);
+					static Expression^ concreteVMExp(Match^ m, ArithmeticEngine^ engine);
 					static Expression^ concreteSetExp(Match^ m, ArithmeticEngine^ engine);
 					static Expression^ concreteFunction(Match^ m, ArithmeticEngine^ engine);
 					static Expression^ concreteCompoundExp(Match^ m, ArithmeticEngine^ engine);
 
+					
 				};
 
 			private:
@@ -50,7 +52,7 @@ namespace em {
 				static String^ const OPERATOR_PATTERN = "([-+*/x])";
 				static String^ const NAME_OR_FUNCTION_PATTERN = "(?:[A-Za-z_]\\w*(?:\\s*\\(" + arithmeticContentPattern(innerParentheseTag) + "\\))?)";
 				static String^ const SET_PREVIEW_PATTERN = "{" + arithmeticContentPattern(innerParentheseTag) + "}";
-				static String^ const OBJ_PREVIEW_PATTERN = "\\[" + arithmeticContentPattern(innerParentheseTag) + "\\]";
+				static String^ const VM_PREVIEW_PATTERN = "\\[(?:(?<" + innerParentheseTag + ">\\()|(?<-" + innerParentheseTag + ">\\))|[-+*/A-Za-z0-9._,|]|\\s)+\\]";
 
 				static property String^ COMPOUND_EXP_PATTERN {
 					String^ get() {
@@ -58,17 +60,17 @@ namespace em {
 						StringBuilder^ duplicate = gcnew StringBuilder();
 
 						duplicate->AppendFormat("(?:{0}\\s*", OPEN_PARENTHESE_PATTERN);
-						duplicate->AppendFormat("(-?(?({0}){1}|(?:{2}|{3}|{4})))", 
+						duplicate->AppendFormat("(-?(?({0}){1}|(?:{2}|{3}|{4}|{5})))", 
 							parentheseTag,
 							arithmeticContentPattern(innerParentheseTag),
-							UNSIGNED_DOUBLE_PATTERN, NAME_OR_FUNCTION_PATTERN,
-							//OBJ_PREVIEW_PATTERN,
+							UNSIGNED_DOUBLE_PATTERN,
+							NAME_OR_FUNCTION_PATTERN,
+							VM_PREVIEW_PATTERN,
 							SET_PREVIEW_PATTERN);
 
 						duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
 
 						full->AppendFormat("^\\s*(?:{0}(?:\\s*{1}\\s*{2})*)\\s*$", duplicate, OPERATOR_PATTERN, duplicate);
-						System::Diagnostics::Debug::WriteLine(full->ToString());
 						return full->ToString();
 					}
 				}
@@ -79,7 +81,7 @@ namespace em {
 						StringBuilder^ duplicate = gcnew StringBuilder();
 						duplicate->AppendFormat("(?:{0}\\s*", OPEN_PARENTHESE_PATTERN);
 
-						duplicate->AppendFormat("((?:(?<{0}>[(\\[{{])|(?<-{1}>[)\\]}}])|\\s|(?({2})[-+*/A-Za-z0-9._,]|[-+*/A-Za-z0-9._]))+)", innerParentheseTag, innerParentheseTag, innerParentheseTag);
+						duplicate->AppendFormat("((?:(?<{0}>[(\\[{{])|(?<-{1}>[)\\]}}])|\\s|(?({2})[-+*/A-Za-z0-9._,|]|[-+*/A-Za-z0-9._]))+)", innerParentheseTag, innerParentheseTag, innerParentheseTag);
 						duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
 
 						full->AppendFormat("^(-)?([A-Za-z_]\\w*)\\s*\\(\\s*{0}(?:\\s*,\\s*{1})*\\s*\\)$", duplicate, duplicate);
@@ -94,7 +96,7 @@ namespace em {
 						StringBuilder^ duplicate = gcnew StringBuilder();
 						duplicate->AppendFormat("(?:{0}\\s*", OPEN_PARENTHESE_PATTERN);
 
-						duplicate->AppendFormat("((?:(?<{0}>[(\\[{{])|(?<-{1}>[)\\]}}])|\\s|(?({2})[-+*/A-Za-z0-9._,]|[-+*/A-Za-z0-9._]))+)", innerParentheseTag, innerParentheseTag, innerParentheseTag);
+						duplicate->AppendFormat("((?:(?<{0}>[(\\[{{])|(?<-{1}>[)\\]}}])|\\s|(?({2})[-+*/A-Za-z0-9._,|]|[-+*/A-Za-z0-9._]))+)", innerParentheseTag, innerParentheseTag, innerParentheseTag);
 						duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
 
 						full->AppendFormat("^(-)?{{\\s*{0}(?:\\s*,\\s*{1})*\\s*}}$", duplicate, duplicate);
@@ -103,17 +105,52 @@ namespace em {
 					}
 				}
 
+				static property String^ VM_PATTERN {
+					String^ get() {
+						StringBuilder^ full = gcnew StringBuilder();
+						StringBuilder^ duplicate = gcnew StringBuilder();
+						duplicate->AppendFormat("(?:{0}\\s*", OPEN_PARENTHESE_PATTERN);
+
+						duplicate->AppendFormat("((?:(?<{0}>\\()|(?<-{1}>\\))|[-+*/A-Za-z0-9._,]|\\s)+)", innerParentheseTag, innerParentheseTag, innerParentheseTag);
+						duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
+
+						full->AppendFormat("^(-)?\\[\\s*{0}(?:\\s*\\|\\s*{1})*\\s*\\]$", duplicate, duplicate);
+
+						System::Diagnostics::Debug::WriteLine(full->ToString());
+						return full->ToString();
+					}
+				}
+
+				static property String^ VM_ASSIST_PATTERN {
+					String^ get() {
+						StringBuilder^ full = gcnew StringBuilder();
+						StringBuilder^ duplicate = gcnew StringBuilder();
+						duplicate->AppendFormat("(?:{0}\\s*", OPEN_PARENTHESE_PATTERN);
+
+						duplicate->AppendFormat("((?:(?<{0}>\\()|(?<-{1}>\\))|\\s|(?({2})[-+*/A-Za-z0-9._,]|[-+*/A-Za-z0-9._]))+)", innerParentheseTag, innerParentheseTag, innerParentheseTag);
+						duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
+
+						full->AppendFormat("^\\s*{0}(?:\\s*,\\s*{1})*\\s*$", duplicate, duplicate);
+
+						System::Diagnostics::Debug::WriteLine(full->ToString());
+						return full->ToString();
+					}
+				}
+
 				static Regex^ const NAME_REGEX = gcnew Regex(NAME_PATTERN, RegexOptions::Compiled);
 				static Regex^ const DOUBLE_REGEX = gcnew Regex(DOUBLE_PATTERN, RegexOptions::Compiled);
+				static Regex^ const VM_REGEX = gcnew Regex(VM_PATTERN, RegexOptions::Compiled);
 				static Regex^ const SET_REGEX = gcnew Regex(SET_PATTERN, RegexOptions::Compiled);
 				static Regex^ const FUNCTION_REGEX = gcnew Regex(FUNCTION_PATTERN, RegexOptions::Compiled);
 				static Regex^ const COMPOUND_EXP_REGEX = gcnew Regex(COMPOUND_EXP_PATTERN, RegexOptions::Compiled);
 				
+				static Regex^ const VM_ASSIST_REGEX = gcnew Regex(VM_ASSIST_PATTERN, RegexOptions::Compiled);
 
-				static array<Regex^>^ regexList = { DOUBLE_REGEX, NAME_REGEX, SET_REGEX, FUNCTION_REGEX, COMPOUND_EXP_REGEX };
+				static array<Regex^>^ regexList = { DOUBLE_REGEX, NAME_REGEX, VM_REGEX, SET_REGEX, FUNCTION_REGEX, COMPOUND_EXP_REGEX };
 				static array<ExpressionFactory::ConcreteExpression^>^ constrctorList = {
 					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteScalarExp),
-					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteMathObjExp),
+					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteVarExp),
+					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteVMExp),
 					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteSetExp),
 					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteFunction),
 					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteCompoundExp)
@@ -135,13 +172,15 @@ namespace em {
 
 				bool loadTokens(GroupCollection^ groups, LinkedList<Expression^>^% opnds, LinkedList<String^>^% optors);
 				Expression^ convertToExpression(String^ s);
+				array<Expression^>^ vmAssistDelimiter(String^ literalWithCommas);
+				array<Expression^>^ convertToExps(GroupCollection^ groups, int firstIndex);
 				Expression^ buildArithmeticTree(LinkedList<Expression^>^ opnds, LinkedList<String^>^ optors);
 				void CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<String^>^% optors,
 								  LinkedListNode<Expression^>^% rndNode, LinkedListNode<String^>^% torNode,
 								  LinkedListNode<Expression^>^% preRndNode, LinkedListNode<String^>^% preTorNode);
 				
 				static bool isParentheseBalanced(GroupCollection^ groups);
-
+				
 			};
 		}
 	}

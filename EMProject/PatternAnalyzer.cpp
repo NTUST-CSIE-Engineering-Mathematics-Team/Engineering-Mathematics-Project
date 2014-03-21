@@ -19,32 +19,32 @@ static PatternAnalyzer::PatternAnalyzer() {
 	checkTable->Add(L'C', gcnew IsType(isChar));
 	checkTable->Add(L'E', gcnew IsType(isExpression));
 	checkTable->Add(L'K', gcnew IsType(isKeyword));
+	checkTable->Add(L'P', gcnew IsType(isPair));
 }
 
 PatternAnalyzer::~PatternAnalyzer() {
 	delete this->regex;
 }
 
-int PatternAnalyzer::checkVarTypes(array<String^>^ rawArgs, array<String^>^ types) {
-	int j;
-	for (int i = 0; i < types->Length; i++) {
+bool PatternAnalyzer::checkVarType(String^ rawArg, wchar_t type) {
+	return checkTable[Char::ToUpper(type)](rawArg);
+}
+bool PatternAnalyzer::isPair(String^ arg) {
+	String^ emptyS;
+	int emptyI;
+	return isPair(arg, emptyS, emptyI);
+}
 
-		if (types[i]->Length != rawArgs->Length) {
-			continue;
-		}
-		
-		for (j = 0; j < types[i]->Length; j++) {
-			if (!checkTable[Char::ToUpper(types[i][j])](rawArgs[j])) {
-				break;
-			}
-		}
-
-		if (j == rawArgs->Length) {
-			return i;
-		}
+bool PatternAnalyzer::isPair(String^ arg, String^% key, int% value) {
+	Match^ m = pairPattern->Match(arg);
+	if (!m->Success) {
+		return false;
 	}
 
-	return -1;
+	key = m->Groups[1]->Value;
+	isInteger(m->Groups[2]->Value, value);
+
+	return true;
 }
 
 bool PatternAnalyzer::isName(String^ arg) {

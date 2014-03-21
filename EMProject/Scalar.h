@@ -38,7 +38,7 @@ namespace em {
 			virtual Scalar^ operator+(Scalar^ s);
 			virtual Scalar^ operator*(Scalar^ s);
 			virtual Scalar^ operator/(Scalar^ s);
-
+			
 			virtual Scalar^ overrideAssign(Scalar^ scl);
 			
 			virtual operator double();

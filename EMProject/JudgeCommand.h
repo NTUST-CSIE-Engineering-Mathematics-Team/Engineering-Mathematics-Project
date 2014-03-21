@@ -10,7 +10,7 @@ namespace em {
 				JudgeCommand();
 				virtual ~JudgeCommand();
 
-				virtual Message^ performCommand(array<String^>^ args, int typeIndex, Interpreter^ iptr) override;
+				virtual Message^ performCommand(String^ arg, Interpreter^ iptr) override;
 			};
 
 		}

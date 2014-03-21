@@ -126,6 +126,7 @@
     <ClCompile Include="ShowStorageCommand.cpp" />
     <ClCompile Include="VariableTable.cpp" />
     <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="VMConstructExp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="All_Commands.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="ShowStorageCommand.h" />
     <ClInclude Include="VariableTable.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="VMConstructExp.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">

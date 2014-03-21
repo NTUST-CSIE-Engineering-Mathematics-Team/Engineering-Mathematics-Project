@@ -32,11 +32,11 @@ namespace em {
 			PatternTable^ pTable;
 			VariableTable^ proxyVTable;
 			ArithmeticEngine^ engine;
-
+			int beenIntrprtedLineCount;
 		public:
 			virtual ~Interpreter();
 
-			Message^ interpret(String^ line);
+			Message^ interpret(String^ line, int% beenIntrprtedLineCount);
 			void releaseNextLine();
 			void needNextLine(PatternAnalyzer^ analyzer);
 

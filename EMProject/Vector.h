@@ -72,12 +72,13 @@ namespace em {
 			virtual Scalar^ operator*(Vector^ v);
 			virtual Vector^ operator/(Scalar^ s);
 			virtual Vector^ cross(Vector^ v);
-			virtual Scalar^ projection(Vector^ v);
-
+			virtual Vector^ projection(Vector^ v);
+			
 			static bool isSameRank(Vector^ a, Vector^ b);
 			static bool vectorCast(MathObject^ mo, Vector^% vec);
 			static int getWiderRank(Vector^ a, Vector^ b);
 			static void widerConvert(Vector^% a, Vector^% b);
+			
 		};
 	}
 	

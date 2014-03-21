@@ -7,14 +7,18 @@ static Interpreter::Interpreter() {
 Interpreter::Interpreter(array<PatternAnalyzer^>^ patternList) {
 
 	this->needNext = nullptr;
+	this->beenIntrprtedLineCount = 0;
 	this->fullLine = gcnew StringBuilder(50);
 	this->pTable = gcnew PatternTable(patternList);
 	this->proxyVTable = gcnew VariableTableProxy();
 	this->engine = gcnew ArithmeticEngine(this->variableTable);
 }
 
-Message^ Interpreter::interpret(String^ line) {
+Message^ Interpreter::interpret(String^ line, int% beenIntrprtedLineCount) {
+
 	line = line->Trim();
+	beenIntrprtedLineCount = this->beenIntrprtedLineCount;
+	this->beenIntrprtedLineCount = 0;
 	Match^ result = this->commentPattern->bindingPattern->Match(line);
 	if (result->Success) {
 		return this->commentPattern->analyze(result, this);
@@ -29,6 +33,7 @@ Message^ Interpreter::interpret(String^ line) {
 
 		if (line->EndsWith("\\")) {
 			fullLine->Append(line->Substring(0, line->Length - 1));
+			this->beenIntrprtedLineCount = beenIntrprtedLineCount + 1;
 			return Message::PASS_NO_CONTENT_MSG;
 		} else {
 			fullLine->Append(line);

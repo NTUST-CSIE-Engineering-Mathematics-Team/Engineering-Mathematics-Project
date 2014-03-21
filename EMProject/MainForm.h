@@ -23,7 +23,9 @@ namespace em {
 	public:
 		MainForm(void) {
 			InitializeComponent();
-
+			shortcutTable = gcnew Dictionary<Keys, Shortcut^>();
+			shortcutTable->Add(Keys::R, gcnew Shortcut(this, &MainForm::run));
+			shortcutTable->Add(Keys::S, gcnew Shortcut(this, &MainForm::save));
 			this->ofInterpreter = InterpreterFactory::createInterpreter(InterpreterFactory::InterpreterType::OBJECT_FILE);
 			this->rInterpreter = InterpreterFactory::createInterpreter(InterpreterFactory::InterpreterType::RUNTIME);
 		}
@@ -69,7 +71,12 @@ namespace em {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
+
+		delegate void Shortcut();
 		Interpreter^ rInterpreter;
+		Interpreter^ ofInterpreter;
+		Dictionary<Keys, Shortcut^>^ shortcutTable;
+
 	private: System::Windows::Forms::ToolStripMenuItem^  openCodeToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  loadObjectToolStripMenuItem;
 
@@ -81,7 +88,7 @@ namespace em {
 
 	private: System::Windows::Forms::ToolStripMenuItem^  saveOutputToolStripMenuItem1;
 	private: System::Windows::Forms::SaveFileDialog^  saveOutputFileDialog;
-			 Interpreter^ ofInterpreter;
+			 
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -169,6 +176,7 @@ namespace em {
 			this->inputTextBox->TabIndex = 0;
 			this->inputTextBox->Text = L"#Write your instructions here";
 			this->inputTextBox->WordWrap = false;
+			this->inputTextBox->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::inputTextBox_KeyDown);
 			// 
 			// menu
 			// 
@@ -199,7 +207,7 @@ namespace em {
 					this->loadObjectToolStripMenuItem
 			});
 			this->openGroupFileToolStripMenuItem->Name = L"openGroupFileToolStripMenuItem";
-			this->openGroupFileToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->openGroupFileToolStripMenuItem->Size = System::Drawing::Size(103, 22);
 			this->openGroupFileToolStripMenuItem->Text = L"Open";
 			// 
 			// openCodeToolStripMenuItem
@@ -223,7 +231,7 @@ namespace em {
 					this->saveAsToolStripMenuItem, this->saveOutputToolStripMenuItem1
 			});
 			this->saveGroupFileToolStripMenuItem->Name = L"saveGroupFileToolStripMenuItem";
-			this->saveGroupFileToolStripMenuItem->Size = System::Drawing::Size(152, 22);
+			this->saveGroupFileToolStripMenuItem->Size = System::Drawing::Size(103, 22);
 			this->saveGroupFileToolStripMenuItem->Text = L"Save";
 			// 
 			// saveCodeToolStripMenuItem
@@ -315,7 +323,7 @@ namespace em {
 
 			reader->Close();
 			this->saveCodeToolStripMenuItem->Enabled = true;
-			this->outputTextBox->AppendText("Click \"Run\" to execute the instructions.");
+			this->outputTextBox->AppendText("Click \"Run\" or \"Ctrl + R\" to execute the instructions.");
 		}
 
 		private: System::Void openObjectFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
@@ -329,6 +337,7 @@ namespace em {
 
 		private: System::Void openCodeToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			this->openCodeFileDialog->ShowDialog();
+			this->saveCodeFileDialog->FileName = this->openCodeFileDialog->FileName;
 		}
 
 		private: System::Void loadObjectToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -336,7 +345,7 @@ namespace em {
 		}
 
 		private: System::Void saveCodeToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			writeFile(gcnew StreamWriter(this->openCodeFileDialog->FileName), gcnew StringReader(this->inputTextBox->Text));
+			writeFile(gcnew StreamWriter(this->saveCodeFileDialog->OpenFile()), gcnew StringReader(this->inputTextBox->Text));
 		}
 
 		private: System::Void saveAsToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -349,7 +358,7 @@ namespace em {
 
 		private: System::Void saveCodeFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
 			writeFile(gcnew StreamWriter(this->saveCodeFileDialog->OpenFile()), gcnew StringReader(this->inputTextBox->Text));
-
+			this->saveCodeToolStripMenuItem->Enabled = true;
 		}
 
 		private: System::Void saveOutputFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
@@ -357,9 +366,7 @@ namespace em {
 		}
 
 		private: System::Void runToolStripMenuItem_Click_1(System::Object^  sender, System::EventArgs^  e) {
-			TextReader^ reader = gcnew StringReader(this->inputTextBox->Text);
-			this->outputTextBox->Clear();
-			startInterpret(rInterpreter, reader, true);
+			this->run();
 		}
 
 		private: System::Void setTestToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -391,7 +398,7 @@ namespace em {
 		private: void startInterpret(Interpreter^ interpreter, TextReader^ reader, bool selectError) {
 			Message^ result;
 			int lineIndex = -1;
-			
+			int beenIntrprtedLineCount;
 
 			for (String^ line = reader->ReadLine(); line != nullptr; line = reader->ReadLine()) {
 				lineIndex++;
@@ -399,13 +406,13 @@ namespace em {
 					continue;
 				}
 
-				result = interpreter->interpret(line);
+				result = interpreter->interpret(line, beenIntrprtedLineCount);
 
 				if (result->msgState == Message::State::PASS) {
 					handlePass(result);
 					
 				} else if (result->msgState == Message::State::ERROR) {
-					handleError(result, lineIndex, selectError);
+					handleError(result, lineIndex, beenIntrprtedLineCount, selectError);
 					break;
 				}
 
@@ -425,21 +432,48 @@ namespace em {
 			delete msg;
 		}
 
-		private: void handleError(Message^ msg, int lineIndex, bool selectError) {
+		private: void handleError(Message^ msg, int lineIndex, int beenIntrprtedLineCount, bool selectError) {
+			lineIndex ++;
 			this->outputTextBox->SelectionColor = Color::Red;
-			this->outputTextBox->AppendText("Error occurs at line " + (lineIndex + 1) + ":\n\t");
+			this->outputTextBox->AppendText("Error occurs at line " + (beenIntrprtedLineCount > 0 ? ((lineIndex - beenIntrprtedLineCount) + " ~ " + lineIndex) : Convert::ToString(lineIndex)) + ":\n\t");
 			this->outputTextBox->AppendText(msg);
 			this->outputTextBox->SelectionColor = Color::Black;
+			lineIndex--;
 			if (selectError) {
 				array<String^>^ lines = this->inputTextBox->Lines;
-				this->inputTextBox->Select(this->inputTextBox->GetFirstCharIndexFromLine(lineIndex), lines[lineIndex]->Length);
+				int start = this->inputTextBox->GetFirstCharIndexFromLine(lineIndex - beenIntrprtedLineCount);
+				int length = this->inputTextBox->GetFirstCharIndexFromLine(lineIndex) + lines[lineIndex]->Length - start;
+				this->inputTextBox->Select(start, length);
 			}
+
 			delete msg;
 		}
 		
 	
 	
 
+	
+		private: System::Void inputTextBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+			if (e->Control && shortcutTable->ContainsKey(e->KeyCode)) {
+				shortcutTable[e->KeyCode]();
+				e->SuppressKeyPress = true;
+			} 
+
+		}
+
+		private: void run() {
+			TextReader^ reader = gcnew StringReader(this->inputTextBox->Text);
+			this->outputTextBox->Clear();
+			startInterpret(rInterpreter, reader, true);
+		}
+
+		private: void save() {
+			if (this->saveCodeToolStripMenuItem->Enabled) {
+				writeFile(gcnew StreamWriter(this->saveCodeFileDialog->FileName), gcnew StringReader(this->inputTextBox->Text));
+			} else {
+				this->saveCodeFileDialog->ShowDialog();
+			}
+		}
 	};
 
 		

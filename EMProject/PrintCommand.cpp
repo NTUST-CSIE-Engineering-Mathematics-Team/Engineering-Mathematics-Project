@@ -7,24 +7,24 @@ using namespace em::intrprt::cmd;
 using namespace em::math;
 
 
-PrintCommand::PrintCommand() : Command(KeywordCollection::PRINT_CMD, "E") {
+PrintCommand::PrintCommand() : Command(KeywordCollection::PRINT_CMD, 'E') {
 }
 
 PrintCommand::~PrintCommand() {
 }
 
-Message^ PrintCommand::performCommand(array<String^>^ args, int typeIndex, Interpreter^ iptr) {
-	String^ header = "";
+Message^ PrintCommand::performCommand(String^ arg, Interpreter^ iptr) {
+	String^ header = nullptr;
 	StringBuilder^ sb;
 	MathObject^ mo;
 
-		Message^ msg = iptr->arithmeticEngine->execute(args[0], mo);
+		Message^ msg = iptr->arithmeticEngine->execute(arg, mo);
 		if (mo == nullptr) {
 			return msg;
 		}
 
-		if (iptr->variableTable->contains(args[0])) {
-			header = args[0];
+		if (iptr->variableTable->contains(arg)) {
+			header = arg;
 		}
 
 	sb = buildHeader(mo, header);

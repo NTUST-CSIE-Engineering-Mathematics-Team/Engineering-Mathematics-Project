@@ -19,23 +19,23 @@ namespace em {
 					}
 				}
 
-				property array<String^>^ argTypes {
-					array<String^>^  get() {
-						return this->argTs;
+				property wchar_t argType {
+					wchar_t  get() {
+						return this->argT;
 					}
 				}
 
 			private:
 				String^ cmdLiteral;
-				array<String^>^ argTs;
+				wchar_t argT;
 		
 			public:
 				virtual ~Command();
 
-				virtual Message^ performCommand(array<String^>^ args, int typeIndex, Interpreter^ iptr) abstract;
+				virtual Message^ performCommand(String^ arg, Interpreter^ iptr) abstract;
 				
 			protected:
-				Command(String^ cl, ...array<String^>^  argsTypes);
+				Command(String^ cl, wchar_t argType);
 
 			};
 		}
