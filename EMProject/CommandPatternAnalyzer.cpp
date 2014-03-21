@@ -49,12 +49,17 @@ Message^ CommandPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 String^ CommandPatternAnalyzer::buildInitPattern() {
 	StringBuilder^ sb = gcnew StringBuilder();
 
+	//sb->AppendFormat("^\\s*(\\w+)(?:\\s+({0}))*$", ArithmeticEngine::arithmeticContentPattern("i"));
+
+						
+					 
+
 	sb->AppendFormat("^\\s*(\\w+)(?:\\s+{0}((?({1}){2}|{3})){4})*$",
-	 				 ArithmeticEngine::OPEN_PARENTHESE_PATTERN,
-					 ArithmeticEngine::parentheseTag,
-					 ArithmeticEngine::arithmeticContentPattern("i"),
-					 NAME_OR_VALUE_PATTERN,
-					 ArithmeticEngine::CLOSE_PARENTHESE_PATTERN);
+		ArithmeticEngine::OPEN_PARENTHESE_PATTERN,
+		ArithmeticEngine::parentheseTag,
+		ArithmeticEngine::arithmeticContentPattern("i"),
+		"(?:(?<i>[({])|(?<-i>[)}])|[-+*/A-Za-z0-9._,])+",
+		ArithmeticEngine::CLOSE_PARENTHESE_PATTERN); 
 
 	return sb->ToString();
 }

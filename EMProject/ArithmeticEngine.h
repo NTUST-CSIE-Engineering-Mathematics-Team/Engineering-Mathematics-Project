@@ -50,6 +50,7 @@ namespace em {
 				static String^ const OPERATOR_PATTERN = "([-+*/x])";
 				static String^ const NAME_OR_FUNCTION_PATTERN = "(?:[A-Za-z_]\\w*(?:\\s*\\(" + arithmeticContentPattern(innerParentheseTag) + "\\))?)";
 				static String^ const SET_PREVIEW_PATTERN = "{" + arithmeticContentPattern(innerParentheseTag) + "}";
+				static String^ const OBJ_PREVIEW_PATTERN = "[" + arithmeticContentPattern(innerParentheseTag) + "]";
 
 				static property String^ COMPOUND_EXP_PATTERN {
 					String^ get() {
@@ -57,7 +58,13 @@ namespace em {
 						StringBuilder^ duplicate = gcnew StringBuilder();
 
 						duplicate->AppendFormat("(?:{0}\\s*", OPEN_PARENTHESE_PATTERN);
-						duplicate->AppendFormat("(-?(?({0}){1}|(?:{2}|{3}|{4})))", parentheseTag, arithmeticContentPattern(innerParentheseTag), UNSIGNED_DOUBLE_PATTERN, NAME_OR_FUNCTION_PATTERN, SET_PREVIEW_PATTERN);
+						duplicate->AppendFormat("(-?(?({0}){1}|(?:{2}|{3}|{4}|{5})))", 
+							parentheseTag,
+							arithmeticContentPattern(innerParentheseTag),
+							UNSIGNED_DOUBLE_PATTERN, NAME_OR_FUNCTION_PATTERN,
+							OBJ_PREVIEW_PATTERN,
+							SET_PREVIEW_PATTERN);
+
 						duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
 
 						full->AppendFormat("^\\s*(?:{0}(?:\\s*{1}\\s*{2})*)\\s*$", duplicate, OPERATOR_PATTERN, duplicate);
@@ -72,7 +79,7 @@ namespace em {
 						StringBuilder^ duplicate = gcnew StringBuilder();
 						duplicate->AppendFormat("(?:{0}\\s*", OPEN_PARENTHESE_PATTERN);
 
-						duplicate->AppendFormat("((?:(?<{0}>[({{])|(?<-{1}>[)}}])|\\s|(?({2})[-+*/A-Za-z0-9._,]|[-+*/A-Za-z0-9._]))+)", innerParentheseTag, innerParentheseTag, innerParentheseTag);
+						duplicate->AppendFormat("((?:(?<{0}>[(\\[{{])|(?<-{1}>[)\\]}}])|\\s|(?({2})[-+*/A-Za-z0-9._,]|[-+*/A-Za-z0-9._]))+)", innerParentheseTag, innerParentheseTag, innerParentheseTag);
 						duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
 
 						full->AppendFormat("^(-)?([A-Za-z_]\\w*)\\s*\\(\\s*{0}(?:\\s*,\\s*{1})*\\s*\\)$", duplicate, duplicate);
@@ -87,10 +94,10 @@ namespace em {
 						StringBuilder^ duplicate = gcnew StringBuilder();
 						duplicate->AppendFormat("(?:{0}\\s*", OPEN_PARENTHESE_PATTERN);
 
-						duplicate->AppendFormat("((?:(?<{0}>[({{])|(?<-{1}>[)}}])|\\s|(?({2})[-+*/A-Za-z0-9._,]|[-+*/A-Za-z0-9._]))+)", innerParentheseTag, innerParentheseTag, innerParentheseTag);
+						duplicate->AppendFormat("((?:(?<{0}>[(\\[{{])|(?<-{1}>[)\\]}}])|\\s|(?({2})[-+*/A-Za-z0-9._,]|[-+*/A-Za-z0-9._]))+)", innerParentheseTag, innerParentheseTag, innerParentheseTag);
 						duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
 
-						full->AppendFormat("^(-)?{{\\s*{0}(?:\\s*,\\s*{1})*\\s*}}$", duplicate, duplicate);
+						full->AppendFormat("^(-)?[\\s*{0}(?:\\s*,\\s*{1})*\\s*]$", duplicate, duplicate);
 
 						return full->ToString();
 					}
