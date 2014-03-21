@@ -29,6 +29,7 @@ Message^ Interpreter::interpret(String^ line) {
 
 		if (line->EndsWith("\\")) {
 			fullLine->Append(line->Substring(0, line->Length - 1));
+			return Message::PASS_NO_CONTENT_MSG;
 		} else {
 			fullLine->Append(line);
 			PatternAnalyzer^ analyzer = this->pTable->matchPattern(fullLine->ToString(), result);
