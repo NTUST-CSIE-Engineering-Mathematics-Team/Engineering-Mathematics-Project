@@ -7,7 +7,6 @@ static Interpreter::Interpreter() {
 Interpreter::Interpreter(array<PatternAnalyzer^>^ patternList) {
 
 	this->needNext = nullptr;
-	this->fullLine = gcnew StringBuilder(50);
 	this->pTable = gcnew PatternTable(patternList);
 	this->proxyVTable = gcnew VariableTableProxy();
 	this->engine = gcnew ArithmeticEngine(this->variableTable);
@@ -26,16 +25,9 @@ Message^ Interpreter::interpret(String^ line) {
 			return this->needNext->analyze(this->needNext->bindingPattern->Match(line), this);
 		}
 	} else {
-
-		if (line->EndsWith("\\")) {
-			fullLine->Append(line->Substring(0, line->Length - 1));
-		} else {
-			fullLine->Append(line);
-			PatternAnalyzer^ analyzer = this->pTable->matchPattern(fullLine->ToString(), result);
-			fullLine->Clear();
-			if (analyzer != nullptr) {
-				return analyzer->analyze(result, this);
-			}
+		PatternAnalyzer^ analyzer = this->pTable->matchPattern(line, result);
+		if (analyzer != nullptr) {
+			return analyzer->analyze(result, this);
 		}
 	}
 

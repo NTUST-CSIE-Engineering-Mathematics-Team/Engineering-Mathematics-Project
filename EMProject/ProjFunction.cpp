@@ -1,7 +1,7 @@
 #include "ProjFunction.h"
 
 using namespace em::math::engine::expression::functions;
-ProjFunction::ProjFunction(bool negative, array<Expression^>^ exps) : Function(negative, exps, "proj", "V_V") {
+ProjFunction::ProjFunction(bool negative, array<Expression^>^ exps) : Function(negative, exps, "proj", "VV") {
 }
 
 
