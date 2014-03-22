@@ -13,9 +13,9 @@ bool KeywordCollection::contains(String^ keywords) {
 }
 
 static KeywordCollection::KeywordCollection() {
-	keywordsSet->Add(MATRIX);
-	keywordsSet->Add(VECTOR);
-	keywordsSet->Add(SCALAR);
+	keywordsSet->Add(MATRICES);
+	keywordsSet->Add(VECTORS);
+	keywordsSet->Add(SCALARS);
 	keywordsSet->Add(ALL);
 	keywordsSet->Add(SETTINGS_CMD);
 	keywordsSet->Add(PRINT_CMD);

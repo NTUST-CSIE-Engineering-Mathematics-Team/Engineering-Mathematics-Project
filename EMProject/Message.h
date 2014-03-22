@@ -70,7 +70,7 @@ namespace em {
 
 			static Message^ Message::varNotFoundMsg(String^ var);
 			static Message^ Message::varAlreadyExistMsg(String^ var);
-
+			static Message^ useKeywordAsNameError(String^ var);
 		};
 	}
 }

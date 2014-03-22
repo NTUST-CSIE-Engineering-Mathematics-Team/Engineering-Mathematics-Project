@@ -24,10 +24,12 @@ String ^ Message::ToString() {
 	return this->content;
 }
 
+Message^ Message::useKeywordAsNameError(String^ var) {
+	return gcnew Message(Message::State::ERROR, "Cannot use the keyword \"" + var + "\" as a variable name");
+
+}
+
 Message^ Message::varNotFoundMsg(String^ var) {
-	if (KeywordCollection::contains(var)) {
-		return gcnew Message(Message::State::ERROR, "Cannot use the keyword \"" + var + "\" as a variable name");
-	}
 
 	return gcnew Message(Message::State::ERROR, "Cannot find the variable \"" + var + "\"");
 }

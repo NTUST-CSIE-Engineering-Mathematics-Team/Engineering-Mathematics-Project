@@ -112,8 +112,7 @@
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MappingTable.cpp" />
     <ClCompile Include="MultiplicationOperator.cpp" />
-    <ClCompile Include="MagFunction.cpp" />
-    <ClCompile Include="ProjFunction.cpp" />
+    <ClCompile Include="VectorBasicFunctions.cpp" />
     <ClCompile Include="RegistrationArea.cpp" />
     <ClCompile Include="SubtractionOperator.cpp" />
     <ClCompile Include="OperatorFactory.cpp" />
@@ -124,6 +123,7 @@
     <ClCompile Include="Scalar.cpp" />
     <ClCompile Include="SettingsCommand.cpp" />
     <ClCompile Include="ShowStorageCommand.cpp" />
+    <ClCompile Include="TrigonometricFunctions.cpp" />
     <ClCompile Include="VariableTable.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="VMConstructExp.cpp" />
@@ -156,7 +156,7 @@
     <ClInclude Include="InterpreterFactory.h" />
     <ClInclude Include="JudgeCommand.h" />
     <ClInclude Include="KeywordCollection.h" />
-    <ClInclude Include="MagFunction.h" />
+    <ClInclude Include="VectorBasicFunctions.h" />
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -170,7 +170,6 @@
     <ClInclude Include="Message.h" />
     <ClInclude Include="MappingTable.h" />
     <ClInclude Include="MultiplicationOperator.h" />
-    <ClInclude Include="ProjFunction.h" />
     <ClInclude Include="RegistrationArea.h" />
     <ClInclude Include="SubtractionOperator.h" />
     <ClInclude Include="OperatorFactory.h" />
@@ -181,6 +180,7 @@
     <ClInclude Include="Scalar.h" />
     <ClInclude Include="SettingsCommand.h" />
     <ClInclude Include="ShowStorageCommand.h" />
+    <ClInclude Include="TrigonometricFunctions.h" />
     <ClInclude Include="VariableTable.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="VMConstructExp.h" />

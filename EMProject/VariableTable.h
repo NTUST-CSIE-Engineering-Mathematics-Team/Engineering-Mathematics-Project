@@ -1,40 +1,64 @@
 #pragma once
 #include "MappingTable.h"
-#include "MathObject.h"
+#include "All_Math.h"
+#include "KeywordCollection.h"
 
 namespace em {
 	namespace intrprt {
 
-		using em::math::MathObject;
+		using namespace em::math;
 		using System::String;
 		using System::Text::StringBuilder;
+		using System::Collections::Generic::KeyValuePair;
 
-		ref class VariableTable : public MappingTable<String^, MathObject^> {
+		ref class VariableTable : public MappingTable<String^, MathObject^>, System::Collections::Generic::IEnumerable<KeyValuePair<String^, MathObject^>> {
 		public:
 			virtual property MathObject^ default[String^] {
 				virtual MathObject^ get(String^ key) override {
+					if (stgSetCreators->ContainsKey(key)) {
+						return stgSetCreators[key](this);
+					}
+
 					return MappingTable::default[key];
 				}
-
 			}
 
 		private:
+			delegate MathObjSet^ CreateStorageSet(VariableTable^ vTable);
+
 			static StringBuilder^ lastGeneratedName;
+			static Dictionary<String^, CreateStorageSet^>^ stgSetCreators;
 
 		public:
 			VariableTable();
 			virtual ~VariableTable();
 
 			virtual bool addVariable(String^ name, MathObject^ mo);
-			virtual String^  addVariable(MathObject^ mo) sealed;
+			virtual String^ addVariable(MathObject^ mo) sealed;
 			virtual bool deleteVariable(String^ name);
+			virtual bool contains(String^ name) override;
 
 			virtual void load(VariableTable^ vTable);
 			virtual void unload(VariableTable^ vTable);
 			virtual void clear();
-			virtual Dictionary<String^, MathObject^>::Enumerator getEnumerator();
+		
+			virtual System::Collections::Generic::IEnumerator<KeyValuePair<String^, MathObject^>>^ GetEnumerator();
+
 		private:
+			static VariableTable();
 			String^ generateNewVariableName();
+
+			template<typename M>
+			static MathObjSet^ createStgSet(VariableTable^ vTable) {
+				MathObjSet^ set = gcnew MathObjGenericSet<M^>(M::ID);
+				for each(KeyValuePair<String^, MathObject^> pair in vTable) {
+					set->add(pair.Value);
+				}
+
+				return set;
+			}
+
+			virtual System::Collections::IEnumerator^ GetNGEnumerator() sealed = System::Collections::IEnumerable::GetEnumerator;
 		};
 	}
 }

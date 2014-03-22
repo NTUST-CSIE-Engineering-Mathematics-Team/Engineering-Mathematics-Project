@@ -22,6 +22,10 @@ Message^ AssignmentPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 	VariableTable^ vTable = iptr->variableTable;
 	String^ lObjName = result->Groups[1]->Value;
 
+	if (isKeyword(lObjName)) {
+		return Message::useKeywordAsNameError(lObjName);
+	}
+
 	MathObject^ mo;
 	msg = iptr->arithmeticEngine->execute(result->Groups[2]->Value, mo);
 

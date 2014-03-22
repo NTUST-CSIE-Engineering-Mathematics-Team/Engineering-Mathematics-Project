@@ -8,9 +8,10 @@ namespace em {
 
 		ref class KeywordCollection abstract {
 		public:
-			static String^ const MATRIX = "mat";
-			static String^ const VECTOR = "vec";
-			static String^ const SCALAR = "scl";
+			static String^ const MATRICES = "mats";
+			static String^ const VECTORS = "vecs";
+			static String^ const SCALARS = "scls";
+			static String^ const SETS = "sets";
 			static String^ const ALL = "all";
 			static String^ const SETTINGS_CMD = "option";
 			static String^ const PRINT_CMD = "print";

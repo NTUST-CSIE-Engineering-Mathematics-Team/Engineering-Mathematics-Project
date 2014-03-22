@@ -4,11 +4,17 @@
 namespace em {
 	namespace math {
 		ref class MathHelper abstract {
+		private:
+			
+			
+		public:
 
 
 			virtual ~MathHelper();
-		
+		private:
+			static MathHelper();
 			MathHelper();
+			
 		};
 
 	}

@@ -3,11 +3,12 @@
 
 namespace em {
 	namespace math {
-		using namespace System::Collections::Generic;
+		
 		using System::Text::StringBuilder;
+		using System::Collections::Generic::LinkedList;
 
 		generic<typename M> where M : MathObject
-		ref class MathObjGenericSet : public MathObjSet, public IEnumerable<M> {
+		ref class MathObjGenericSet : public MathObjSet, public System::Collections::Generic::IEnumerable<M> {
 
 		private:
 			LinkedList<M>^ list;
@@ -33,7 +34,7 @@ namespace em {
 			virtual String^ ToString() override;
 			virtual MathObject^ operator-() override;
 
-			virtual IEnumerator<M>^ GetEnumerator();
+			virtual System::Collections::Generic::IEnumerator<M>^ GetEnumerator();
 			virtual void add(M mo);
 			
 			static bool gSetCast(MathObject^ mo, MathObjGenericSet<M>^% set);

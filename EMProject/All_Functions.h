@@ -1,6 +1,6 @@
 #pragma once
 
 #include "Function.h"
-#include "MagFunction.h"
-#include "ProjFunction.h"
+#include "VectorBasicFunctions.h"
+#include "TrigonometricFunctions.h"
 #include "FunctionFactory.h"

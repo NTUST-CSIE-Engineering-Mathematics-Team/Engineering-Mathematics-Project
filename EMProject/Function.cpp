@@ -2,7 +2,8 @@
 
 using namespace em::math::engine::expression::functions;
 
-Function::Function(bool negative, array<Expression^>^ exps, String^ name, String^ argT) : negative(negative), args(exps), name(name), argT(argT->Split(L'_')) {
+Function::Function(bool negative, array<Expression^>^ exps, String^ name, String^ argT, FunctionPerformer^ performer)
+	: negative(negative), args(exps), name(name), argT(argT->Split(L'_')), performer(performer) {
 }
 
 
@@ -34,7 +35,11 @@ MathObject^ Function::compute(Message^% message) {
 		return nullptr;
 	}
 
-	MathObject^ mo = this->performFunction(mos);
+	MathObject^ mo = this->performer(mos, message);
+	if (mo == nullptr) {
+		return nullptr;
+	}
+
 	return this->negative? (-mo) : mo;
 	
 }

@@ -174,12 +174,6 @@
     <ClCompile Include="AssignmentPatternAnalyzer.cpp">
       <Filter>Source Files\intrprt\pattern</Filter>
     </ClCompile>
-    <ClCompile Include="MagFunction.cpp">
-      <Filter>Source Files\math\engine\expression\functions</Filter>
-    </ClCompile>
-    <ClCompile Include="ProjFunction.cpp">
-      <Filter>Source Files\math\engine\expression\functions</Filter>
-    </ClCompile>
     <ClCompile Include="RegistrationArea.cpp">
       <Filter>Source Files\intrprt</Filter>
     </ClCompile>
@@ -203,6 +197,12 @@
     </ClCompile>
     <ClCompile Include="MathObjExp.cpp">
       <Filter>Source Files\math\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="TrigonometricFunctions.cpp">
+      <Filter>Source Files\math\engine\expression\functions</Filter>
+    </ClCompile>
+    <ClCompile Include="VectorBasicFunctions.cpp">
+      <Filter>Source Files\math\engine\expression\functions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -335,12 +335,6 @@
     <ClInclude Include="AssignmentPatternAnalyzer.h">
       <Filter>Header Files\intrprt\pattern</Filter>
     </ClInclude>
-    <ClInclude Include="MagFunction.h">
-      <Filter>Header Files\math\engine\expression\functions</Filter>
-    </ClInclude>
-    <ClInclude Include="ProjFunction.h">
-      <Filter>Header Files\math\engine\expression\functions</Filter>
-    </ClInclude>
     <ClInclude Include="CommandFactory.h">
       <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
@@ -364,6 +358,12 @@
     </ClInclude>
     <ClInclude Include="MathObjExp.h">
       <Filter>Header Files\math\engine\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="TrigonometricFunctions.h">
+      <Filter>Header Files\math\engine\expression\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorBasicFunctions.h">
+      <Filter>Header Files\math\engine\expression\functions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

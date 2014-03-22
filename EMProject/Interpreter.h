@@ -10,7 +10,7 @@ namespace em {
 	namespace intrprt {
 		using namespace pattern;
 		using System::String;
-		
+
 		ref class Interpreter abstract{
 
 		public:
@@ -73,7 +73,7 @@ namespace em {
 				virtual void load(VariableTable^ vTable) override;
 				virtual void unload(VariableTable^ vTable) override;
 				virtual bool checkGet(String^ name, MathObject^% mo) override;
-				virtual Dictionary<String^, MathObject^>::Enumerator getEnumerator() override;
+				virtual System::Collections::Generic::IEnumerator<KeyValuePair<String^, MathObject^>>^ GetEnumerator() override;
 
 			};
 		};

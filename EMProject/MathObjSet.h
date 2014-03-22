@@ -13,20 +13,19 @@ namespace em {
 
 		private:
 			static Dictionary<String^, ConcreteSet^>^ const setConstructors = gcnew Dictionary<String^, ConcreteSet^>();
-		public:
-
-			static MathObjSet^ createSpecificSet(MathObject^ element);
-		private:
-			template<typename M>
-			static MathObjSet^ createSetInstance(String^ typeID) {
-				return gcnew MathObjGenericSet<M>(typeID);
-			}
+		
 		public:
 			static String^ const TAG = "Set";
-
+			static String^ const ID = "C";
 
 			property int size{
 				virtual int get() abstract;
+			}
+
+			property String^ contentID {
+				String^ get() {
+					return this->mathID[0].ToString();
+				}
 			}
 
 		public:
@@ -35,9 +34,19 @@ namespace em {
 			virtual bool add(MathObject^ mo) abstract;
 
 			static bool setCast(MathObject^ mo, MathObjSet^% set);
+			static MathObjSet^ createSpecificSet(MathObject^ element);
+
 		protected:
-			MathObjSet(String^ setID);
+			MathObjSet(String^ contentID);
+
+		private:
+			template<typename M>
+			static MathObjSet^ createSetInstance(String^ typeID) {
+				return gcnew MathObjGenericSet<M>(typeID);
+			}
 
 		};
+
+
 	}
 }

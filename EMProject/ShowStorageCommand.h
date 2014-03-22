@@ -8,13 +8,16 @@ namespace em {
 
 			ref class ShowStorageCommand : public Command {
 			private:
-				Dictionary<String^, String^>^ map;
+				static Dictionary<String^, String^>^ const map = gcnew Dictionary<String^, String^>(4);
 
 			public:
 				ShowStorageCommand();
 				virtual ~ShowStorageCommand();
 
 				virtual Message^ performCommand(String^ arg, Interpreter^ iptr) override;
+
+			private:
+				static ShowStorageCommand();
 			};
 		}
 	}

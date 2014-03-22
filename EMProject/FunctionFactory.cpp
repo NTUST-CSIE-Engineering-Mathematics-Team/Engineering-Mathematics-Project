@@ -15,5 +15,16 @@ bool FunctionFactory::hasFunction(String^ name) {
 }
 
 Function^ FunctionFactory::createFunctionInstance(String^ name, bool negative, array<Expression^>^ exps) {
-	return functionConstructors[name](negative, exps);
+	FunctionData^ data = functionConstructors[name];
+	return gcnew Function(negative, exps, data->name, data->argT, data->performer);
+}
+
+FunctionFactory::FunctionData::FunctionData(String^ name, String^ argT, Function::FunctionPerformer^ performer)
+	: name(name), argT(argT), performer(performer) {
+}
+
+FunctionFactory::FunctionData::~FunctionData() {
+	delete name;
+	delete argT;
+	delete performer;
 }

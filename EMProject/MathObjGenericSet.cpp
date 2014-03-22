@@ -5,13 +5,13 @@ using namespace em::math;
 using em::intrprt::cmd::PrintCommand;
 
 generic<typename M> where M : MathObject
-MathObjGenericSet<M>::MathObjGenericSet(String^ objID) : MathObjSet(objID + "C") {
+MathObjGenericSet<M>::MathObjGenericSet(String^ objID) : MathObjSet(objID) {
 	this->list = gcnew LinkedList<M>();
 	
 }
 
 generic<typename M> where M : MathObject
-MathObjGenericSet<M>::MathObjGenericSet(MathObjGenericSet<M>^ ms) : MathObjSet(ms->mathID) {
+MathObjGenericSet<M>::MathObjGenericSet(MathObjGenericSet<M>^ ms) : MathObjSet(ms->contentID) {
 	this->list = gcnew LinkedList<M>(ms->list);
 }
 
@@ -32,7 +32,7 @@ MathObject^ MathObjGenericSet<M>::operator-() {
 
 generic<typename M> where M : MathObject
 bool MathObjGenericSet<M>::add(MathObject^ mo) {
-	if (!String::Concat(mo->mathID, "C")->Equals(this->mathID)) {
+	if (!mo->mathID->Equals(this->contentID)) {
 		return false;
 	}
 
@@ -59,7 +59,7 @@ String^ MathObjGenericSet<M>::ToString() {
 }
 
 generic<typename M> where M : MathObject
-IEnumerator<M>^ MathObjGenericSet<M>::GetEnumerator() {
+System::Collections::Generic::IEnumerator<M>^ MathObjGenericSet<M>::GetEnumerator() {
 	return this->list->GetEnumerator();
 }
 
@@ -76,6 +76,6 @@ bool MathObjGenericSet<M>::gSetCast(MathObject^ mo, MathObjGenericSet<M>^% set) 
 
 generic<typename M> where M : MathObject
 MathObjGenericSet<M>^ MathObjGenericSet<M>::emptyClone() {
-	return gcnew MathObjGenericSet<M>(this->mathID->Substring(0, this->mathID->Length - 1));
+	return gcnew MathObjGenericSet<M>(this->contentID);
 }
 

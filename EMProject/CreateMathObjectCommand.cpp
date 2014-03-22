@@ -81,6 +81,7 @@ Message^ CreateFileMathObjectCommand::FileVectorConstructionAnalyzer::analyze(Ma
 		if (!isInteger(result->Groups[1]->Value, r)) {
 			return gcnew Message(Message::State::ERROR, wot);
 		}
+
 		this->tmpVec = gcnew Vector(r);
 		this->initRegex = this->regex;
 		this->regex = gcnew Regex(PatternAnalyzer::rowValuePattern(tmpVec->rank));
@@ -97,13 +98,13 @@ Message^ CreateFileMathObjectCommand::FileVectorConstructionAnalyzer::analyze(Ma
 
 		this->tmpVec[i++] = s;
 	}
-
-	String^ vName = iptr->variableTable->addVariable(this->tmpVec);
+	bool isScl = this->tmpVec->rank == 1;
+	String^ vName = iptr->variableTable->addVariable( isScl ? (MathObject^)gcnew Scalar(this->tmpVec[0]) : this->tmpVec);
 	this->tmpVec = nullptr;
 
 	iptr->releaseNextLine();
 	this->regex = this->initRegex;
-	return gcnew Message(Message::State::PASS, Message::STORAGE_COLOR, "Loaded vector \"" + vName + "\" into the static storage");
+	return gcnew Message(Message::State::PASS, Message::STORAGE_COLOR, "Loaded " + (isScl ? "scalar" : "vector") + " \"" + vName + "\" into the static storage");
 
 }
 

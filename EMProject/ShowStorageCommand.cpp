@@ -2,17 +2,19 @@
 #include "PrintCommand.h"
 #include "KeywordCollection.h"
 #include "Interpreter.h"
-#include "Matrix.h"
-#include "Vector.h"
-#include "Scalar.h"
+#include "All_Math.h"
 
 using namespace em::intrprt::cmd;
 using namespace em::math;
+
+static ShowStorageCommand::ShowStorageCommand() {
+	map->Add(KeywordCollection::MATRICES, Matrix::TAG);
+	map->Add(KeywordCollection::VECTORS, Vector::TAG);
+	map->Add(KeywordCollection::SCALARS, Scalar::TAG);
+	map->Add(KeywordCollection::SETS, MathObjSet::TAG);
+}
 ShowStorageCommand::ShowStorageCommand() : Command(KeywordCollection::STORAGE_CMD, 'K') {
-	this->map = gcnew Dictionary<String^, String^>(3);
-	this->map->Add(KeywordCollection::MATRIX, Matrix::TAG);
-	this->map->Add(KeywordCollection::VECTOR, Vector::TAG);
-	this->map->Add(KeywordCollection::SCALAR, Scalar::TAG);
+	
 }
 
 
@@ -21,24 +23,18 @@ ShowStorageCommand::~ShowStorageCommand() {
 
 Message^ ShowStorageCommand::performCommand(String^ arg, Interpreter^ iptr) {
 
-	Dictionary<String^, MathObject^>::Enumerator e = iptr->variableTable->getEnumerator();
-
 	bool isAll = arg->Equals(KeywordCollection::ALL);
 	StringBuilder^ sb = gcnew StringBuilder();
-	KeyValuePair<String^, MathObject^> pair;
+
 	int count = 0;
 	if (isAll) {
-		for (; e.MoveNext(); count++) {
-			pair = e.Current;
+		for each(KeyValuePair<String^, MathObject^> pair in iptr->variableTable) {
 			sb->AppendFormat("{0}\n", PrintCommand::buildHeader(pair.Value, pair.Key));
+			count++;
 		}
 	} else {
-		
-		arg = this->map[arg];
-
-		for (; e.MoveNext(); ) {
-			pair = e.Current;
-			if (arg->Equals(pair.Value->mathType)) {
+		for each(KeyValuePair<String^, MathObject^> pair in iptr->variableTable) {
+			if (map[arg]->Equals(pair.Value->mathType)) {
 				sb->AppendFormat("{0}\n", PrintCommand::buildHeader(pair.Value, pair.Key));
 				count++;
 			}

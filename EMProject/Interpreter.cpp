@@ -1,6 +1,8 @@
 #include "Interpreter.h"
 #include "RegistrationArea.h"
 using namespace em::intrprt;
+
+
 static Interpreter::Interpreter() {
 	RegistrationArea::registerHere();
 }
@@ -126,6 +128,6 @@ bool Interpreter::VariableTableProxy::checkGet(String^ name, MathObject^% mo) {
 	return this->allVTable->checkGet(name, mo);
 }
 
-Dictionary<String^, MathObject^>::Enumerator Interpreter::VariableTableProxy::getEnumerator() {
-	return this->allVTable->getEnumerator();
+System::Collections::Generic::IEnumerator<KeyValuePair<String^, MathObject^>>^ Interpreter::VariableTableProxy::GetEnumerator() {
+	return this->allVTable->GetEnumerator();
 }

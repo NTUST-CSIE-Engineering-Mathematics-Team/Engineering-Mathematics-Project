@@ -12,29 +12,31 @@ namespace em {
 					using em::math::engine::expression::Expression;
 					using System::String;
 
-					ref class Function abstract : public Expression {
-
-					private:
-						const bool negative;
-						array<Expression^>^ args;
-						String^ const name;
-						array<String^>^ const  argT;
-						
+					ref class Function : public Expression {
 					public:
+						delegate MathObject^ FunctionPerformer(array<MathObject^>^ mos, Message^% msg);
+
 						property String^ functionName {
 							String^ get() {
 								return this->name;
 							}
 						}
 
+					private:
+						const bool negative;
+						array<Expression^>^ args;
+						String^ const name;
+						array<String^>^ const  argT;
+						FunctionPerformer^ performer;
+
+					public:
+						Function(bool negative, array<Expression^>^ exps, String^ name, String^ argT, FunctionPerformer^ performer);
+
 						virtual ~Function();
 						
 						virtual MathObject^ compute(Message^% message);
 						virtual bool isArgsNumCorrect();
-					protected:
-						Function(bool negative, array<Expression^>^ exps, String^ name, String^ argT);
-
-						virtual MathObject^ performFunction(array<MathObject^>^ mos) abstract;
+						
 					};
 
 				}

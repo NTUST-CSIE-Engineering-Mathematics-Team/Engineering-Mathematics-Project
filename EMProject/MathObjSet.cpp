@@ -4,7 +4,7 @@
 using namespace em::math;
 using em::intrprt::cmd::PrintCommand;
 
-MathObjSet::MathObjSet(String^ setID) : MathObject(TAG, setID) {
+MathObjSet::MathObjSet(String^ contentID) : MathObject(TAG, contentID[contentID->Length - 1] + ID) {
 }
 
 MathObjSet::~MathObjSet() {

@@ -152,10 +152,6 @@ Expression^ ArithmeticEngine::convertToExpression(String^ s) {
 
 }
 
-bool ArithmeticEngine::isParentheseBalanced(GroupCollection^ groups) {
-	return !((groups[parentheseTag]->Success) || (groups[innerParentheseTag]->Success));
-}
-
 array<Expression^>^ ArithmeticEngine::convertToExps(GroupCollection^ groups, int firstIndex) {
 
 	CaptureCollection^ argL = groups[firstIndex + 1]->Captures;
@@ -175,6 +171,10 @@ array<Expression^>^ ArithmeticEngine::convertToExps(GroupCollection^ groups, int
 	}
 
 	return args;
+}
+
+bool ArithmeticEngine::isParentheseBalanced(GroupCollection^ groups) {
+	return !((groups[parentheseTag]->Success) || (groups[innerParentheseTag]->Success));
 }
 
 array<Expression^>^ ArithmeticEngine::vmAssistDelimiter(String^ literalWithCommas) {
