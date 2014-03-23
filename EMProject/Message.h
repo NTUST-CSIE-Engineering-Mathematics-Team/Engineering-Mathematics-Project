@@ -28,6 +28,12 @@ namespace em {
 				}
 			}
 
+			static property Message^ PARENTHESE_NOT_BALANCED_MSG {
+				Message^ get() {
+					return gcnew Message(Message::State::ERROR, "The parenthese is not balanced");
+				}
+			}
+
 			static property Message^ SYNTAX_ERROR_MSG {
 				Message^ get() {
 					return  gcnew Message(Message::State::ERROR, "wrong syntax, maybe it is not fit the format or argument type");

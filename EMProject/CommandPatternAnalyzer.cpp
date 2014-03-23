@@ -17,7 +17,7 @@ CommandPatternAnalyzer::~CommandPatternAnalyzer() {
 
 Message^ CommandPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 	if (result->Groups["i"]->Success) {
-		return gcnew Message(Message::State::ERROR, "The parenthese is not balanced");
+		return Message::PARENTHESE_NOT_BALANCED_MSG;
 	}
 
 	String^ cmdL = result->Groups[1]->Value;

@@ -15,29 +15,34 @@ ArithmeticEngine::~ArithmeticEngine() {
 }
 
 Message^ ArithmeticEngine::execute(String^ expressionString, MathObject^% mo) {
-	Message^ msg;
-	if (!this->analyze(expressionString, msg)) {
-		return msg;
+	this->errorMsg = nullptr;
+	if (!this->analyze(expressionString)) {
+		if (this->errorMsg == nullptr) {
+			return gcnew Message(Message::State::ERROR, "There is an unknown arithmetic syntax errors occur");
+		}
+		return this->errorMsg;
 	}
 	
-	if (!this->compute(mo, msg)) {
-		return msg;
+	if (!this->compute(mo)) {
+		if (this->errorMsg == nullptr) {
+			return gcnew Message(Message::State::ERROR, "There is an unknown computing errors occur");
+		}
+		return this->errorMsg;
 	}
 
 	return Message::PASS_NO_CONTENT_MSG;
 }
 
-bool ArithmeticEngine::analyze(String^ expression, Message^% msg) {
+bool ArithmeticEngine::analyze(String^ expression) {
 	this->root = this->anaylzeCompoundExpression(expression);
 	if (this->root == nullptr) {
-		msg = gcnew Message(Message::State::ERROR, "The arithmetic expression have some errors,\n\tperhaps caused by the wrong arithmetic syntax, variable name or function call");
 		return false;
 	}
 	return true;
 }
 
-bool ArithmeticEngine::compute(MathObject^% mo, Message^% message) {
-	mo = root->compute(message);
+bool ArithmeticEngine::compute(MathObject^% mo) {
+	mo = root->compute(this->errorMsg);
 
 	delete root;
 	root = nullptr;
@@ -48,11 +53,14 @@ Expression^ ArithmeticEngine::anaylzeCompoundExpression(String^ expression) {
 	 Match^ match = this->COMPOUND_EXP_REGEX->Match(expression);
 
 	 if (!match->Success) {
+
+		 this->errorMsg = gcnew Message(Message::State::ERROR, "Wrong arithmetic syntax");
 		 return nullptr;
 	 }
 
 	GroupCollection^ groups = match->Groups;
 	if (!ArithmeticEngine::isParentheseBalanced(groups)) {
+		this->errorMsg = Message::PARENTHESE_NOT_BALANCED_MSG;
 		return nullptr;
 	}
 
@@ -136,6 +144,7 @@ void ArithmeticEngine::CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<
 
 Expression^ ArithmeticEngine::convertToExpression(String^ s) {
 	if (String::IsNullOrWhiteSpace(s)) {
+		errorMsg = gcnew Message(Message::State::ERROR, "Empty operand");
 		return nullptr;
 	}
 	
@@ -147,12 +156,15 @@ Expression^ ArithmeticEngine::convertToExpression(String^ s) {
 			return constrctorList[i](match, this);
 		}
 	}
-
+	errorMsg = gcnew Message(Message::State::ERROR, "Cannot match any arithmetic sytax");
 	return nullptr;
 
 }
 
 array<Expression^>^ ArithmeticEngine::convertToExps(GroupCollection^ groups, int firstIndex) {
+	if (!groups[firstIndex]->Success) {
+		return gcnew array<Expression^>(0);
+	}
 
 	CaptureCollection^ argL = groups[firstIndex + 1]->Captures;
 	array<Expression^>^ args = gcnew array<Expression^>(1 + argL->Count);
@@ -195,6 +207,7 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteScalarExp(Match^ m, Ari
 Expression^ ArithmeticEngine::ExpressionFactory::concreteVarExp(Match^ m, ArithmeticEngine^ engine) {
 	MathObject^ mo;
 	if (!engine->vTable->checkGet(m->Groups[2]->Value, mo)) {
+		engine->errorMsg = Message::varNotFoundMsg(m->Groups[2]->Value);
 		return nullptr;
 	}
 
@@ -241,11 +254,14 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteFunction(Match^ m, Arit
 	GroupCollection^ groups = m->Groups;
 	String^ funName = groups[2]->Value;
 	if (!FunctionFactory::hasFunction(funName)) {
+		engine->errorMsg = gcnew Message(Message::State::ERROR, "Cannot find funtion \"" + funName + "\"");
 		return nullptr;
 	}
 
 	Function^ function = FunctionFactory::createFunctionInstance(funName, groups[1]->Success, engine->convertToExps(groups, 3));
+
 	if (!function->isArgsNumCorrect()) {
+		engine->errorMsg =  gcnew Message(Message::State::ERROR, "Incorrect argument numbers in functoin \"" + funName + "\".\n\tIt should be " + function->argType->Length);
 		return nullptr;
 	}
 
@@ -257,7 +273,10 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteCompoundExp(Match^ m, A
 }
 
 String^ ArithmeticEngine::arithmeticContentPattern(String^ tag) {
-	String^ s = "(?:(?<" + tag + ">[(\\[{])|(?<-" + tag + ">[)\\]}])|[-+*/A-Za-z0-9._,|]|\\s)+";
-	return s;
+	return arithmeticContentPattern2(tag, true);
 }
 
+String^ ArithmeticEngine::arithmeticContentPattern2(String^ tag, bool forceRepeat) {
+	String^ s = "(?:(?<" + tag + ">[(\\[{])|(?<-" + tag + ">[)\\]}])|[-+*/A-Za-z0-9._,|]|\\s)" + (forceRepeat ? "+" : "*");
+	return s;
+}

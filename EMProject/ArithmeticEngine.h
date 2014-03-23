@@ -42,7 +42,8 @@ namespace em {
 			private:
 				VariableTable^ const vTable;
 				Expression^ root;
-				
+				Message^ errorMsg;
+
 				static String^ const innerParentheseTag = "i";
 			
 				static String^ const NAME_PATTERN = "^(-)?([A-Za-z_]\\w*)$";
@@ -50,7 +51,7 @@ namespace em {
 				static String^ const UNSIGNED_DOUBLE_PATTERN = "(?:\\d+(?:\\.\\d+)?)";
 				
 				static String^ const OPERATOR_PATTERN = "([-+*/x])";
-				static String^ const NAME_OR_FUNCTION_PATTERN = "(?:[A-Za-z_]\\w*(?:\\s*\\(" + arithmeticContentPattern(innerParentheseTag) + "\\))?)";
+				static String^ const NAME_OR_FUNCTION_PATTERN = "(?:[A-Za-z_]\\w*(?:\\s*\\(" + arithmeticContentPattern2(innerParentheseTag, false) + "\\))?)";
 				static String^ const SET_PREVIEW_PATTERN = "{" + arithmeticContentPattern(innerParentheseTag) + "}";
 				static String^ const VM_PREVIEW_PATTERN = "\\[(?:(?<" + innerParentheseTag + ">\\()|(?<-" + innerParentheseTag + ">\\))|[-+*/A-Za-z0-9._,|]|\\s)+\\]";
 
@@ -84,7 +85,7 @@ namespace em {
 						duplicate->AppendFormat("((?:(?<{0}>[(\\[{{])|(?<-{1}>[)\\]}}])|\\s|(?({2})[-+*/A-Za-z0-9._,|]|[-+*/A-Za-z0-9._]))+)", innerParentheseTag, innerParentheseTag, innerParentheseTag);
 						duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
 
-						full->AppendFormat("^(-)?([A-Za-z_]\\w*)\\s*\\(\\s*{0}(?:\\s*,\\s*{1})*\\s*\\)$", duplicate, duplicate);
+						full->AppendFormat("^(-)?([A-Za-z_]\\w*)\\s*\\(\\s*(?:{0}(?:\\s*,\\s*{1})*)?\\s*\\)$", duplicate, duplicate);
 
 						return full->ToString();
 					}
@@ -167,8 +168,8 @@ namespace em {
 			private:
 				Expression^ anaylzeCompoundExpression(String^ expression);
 
-				bool analyze(String^ expression, Message^% msg);
-				bool compute(MathObject^% mo, Message^% message);
+				bool analyze(String^ expression);
+				bool compute(MathObject^% mo);
 
 				bool loadTokens(GroupCollection^ groups, LinkedList<Expression^>^% opnds, LinkedList<String^>^% optors);
 				Expression^ convertToExpression(String^ s);
@@ -180,7 +181,7 @@ namespace em {
 								  LinkedListNode<Expression^>^% preRndNode, LinkedListNode<String^>^% preTorNode);
 				
 				static bool isParentheseBalanced(GroupCollection^ groups);
-				
+				static String^ arithmeticContentPattern2(String^ tag, bool forceRepeat);
 			};
 		}
 	}

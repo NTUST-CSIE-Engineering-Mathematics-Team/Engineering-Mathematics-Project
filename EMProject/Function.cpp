@@ -30,10 +30,7 @@ MathObject^ Function::compute(Message^% message) {
 			return nullptr;
 		}
 	}
-	if (i != this->argT->Length) {
-		message = gcnew Message(Message::State::ERROR, "Incorrect argument numbers in functoin \"" + this->functionName + "\".\nIt should be " + argT->Length);
-		return nullptr;
-	}
+	
 
 	MathObject^ mo = this->performer(mos, message);
 	if (mo == nullptr) {

@@ -22,6 +22,11 @@ namespace em {
 							}
 						}
 
+						property array<String^>^ argType {
+							array<String^>^ get() {
+								return this->argT;
+							}
+						}
 					private:
 						const bool negative;
 						array<Expression^>^ args;
