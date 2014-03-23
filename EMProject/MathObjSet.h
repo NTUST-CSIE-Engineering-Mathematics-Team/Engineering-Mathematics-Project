@@ -35,10 +35,10 @@ namespace em {
 
 			static bool setCast(MathObject^ mo, MathObjSet^% set);
 			static MathObjSet^ createSpecificSet(MathObject^ element);
-
+			
 		protected:
 			MathObjSet(String^ contentID);
-
+			static String^ getVaildContentID(String^ contentID);
 		private:
 			template<typename M>
 			static MathObjSet^ createSetInstance(String^ typeID) {

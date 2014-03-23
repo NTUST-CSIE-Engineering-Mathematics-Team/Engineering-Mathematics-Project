@@ -54,7 +54,7 @@ namespace em {
 
 			virtual String^ ToString()override abstract;
 			virtual MathObject^ operator-() abstract;
-			
+			virtual MathObject^ overrideAssign(MathObject^ mo) abstract;
 		public:
 			MathObject(String^ type, String^  mID);
 		};

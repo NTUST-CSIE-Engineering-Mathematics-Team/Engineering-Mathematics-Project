@@ -64,6 +64,8 @@ namespace em {
 			virtual MathObject^ operator-() override;
 
 			Vector^ fitAssign(Vector^ vec);
+
+			virtual MathObject^ overrideAssign(MathObject^ mo) override;
 			Vector^ overrideAssign(Vector^ vec);
 			
 			virtual Vector^ operator-(Vector^ v);

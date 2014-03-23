@@ -21,6 +21,16 @@ Scalar^ Scalar::overrideAssign(Scalar^ scl) {
 	return this;
 }
 
+MathObject^ Scalar::overrideAssign(MathObject^ mo) {
+	Scalar^ tmp;
+	if (!scalarCast(mo, tmp)) {
+		return nullptr;
+	}
+
+	return this->overrideAssign(tmp);
+}
+
+
 Scalar::operator double() {
 	return this->value;
 }

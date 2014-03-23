@@ -35,10 +35,19 @@ Vector^ Vector::fitAssign(Vector^ vec) {
 
 
 Vector^ Vector::overrideAssign(Vector^ vec) {
-
+	delete this->value;
 	this->value = dynamic_cast<array<double>^>(vec->value->Clone());
 
 	return this;
+}
+
+MathObject^ Vector::overrideAssign(MathObject^ mo) {
+	Vector^ tmp;
+	if (!vectorCast(mo, tmp)) {
+		return nullptr;
+	}
+
+	return this->overrideAssign(tmp);
 }
 
 String^ Vector::ToString() {

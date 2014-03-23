@@ -12,7 +12,7 @@ MathObjGenericSet<M>::MathObjGenericSet(String^ objID) : MathObjSet(objID) {
 
 generic<typename M> where M : MathObject
 MathObjGenericSet<M>::MathObjGenericSet(MathObjGenericSet<M>^ ms) : MathObjSet(ms->contentID) {
-	this->list = gcnew LinkedList<M>(ms->list);
+	this->overrideAssign(ms);
 }
 
 generic<typename M> where M : MathObject
@@ -32,7 +32,7 @@ MathObject^ MathObjGenericSet<M>::operator-() {
 
 generic<typename M> where M : MathObject
 bool MathObjGenericSet<M>::add(MathObject^ mo) {
-	if (!mo->mathID->Equals(this->contentID)) {
+	if (!getVaildContentID(mo->mathID)->Equals(this->contentID)) {
 		return false;
 	}
 
@@ -43,6 +43,24 @@ bool MathObjGenericSet<M>::add(MathObject^ mo) {
 generic<typename M> where M : MathObject
 void MathObjGenericSet<M>::add(M mo) {
 	this->list->AddLast(mo);
+}
+
+generic<typename M> where M : MathObject
+MathObjGenericSet<M>^ MathObjGenericSet<M>::overrideAssign(MathObjGenericSet<M>^ mo) {
+	delete this->list;
+	this->list = gcnew LinkedList<M>(mo->list);
+
+	return this;
+}
+
+generic<typename M> where M : MathObject
+MathObject^ MathObjGenericSet<M>::overrideAssign(MathObject^ mo) {
+	MathObjGenericSet<M>^ tmp;
+	if (!gSetCast(mo, tmp)) {
+		return nullptr;
+	}
+
+	return this->overrideAssign(tmp);
 }
 
 generic<typename M> where M : MathObject

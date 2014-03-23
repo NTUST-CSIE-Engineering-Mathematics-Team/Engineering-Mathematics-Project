@@ -117,6 +117,15 @@ Matrix^ Matrix::overrideAssign(Matrix^ mat) {
 	return this;
 }
 
+MathObject^ Matrix::overrideAssign(MathObject^ mo) {
+	Matrix^ tmp;
+	if (!matrixCast(mo, tmp)) {
+		return nullptr;
+	}
+
+	return this->overrideAssign(tmp);
+}
+
 bool Matrix::matrixCast(MathObject^ mo, Matrix^% mat) {
 	mat = dynamic_cast<Matrix^>(mo);
 	return mat != nullptr;

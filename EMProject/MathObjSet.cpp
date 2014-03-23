@@ -4,7 +4,7 @@
 using namespace em::math;
 using em::intrprt::cmd::PrintCommand;
 
-MathObjSet::MathObjSet(String^ contentID) : MathObject(TAG, contentID[contentID->Length - 1] + ID) {
+MathObjSet::MathObjSet(String^ contentID) : MathObject(TAG, getVaildContentID(contentID)+ ID) {
 }
 
 MathObjSet::~MathObjSet() {
@@ -16,6 +16,9 @@ bool MathObjSet::setCast(MathObject^ mo, MathObjSet^% set) {
 	return set != nullptr;
 }
 
+String^ MathObjSet::getVaildContentID(String^ contentID) {
+	return contentID[contentID->Length - 1].ToString();
+}
 
 static MathObjSet::MathObjSet() {
 	setConstructors->Add(Scalar::TAG, gcnew ConcreteSet(createSetInstance<Scalar^>));
@@ -27,3 +30,4 @@ static MathObjSet::MathObjSet() {
 MathObjSet^ MathObjSet::createSpecificSet(MathObject^ element) {
 	return setConstructors[element->mathType](element->mathID);
 }
+

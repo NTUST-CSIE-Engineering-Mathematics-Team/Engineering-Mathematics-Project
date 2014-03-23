@@ -30,7 +30,7 @@ Message^ ArithmeticEngine::execute(String^ expressionString, MathObject^% mo) {
 bool ArithmeticEngine::analyze(String^ expression, Message^% msg) {
 	this->root = this->anaylzeCompoundExpression(expression);
 	if (this->root == nullptr) {
-		msg = gcnew Message(Message::State::ERROR, "The arithmetic expression have some errors,\n\tperhaps caused by wrong arithmetic syntax or wrong function call");
+		msg = gcnew Message(Message::State::ERROR, "The arithmetic expression have some errors,\n\tperhaps caused by the wrong arithmetic syntax, variable name or function call");
 		return false;
 	}
 	return true;
