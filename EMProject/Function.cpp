@@ -3,7 +3,7 @@
 using namespace em::math::engine::expression::functions;
 
 Function::Function(bool negative, array<Expression^>^ exps, String^ name, String^ argT, FunctionPerformer^ performer)
-	: negative(negative), args(exps), name(name), argT(argT->Split(L'_')), performer(performer) {
+	: negative(negative), args(exps), name(name), argT(parseArgTs(argT)), performer(performer) {
 }
 
 
@@ -39,4 +39,12 @@ MathObject^ Function::compute(Message^% message) {
 
 	return this->negative? (-mo) : mo;
 	
+}
+
+array<String^>^ Function::parseArgTs(String^ s) {
+	if (s == nullptr) {
+		return gcnew array<String^>(0);
+	}
+
+	return s->Split(L'_');
 }

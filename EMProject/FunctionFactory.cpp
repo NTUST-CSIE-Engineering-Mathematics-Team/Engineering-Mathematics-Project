@@ -10,6 +10,16 @@ FunctionFactory::~FunctionFactory() {
 
 }
 
+void FunctionFactory::addFunction(Function::FunctionPerformer^ performer) {
+	String^ name = performer->Method->Name;
+	if (name->Contains("$")) {
+		array<String^>^ nameAndTypes = performer->Method->Name->Split('$');
+		functionConstructors->Add(nameAndTypes[0], gcnew FunctionData(nameAndTypes[0], nameAndTypes[1], performer));
+	} else {
+		functionConstructors->Add(name, gcnew FunctionData(name, nullptr, performer));
+	}
+}
+
 bool FunctionFactory::hasFunction(String^ name) {
 	return functionConstructors->ContainsKey(name);
 }

@@ -35,4 +35,3 @@ MathObject^ VectorBasicFunctions::angle$V_V(array<MathObject^>^ mos, Message^% m
 
 	return MathHelper::radianToDegree(System::Math::Acos(cos));
 }
-

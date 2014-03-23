@@ -42,6 +42,8 @@ namespace em {
 						virtual MathObject^ compute(Message^% message);
 						virtual bool isArgsNumCorrect();
 						
+					private:
+						static array<String^>^ parseArgTs(String^ s);
 					};
 
 				}

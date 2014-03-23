@@ -27,11 +27,7 @@ namespace em {
 							
 					public:
 						
-						static void addFunction(Function::FunctionPerformer^ performer) {
-
-							array<String^>^ nameAndTypes = performer->Method->Name->Split('$');
-							functionConstructors->Add(nameAndTypes[0], gcnew FunctionData(nameAndTypes[0], nameAndTypes[1], performer));
-						}
+						static void addFunction(Function::FunctionPerformer^ performer);
 
 						static bool hasFunction(String^ name);
 						static Function^ createFunctionInstance(String^ name, bool negative, array<Expression^>^ exps);
