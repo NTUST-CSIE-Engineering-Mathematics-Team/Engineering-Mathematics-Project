@@ -24,26 +24,24 @@ namespace em {
 
 						property array<String^>^ argType {
 							array<String^>^ get() {
-								return this->argT;
+								return this->argTs;
 							}
 						}
 					private:
 						const bool negative;
 						array<Expression^>^ args;
 						String^ const name;
-						array<String^>^ const  argT;
+						array<String^>^ const  argTs;
 						FunctionPerformer^ performer;
 
 					public:
-						Function(bool negative, array<Expression^>^ exps, String^ name, String^ argT, FunctionPerformer^ performer);
+						Function(bool negative, array<Expression^>^ exps, String^ name, array<String^>^ argTs, FunctionPerformer^ performer);
 
 						virtual ~Function();
 						
 						virtual MathObject^ compute(Message^% message);
 						virtual bool isArgsNumCorrect();
-						
-					private:
-						static array<String^>^ parseArgTs(String^ s);
+					
 					};
 
 				}

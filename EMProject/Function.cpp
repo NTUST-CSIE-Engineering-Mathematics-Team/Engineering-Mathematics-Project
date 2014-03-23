@@ -2,8 +2,8 @@
 
 using namespace em::math::engine::expression::functions;
 
-Function::Function(bool negative, array<Expression^>^ exps, String^ name, String^ argT, FunctionPerformer^ performer)
-	: negative(negative), args(exps), name(name), argT(parseArgTs(argT)), performer(performer) {
+Function::Function(bool negative, array<Expression^>^ exps, String^ name, array<String^>^ argTs, FunctionPerformer^ performer)
+	: negative(negative), args(exps), name(name), argTs(argTs), performer(performer) {
 }
 
 
@@ -13,7 +13,7 @@ Function::~Function() {
 }
 
 bool Function::isArgsNumCorrect() {
-	return this->args->Length == this->argT->Length;
+	return this->args->Length == this->argTs->Length;
 }
 
 MathObject^ Function::compute(Message^% message) {
@@ -22,7 +22,7 @@ MathObject^ Function::compute(Message^% message) {
 	int i;
 	for (i = 0; i < mos->Length; i++) {
 		mos[i] = args[i]->compute(message);
-		if (mos[i] == nullptr || !mos[i]->mathID->Equals(argT[i])) {
+		if (mos[i] == nullptr || !mos[i]->mathID->Equals(argTs[i])) {
 			
 			if (message == nullptr) {
 				message = gcnew Message(Message::State::ERROR, "Incorrect argument types in functoin \"" + this->functionName + "\"");
@@ -41,10 +41,4 @@ MathObject^ Function::compute(Message^% message) {
 	
 }
 
-array<String^>^ Function::parseArgTs(String^ s) {
-	if (s == nullptr) {
-		return gcnew array<String^>(0);
-	}
 
-	return s->Split(L'_');
-}

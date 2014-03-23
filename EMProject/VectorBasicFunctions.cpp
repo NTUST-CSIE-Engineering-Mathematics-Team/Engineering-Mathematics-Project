@@ -16,10 +16,17 @@ MathObject^ VectorBasicFunctions::normlzd$V(array<MathObject^>^ mos, Message^% m
 }
 
 MathObject^ VectorBasicFunctions::proj$V_V(array<MathObject^>^ mos, Message^% msg) {
-	Vector^ v1, ^ v2;
+	Vector^ v1, ^ v2, ^v3;
 	Vector::vectorCast(mos[0], v1);
 	Vector::vectorCast(mos[1], v2);
-	return v1->projection(v2);
+
+	v3 = v1->projection(v2);
+
+	if (v3 == nullptr) {
+		msg = gcnew Message(Message::State::ERROR, "vectors with different ranks cannot perform \"proj\" function");
+	}
+
+	return v3;
 }
 
 MathObject^ VectorBasicFunctions::angle$V_V(array<MathObject^>^ mos, Message^% msg) {
@@ -34,4 +41,9 @@ MathObject^ VectorBasicFunctions::angle$V_V(array<MathObject^>^ mos, Message^% m
 	}
 
 	return MathHelper::radianToDegree(System::Math::Acos(cos));
+}
+
+MathObject^ VectorBasicFunctions::test(array<MathObject^>^ mos, Message^% msg) {
+	
+	return gcnew Scalar(MathHelper::EPSILON);
 }

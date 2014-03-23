@@ -17,6 +17,7 @@ namespace em {
 						static MathObject^ normlzd$V(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ proj$V_V(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ angle$V_V(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ test(array<MathObject^>^ mos, Message^% msg);
 					};
 				}
 			}

@@ -14,11 +14,11 @@ namespace em {
 						ref class FunctionData {
 						public:
 							String^ const name;
-							String^ const argT;
+							array<String^>^ argTs;
 							Function::FunctionPerformer^ const performer;
 
 						public:
-							FunctionData(String^ name, String^ argT, Function::FunctionPerformer^ performer);
+							FunctionData(String^ name, array<String^>^ argTs, Function::FunctionPerformer^ performer);
 							~FunctionData();
 						};
 
