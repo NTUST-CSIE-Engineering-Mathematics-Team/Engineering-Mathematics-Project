@@ -48,7 +48,7 @@ Message^ ShowStorageCommand::performCommand(String^ arg, Interpreter^ iptr) {
 			sb->AppendFormat("{0} ", arg);
 		}
 
-		sb->Append("variable");
+		sb->Append("variable in the storage");
 	} else {
 		sb->Insert(0, (isAll ? "All" : this->map[arg->ToLower()])->ToLower() + " variables in the storage:\n");
 	}

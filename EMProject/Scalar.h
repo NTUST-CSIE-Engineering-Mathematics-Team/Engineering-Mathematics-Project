@@ -41,7 +41,8 @@ namespace em {
 			
 			virtual MathObject^ overrideAssign(MathObject^ mo) override;
 			virtual Scalar^ overrideAssign(Scalar^ scl);
-			
+			virtual Scalar^ overrideAssign(double val);
+
 			virtual operator double();
 			
 			static bool scalarCast(MathObject^ mo, Scalar^% scl);

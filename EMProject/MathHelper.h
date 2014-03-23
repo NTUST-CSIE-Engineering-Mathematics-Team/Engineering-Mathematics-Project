@@ -1,20 +1,16 @@
 #pragma once
 #include "All_Math.h"
+#include <limits>
 
 namespace em {
 	namespace math {
-		ref class MathHelper abstract {
-		private:
-			
-			
-		public:
 
+		using System::Math;
+		interface class MathHelper{
+			static double EPSILON = std::numeric_limits<double>::epsilon();
 
-			virtual ~MathHelper();
-		private:
-			static MathHelper();
-			MathHelper();
-			
+			static double degreeToRadian(Scalar^ d);
+			static Scalar^ radianToDegree(double r);
 		};
 
 	}

@@ -18,17 +18,14 @@ Message^ JudgeCommand::performCommand(String^ arg, Interpreter^ iptr) {
 	Color color;
 	iptr->arithmeticEngine->execute(arg, mo);
 	StringBuilder^ result = gcnew StringBuilder("The operation is ");
-
-	if (mo == nullptr) {
+	MathObjSet^ set;
+	if (mo == nullptr || (MathObjSet::setCast(mo, set) && set->size == 0)) {
 		result->Append("NOT PASSED");
 		color = Message::JUDGE_NOT_PASS_COLOR;
+
 	} else {
-		MathObjSet^ set;
-		if (!MathObjSet::setCast(mo, set) || set->size > 0) {
-			result->AppendFormat("PASSED, the value is:\n{0}\n{1}\n", PrintCommand::buildHeader(mo), mo->ToString());
-			color = Message::JUDGE_PASS_COLOR;
-		}
-		
+		result->AppendFormat("PASSED, the value is:\n{0}\n{1}\n", PrintCommand::buildHeader(mo), mo->ToString());
+		color = Message::JUDGE_PASS_COLOR;
 	}
 
 	return gcnew Message(Message::State::PASS, color, result->ToString());

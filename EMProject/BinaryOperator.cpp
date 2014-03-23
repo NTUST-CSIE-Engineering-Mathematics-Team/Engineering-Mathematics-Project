@@ -23,7 +23,7 @@ MathObject^ BinaryOperator::compute(Message^% message) {
 	String^ types = String::Concat(moA->mathID, "_", moB->mathID);
 
 	if (!this->operationMap->ContainsKey(types)) {
-		message = gcnew Message(Message::State::ERROR, "Wrong arithmetic operation, the operands are not match to this \"" + this->symbol + "\" operation");
+		message = gcnew Message(Message::State::ERROR, "Wrong arithmetic operation, the operands are not match to this \"" + this->symbol + "\" operator");
 		return nullptr;
 	}
 	

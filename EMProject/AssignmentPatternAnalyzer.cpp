@@ -22,14 +22,15 @@ Message^ AssignmentPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 	VariableTable^ vTable = iptr->variableTable;
 	CaptureCollection^ lObjNames = result->Groups[1]->Captures;
 	
-	MathObject^ mo;
-	msg = iptr->arithmeticEngine->execute(result->Groups[2]->Value, mo);
+	MathObject^ output, ^ var;
+	msg = iptr->arithmeticEngine->execute(result->Groups[2]->Value, output);
 
 
-	if (mo != nullptr) {
+	if (output != nullptr) {
 
 		String^ lObjName;
-		
+		var = output;
+
 		for (int i = lObjNames->Count - 1; i >= 0; i--) {
 
 			lObjName = lObjNames[i]->Value;
@@ -39,13 +40,13 @@ Message^ AssignmentPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 			}
 
 			if (!vTable->contains(lObjName)) {
-				vTable->addVariable(lObjName, mo);
+				vTable->addVariable(lObjName, var);
 			} else {
-				MathObject^ v = vTable[lObjName];
-				mo = v->overrideAssign(mo);
-				if (mo == nullptr) {
+				MathObject^ lmo = vTable[lObjName];
+				var = lmo->overrideAssign(var);
+				if (var == nullptr) {
 					StringBuilder^ sb = gcnew StringBuilder();
-					sb->AppendFormat("Type error, can not assign a {0} to a {1}", mo->mathType->ToLower(), v->mathType->ToLower());
+					sb->AppendFormat("Type error, can not assign a {0} to a {1}", output->mathType->ToLower(), lmo->mathType->ToLower());
 					return gcnew Message(Message::State::ERROR, sb->ToString());
 
 				}

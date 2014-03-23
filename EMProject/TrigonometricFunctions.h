@@ -1,5 +1,5 @@
 #pragma once
-#include "Scalar.h"
+#include "All_Math.h"
 #include "Message.h"
 
 namespace em {
@@ -9,6 +9,7 @@ namespace em {
 				namespace functions {
 					using namespace em::math;
 					using em::intrprt::Message;
+					using em::math::MathHelper;
 					using System::Math;
 
 					ref class TrigonometricFunctions {

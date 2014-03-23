@@ -17,9 +17,14 @@ String^ Scalar::ToString() {
 }
 
 Scalar^ Scalar::overrideAssign(Scalar^ scl) {
-	this->value = scl->value;
+	return this->overrideAssign(scl->value);
+}
+
+Scalar^ Scalar::overrideAssign(double val) {
+	this->value = val;
 	return this;
 }
+
 
 MathObject^ Scalar::overrideAssign(MathObject^ mo) {
 	Scalar^ tmp;

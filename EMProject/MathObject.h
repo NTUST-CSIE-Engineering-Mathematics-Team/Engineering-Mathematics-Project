@@ -46,8 +46,8 @@ namespace em {
 		private:
 			String^ const mType;
 			String^ const mID;
-			static int precision = 2;
-			static int width = 7;
+			static int precision = 7;
+			static int width = 12;
 	
 		public:
 			virtual ~MathObject();
