@@ -34,7 +34,7 @@ Message^ ArithmeticEngine::execute(String^ expressionString, MathObject^% mo) {
 }
 
 bool ArithmeticEngine::analyze(String^ expression) {
-	this->root = this->anaylzeCompoundExpression(expression);
+	this->root = this->anaylzeCompoundExpMatch(this->INPUT_COMPOUND_EXP_REGEX->Match(expression));
 	if (this->root == nullptr) {
 		return false;
 	}
@@ -49,8 +49,8 @@ bool ArithmeticEngine::compute(MathObject^% mo) {
 	return mo != nullptr;
 }
 
-Expression^ ArithmeticEngine::anaylzeCompoundExpression(String^ expression) {
-	 Match^ match = this->COMPOUND_EXP_REGEX->Match(expression);
+Expression^ ArithmeticEngine::anaylzeCompoundExpMatch(Match^ match) {
+	 
 
 	 if (!match->Success) {
 
@@ -143,8 +143,9 @@ void ArithmeticEngine::CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<
 }
 
 Expression^ ArithmeticEngine::convertToExpression(String^ s) {
+	s = s->Trim();
 	if (String::IsNullOrWhiteSpace(s)) {
-		errorMsg = gcnew Message(Message::State::ERROR, "Empty operand");
+		errorMsg = gcnew Message(Message::State::ERROR, "Empty operand or argument");
 		return nullptr;
 	}
 	
@@ -156,15 +157,13 @@ Expression^ ArithmeticEngine::convertToExpression(String^ s) {
 			return constrctorList[i](match, this);
 		}
 	}
-	errorMsg = gcnew Message(Message::State::ERROR, "Cannot match any arithmetic sytax");
+	
+	errorMsg = gcnew Message(Message::State::ERROR, "Cannot match any arithmetic syntax");
 	return nullptr;
 
 }
 
 array<Expression^>^ ArithmeticEngine::convertToExps(GroupCollection^ groups, int firstIndex) {
-	if (!groups[firstIndex]->Success) {
-		return gcnew array<Expression^>(0);
-	}
 
 	CaptureCollection^ argL = groups[firstIndex + 1]->Captures;
 	array<Expression^>^ args = gcnew array<Expression^>(1 + argL->Count);
@@ -194,6 +193,7 @@ array<Expression^>^ ArithmeticEngine::vmAssistDelimiter(String^ literalWithComma
 
 	array<Expression^>^ exps;
 	if (!m->Success || (exps = this->convertToExps(m->Groups, 1)) == nullptr) {
+		this->errorMsg = gcnew Message(Message::State::ERROR, "Empty operand or argument");
 		return nullptr;
 	}
 	
@@ -258,8 +258,18 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteFunction(Match^ m, Arit
 		return nullptr;
 	}
 
-	Function^ function = FunctionFactory::createFunctionInstance(funName, groups[1]->Success, engine->convertToExps(groups, 3));
+	array<Expression^>^ exps;
+	if (groups[4]->Captures->Count == 0 && String::IsNullOrWhiteSpace(groups[3]->Value)) {
+		exps = gcnew array<Expression^>(0);
+	} else {
+		exps = engine->convertToExps(groups, 3);
+		if (exps == nullptr) {
+			return nullptr;
+		}
+		
+	}
 
+	Function^ function = FunctionFactory::createFunctionInstance(funName, groups[1]->Success, exps);
 	if (!function->isArgsNumCorrect()) {
 		engine->errorMsg =  gcnew Message(Message::State::ERROR, "Incorrect argument numbers in functoin \"" + funName + "\".\n\tIt should be " + function->argType->Length);
 		return nullptr;
@@ -269,14 +279,37 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteFunction(Match^ m, Arit
 }
 
 Expression^ ArithmeticEngine::ExpressionFactory::concreteCompoundExp(Match^ m, ArithmeticEngine^ engine) {
-	return engine->anaylzeCompoundExpression(m->Value);
+	return engine->anaylzeCompoundExpMatch(m);
+}
+
+Expression^ ArithmeticEngine::ExpressionFactory::concreteParentheseUnitExp(Match^ m, ArithmeticEngine^ engine) {
+	return engine->anaylzeCompoundExpMatch(INPUT_COMPOUND_EXP_REGEX->Match(m->Groups[1]->Value));
 }
 
 String^ ArithmeticEngine::arithmeticContentPattern(String^ tag) {
 	return arithmeticContentPattern2(tag, true);
 }
 
-String^ ArithmeticEngine::arithmeticContentPattern2(String^ tag, bool forceRepeat) {
-	String^ s = "(?:(?<" + tag + ">[(\\[{])|(?<-" + tag + ">[)\\]}])|[-+*/A-Za-z0-9._,|]|\\s)" + (forceRepeat ? "+" : "*");
+String^ ArithmeticEngine::arithmeticContentPattern2(String^ tag, bool atLeastOne) {
+	String^ s = "(?:(?<" + tag + ">[(\\[{])|(?<-" + tag + ">[)\\]}])|[-+*/A-Za-z0-9._,|]|\\s)" + (atLeastOne ? "+" : "*");
 	return s;
+}
+String^ ArithmeticEngine::buildCompundExpPattern(bool atLeastOne) {
+	StringBuilder^ full = gcnew StringBuilder();
+	StringBuilder^ duplicate = gcnew StringBuilder();
+
+	duplicate->AppendFormat("(?:{0}\\s*", OPEN_PARENTHESE_PATTERN);
+	duplicate->AppendFormat("(-?(?({0}){1}|(?:{2}|{3}|{4}|{5})))",
+		parentheseTag,
+		arithmeticContentPattern(innerParentheseTag),
+		UNSIGNED_DOUBLE_PATTERN,
+		NAME_OR_FUNCTION_PATTERN,
+		VM_PREVIEW_PATTERN,
+		SET_PREVIEW_PATTERN);
+
+	duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
+
+	full->AppendFormat("^\\s*(?:{0}(?:\\s*{1}\\s*{2}){3})\\s*$", duplicate, OPERATOR_PATTERN, duplicate, atLeastOne ? "+" : "*");
+	System::Diagnostics::Debug::WriteLine(full->ToString());
+	return full->ToString();
 }

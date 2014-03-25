@@ -235,3 +235,15 @@ Matrix^ Matrix::operator/(Scalar^ s) {
 bool Matrix::isSameSize(Matrix^ m) {
 	return this->columnLength == m->columnLength && this->rowLength == m->rowLength;
 }
+
+Matrix^ Matrix::transpose() {
+	Matrix^ newMat = gcnew Matrix(this->rowLength, this->columnLength);
+	
+	for (int i = 0; i < this->columnLength; i++) {
+		for (int j = 0; j < this->rowLength; j++) {
+			newMat[j, i] = this[i, j];
+		}
+	}
+
+	return newMat;
+}

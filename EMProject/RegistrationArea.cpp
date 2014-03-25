@@ -18,10 +18,11 @@ void RegistrationArea::registerHere() {
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::proj$V_V));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::normlzd$V));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::angle$V_V));
-	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::test));
 
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::sin$S));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::cos$S));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::tan$S));
+
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::transpose$M));
 	
 }

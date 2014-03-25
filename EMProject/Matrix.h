@@ -76,7 +76,8 @@ namespace em {
 			virtual Matrix^ operator*(Scalar^ s);
 			virtual Matrix^ operator/(Scalar^ s);
 
-			virtual bool isSameSize(Matrix^ m) sealed;
+			virtual bool isSameSize(Matrix^ m);
+			virtual Matrix^ transpose();
 
 			static bool matrixCast(MathObject^ mo, Matrix^% mat);
 		};

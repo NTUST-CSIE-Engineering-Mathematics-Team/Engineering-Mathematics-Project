@@ -12,7 +12,7 @@ namespace em {
 					using em::math::MathHelper;
 					using System::Math;
 
-					ref class TrigonometricFunctions {
+					interface class TrigonometricFunctions {
 
 					public:
 						static MathObject^ sin$S(array<MathObject^>^ mos, Message^% msg);

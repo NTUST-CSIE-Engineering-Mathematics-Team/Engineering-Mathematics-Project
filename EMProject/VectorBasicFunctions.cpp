@@ -42,8 +42,3 @@ MathObject^ VectorBasicFunctions::angle$V_V(array<MathObject^>^ mos, Message^% m
 
 	return MathHelper::radianToDegree(System::Math::Acos(cos));
 }
-
-MathObject^ VectorBasicFunctions::test(array<MathObject^>^ mos, Message^% msg) {
-	
-	return gcnew Scalar(MathHelper::EPSILON);
-}

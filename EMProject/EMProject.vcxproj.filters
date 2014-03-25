@@ -204,6 +204,9 @@
     <ClCompile Include="VectorBasicFunctions.cpp">
       <Filter>Source Files\math\engine\expression\functions</Filter>
     </ClCompile>
+    <ClCompile Include="MatrixBasicFunctions.cpp">
+      <Filter>Source Files\math\engine\expression\functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainForm.h">
@@ -363,6 +366,9 @@
       <Filter>Header Files\math\engine\expression\functions</Filter>
     </ClInclude>
     <ClInclude Include="VectorBasicFunctions.h">
+      <Filter>Header Files\math\engine\expression\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixBasicFunctions.h">
       <Filter>Header Files\math\engine\expression\functions</Filter>
     </ClInclude>
   </ItemGroup>
