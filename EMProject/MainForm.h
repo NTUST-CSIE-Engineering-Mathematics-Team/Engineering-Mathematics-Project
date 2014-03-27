@@ -6,7 +6,7 @@
 #include "Message.h"
 #include "Matrix.h"
 
-namespace em {
+namespace EMProject {
 
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -16,7 +16,9 @@ namespace em {
 	using namespace System::Drawing;
 	using namespace System::Diagnostics;
 	using namespace System::IO;
-	using namespace intrprt;
+	using namespace em::intrprt;
+	using em::intrprt::Message;
+	
 	/// <summary>
 	/// Summary for MainForm
 	/// </summary>
@@ -99,6 +101,7 @@ namespace em {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
 			this->openCodeFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->splitContainer = (gcnew System::Windows::Forms::SplitContainer());
 			this->outputTextBox = (gcnew System::Windows::Forms::RichTextBox());
@@ -297,6 +300,7 @@ namespace em {
 			this->ClientSize = System::Drawing::Size(507, 376);
 			this->Controls->Add(this->splitContainer);
 			this->Controls->Add(this->menu);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MainMenuStrip = this->menu;
 			this->Name = L"MainForm";
 			this->Text = L"Engineering Mathematics Application";
@@ -373,7 +377,6 @@ namespace em {
 
 		private: System::Void setTestToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			
-			outputTextBox->AppendText("12");
 
 		}
 
@@ -386,6 +389,15 @@ namespace em {
 			writer->Close();
 			reader->Close();
 		}
+
+		private: System::Void inputTextBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+			if (e->Control && shortcutTable->ContainsKey(e->KeyCode)) {
+				shortcutTable[e->KeyCode]();
+				e->SuppressKeyPress = true;
+			}
+
+		}
+
 		private: void startInterpret(Interpreter^ interpreter, TextReader^ reader, bool selectError) {
 			Message^ result;
 			int lineIndex = -1;
@@ -439,19 +451,7 @@ namespace em {
 
 			delete msg;
 		}
-		
 	
-	
-
-	
-		private: System::Void inputTextBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
-			if (e->Control && shortcutTable->ContainsKey(e->KeyCode)) {
-				shortcutTable[e->KeyCode]();
-				e->SuppressKeyPress = true;
-			} 
-
-		}
-
 		private: void run() {
 			TextReader^ reader = gcnew StringReader(this->inputTextBox->Text);
 			this->outputTextBox->Clear();

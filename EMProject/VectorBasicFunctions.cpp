@@ -50,6 +50,7 @@ MathObject^ VectorBasicFunctions::angle$V_V(array<MathObject^>^ mos, Message^% m
 	Vector::vectorCast(mos[1], v2);
 
 	Scalar^ cos = v1->normalized * v2->normalized;
+
 	if (cos == nullptr) {
 		msg = differentRankErrMsg();
 		return nullptr;

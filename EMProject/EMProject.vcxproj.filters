@@ -376,11 +376,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MainForm.resx">
-      <Filter>Resource Files</Filter>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="EMProject.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
@@ -389,8 +384,10 @@
     <Image Include="..\icon.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="$this.Icon.ico">
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MainForm.resx">
       <Filter>Resource Files</Filter>
-    </Image>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
