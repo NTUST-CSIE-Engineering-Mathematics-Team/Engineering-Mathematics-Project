@@ -176,13 +176,17 @@ Vector^ Vector::cross(Vector^ v) {
 	return crs;
 }
 
+Scalar^ Vector::component(Vector^ v) {
+	return this * v->normalized;
+}
+
 Vector^ Vector::projection(Vector^ v) {
 	Vector^ n = v->normalized;
 	return n * (this * n);
 }
 
 bool Vector::isSameRank(Vector^ a, Vector^ b) {
-	return a->rank == b->rank;
+	return a != nullptr && b != nullptr && a->rank == b->rank;
 }
 
 int Vector::getWiderRank(Vector^ a, Vector^ b) {

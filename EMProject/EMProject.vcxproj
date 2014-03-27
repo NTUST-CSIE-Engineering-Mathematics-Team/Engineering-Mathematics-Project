@@ -158,6 +158,7 @@
     <ClInclude Include="JudgeCommand.h" />
     <ClInclude Include="KeywordCollection.h" />
     <ClInclude Include="MatrixBasicFunctions.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="VectorBasicFunctions.h" />
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>
@@ -190,7 +191,15 @@
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.h</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EMProject.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="$this.Icon.ico" />
+    <Image Include="..\icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

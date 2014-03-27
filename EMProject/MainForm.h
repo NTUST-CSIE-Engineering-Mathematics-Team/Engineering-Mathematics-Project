@@ -2,6 +2,7 @@
 
 #include "InterpreterFactory.h"
 #include "Interpreter.h"
+#include "RegistrationArea.h"
 #include "Message.h"
 #include "Matrix.h"
 
@@ -26,6 +27,7 @@ namespace em {
 			shortcutTable = gcnew Dictionary<Keys, Shortcut^>();
 			shortcutTable->Add(Keys::R, gcnew Shortcut(this, &MainForm::run));
 			shortcutTable->Add(Keys::S, gcnew Shortcut(this, &MainForm::save));
+			RegistrationArea::registerHere();
 			this->ofInterpreter = InterpreterFactory::createInterpreter(InterpreterFactory::InterpreterType::OBJECT_FILE);
 			this->rInterpreter = InterpreterFactory::createInterpreter(InterpreterFactory::InterpreterType::RUNTIME);
 		}
@@ -370,19 +372,8 @@ namespace em {
 		}
 
 		private: System::Void setTestToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			Matrix^ m1 = gcnew Matrix(2, 2);
-
-			for (int i = 0; i < 2; i++) {
-				for (int j = 0; j < 2; j++) {
-					m1[i,j] = i - j;
-				}
-			}
-
-			Matrix^ m2 = m1;
-
-			m1[0,0] = 90;
-			//m2 = m1;
-			outputTextBox->AppendText(m2->ToString());
+			
+			outputTextBox->AppendText("12");
 
 		}
 

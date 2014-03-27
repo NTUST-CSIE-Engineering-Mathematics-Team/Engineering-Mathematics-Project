@@ -74,6 +74,7 @@ namespace em {
 			virtual Scalar^ operator*(Vector^ v);
 			virtual Vector^ operator/(Scalar^ s);
 			virtual Vector^ cross(Vector^ v);
+			virtual Scalar^ component(Vector^ v);
 			virtual Vector^ projection(Vector^ v);
 			
 			static bool isSameRank(Vector^ a, Vector^ b);

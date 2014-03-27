@@ -45,9 +45,6 @@ namespace em {
 			
 		protected:
 			Interpreter(array<PatternAnalyzer^>^ patternList);
-		
-		private:
-			static Interpreter();
 
 		private:
 			ref class VariableTableProxy : public VariableTable {

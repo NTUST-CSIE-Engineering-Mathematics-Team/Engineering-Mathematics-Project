@@ -100,7 +100,6 @@ namespace em {
 
 						full->AppendFormat("^(-)?\\[\\s*{0}(?:\\|\\s*{1})*\\s*\\]$", duplicate, duplicate);
 
-						System::Diagnostics::Debug::WriteLine(full->ToString());
 						return full->ToString();
 					}
 				}
@@ -116,7 +115,6 @@ namespace em {
 
 						full->AppendFormat("^\\s*{0}(?:,\\s*{1})*\\s*$", duplicate, duplicate);
 
-						System::Diagnostics::Debug::WriteLine(full->ToString());
 						return full->ToString();
 					}
 				}

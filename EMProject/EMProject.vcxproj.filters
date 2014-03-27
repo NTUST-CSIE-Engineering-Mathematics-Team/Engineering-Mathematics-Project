@@ -212,9 +212,6 @@
     <ClInclude Include="MainForm.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
     <ClInclude Include="Scalar.h">
       <Filter>Header Files\math</Filter>
     </ClInclude>
@@ -371,10 +368,29 @@
     <ClInclude Include="MatrixBasicFunctions.h">
       <Filter>Header Files\math\engine\expression\functions</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EMProject.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="$this.Icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

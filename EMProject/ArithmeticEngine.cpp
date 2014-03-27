@@ -310,6 +310,5 @@ String^ ArithmeticEngine::buildCompundExpPattern(bool atLeastOne) {
 	duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
 
 	full->AppendFormat("^\\s*(?:{0}(?:\\s*{1}\\s*{2}){3})\\s*$", duplicate, OPERATOR_PATTERN, duplicate, atLeastOne ? "+" : "*");
-	System::Diagnostics::Debug::WriteLine(full->ToString());
 	return full->ToString();
 }

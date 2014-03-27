@@ -16,7 +16,10 @@ namespace em {
 						static MathObject^ mag$V(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ normlzd$V(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ proj$V_V(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ compnt$V_V(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ angle$V_V(array<MathObject^>^ mos, Message^% msg);
+
+						static Message^ differentRankErrMsg();
 					};
 				}
 			}

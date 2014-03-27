@@ -17,7 +17,6 @@ MathObject^ MathObjSetExp::compute(Message^% message) {
 	}
 
 	MathObjSet^ ms = MathObjSet::createSpecificSet(m0);
-	System::Diagnostics::Debug::WriteLine(ms->mathID);
 	MathObject^ mObj;
 
 	ms->add(this->negative ? -m0 : m0);
