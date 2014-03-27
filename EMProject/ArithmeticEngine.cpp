@@ -270,10 +270,6 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteFunction(Match^ m, Arit
 	}
 
 	Function^ function = FunctionFactory::createFunctionInstance(funName, groups[1]->Success, exps);
-	if (!function->isArgsNumCorrect()) {
-		engine->errorMsg =  gcnew Message(Message::State::ERROR, "Incorrect argument numbers in functoin \"" + funName + "\".\n\tIt should be " + function->argType->Length);
-		return nullptr;
-	}
 
 	return function;
 }

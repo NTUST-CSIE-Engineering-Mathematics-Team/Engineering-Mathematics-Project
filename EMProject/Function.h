@@ -11,6 +11,7 @@ namespace em {
 					using em::intrprt::Message;
 					using em::math::engine::expression::Expression;
 					using System::String;
+					using System::Collections::Generic::Dictionary;
 
 					ref class Function : public Expression {
 					public:
@@ -22,25 +23,19 @@ namespace em {
 							}
 						}
 
-						property array<String^>^ argType {
-							array<String^>^ get() {
-								return this->argTs;
-							}
-						}
+						
 					private:
 						const bool negative;
 						array<Expression^>^ args;
 						String^ const name;
-						array<String^>^ const  argTs;
-						FunctionPerformer^ performer;
+						Dictionary<String^, FunctionPerformer^>^ performers;
 
 					public:
-						Function(bool negative, array<Expression^>^ exps, String^ name, array<String^>^ argTs, FunctionPerformer^ performer);
+						Function(bool negative, array<Expression^>^ exps, String^ name, Dictionary<String^, FunctionPerformer^>^ performers);
 
 						virtual ~Function();
 						
 						virtual MathObject^ compute(Message^% message);
-						virtual bool isArgsNumCorrect();
 					
 					};
 

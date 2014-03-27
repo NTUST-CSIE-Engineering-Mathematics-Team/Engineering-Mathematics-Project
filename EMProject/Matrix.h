@@ -78,8 +78,11 @@ namespace em {
 
 			virtual bool isSameSize(Matrix^ m);
 			virtual Matrix^ transpose();
+			virtual Matrix^ pow(int exponent);
 
 			static bool matrixCast(MathObject^ mo, Matrix^% mat);
+			static Matrix^ getIdentityMatrix(int size);
+		
 		};
 	}
 }

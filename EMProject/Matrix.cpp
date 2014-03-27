@@ -236,6 +236,16 @@ bool Matrix::isSameSize(Matrix^ m) {
 	return this->columnLength == m->columnLength && this->rowLength == m->rowLength;
 }
 
+Matrix^ Matrix::getIdentityMatrix(int size) {
+	Matrix^ idnty = gcnew Matrix(size, size);
+
+	for (int i = 0; i < size; i++) {
+		idnty[i, i] = 1;
+	}
+
+	return idnty;
+}
+
 Matrix^ Matrix::transpose() {
 	Matrix^ newMat = gcnew Matrix(this->rowLength, this->columnLength);
 	
@@ -246,4 +256,23 @@ Matrix^ Matrix::transpose() {
 	}
 
 	return newMat;
+}
+
+
+Matrix^ Matrix::pow(int exponent) {
+	if (!this->square) {
+		return nullptr;
+	}
+
+	if (exponent == 0) {
+		return getIdentityMatrix(this->columnLength);
+	}
+
+	Matrix^ m = gcnew Matrix(this);
+	// not support inverse of matrix yet
+	for (int i = 1; i < exponent; i++) {
+		m = m * this;
+	}
+
+	return m;
 }

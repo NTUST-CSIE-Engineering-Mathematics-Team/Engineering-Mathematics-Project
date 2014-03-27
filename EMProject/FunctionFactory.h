@@ -10,20 +10,10 @@ namespace em {
 
 
 					ref class FunctionFactory abstract {
-					private:
-						ref class FunctionData {
-						public:
-							String^ const name;
-							array<String^>^ argTs;
-							Function::FunctionPerformer^ const performer;
-
-						public:
-							FunctionData(String^ name, array<String^>^ argTs, Function::FunctionPerformer^ performer);
-							~FunctionData();
-						};
+					
 
 					private:
-						static Dictionary<String^, FunctionData^>^ const functionConstructors = gcnew Dictionary<String^, FunctionData^>();
+						static Dictionary<String^, Dictionary<String^, Function::FunctionPerformer^>^>^ const functionConstructors = gcnew Dictionary<String^, Dictionary<String^, Function::FunctionPerformer^>^>();
 							
 					public:
 						

@@ -14,7 +14,7 @@ namespace em {
 
 					public:
 						static MathObject^ transpose$M(array<MathObject^>^ mos, Message^% msg);
-						
+						static MathObject^ pow$M_S(array<MathObject^>^ mos, Message^% msg);
 					};
 				}
 			}

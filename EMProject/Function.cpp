@@ -1,9 +1,9 @@
 #include "Function.h"
 
 using namespace em::math::engine::expression::functions;
-
-Function::Function(bool negative, array<Expression^>^ exps, String^ name, array<String^>^ argTs, FunctionPerformer^ performer)
-	: negative(negative), args(exps), name(name), argTs(argTs), performer(performer) {
+using System::Text::StringBuilder;
+Function::Function(bool negative, array<Expression^>^ exps, String^ name, Dictionary<String^, FunctionPerformer^>^ performers)
+	: negative(negative), args(exps), name(name), performers(performers) {
 }
 
 
@@ -12,27 +12,33 @@ Function::~Function() {
 	this->args = nullptr;
 }
 
-bool Function::isArgsNumCorrect() {
-	return this->args->Length == this->argTs->Length;
-}
 
 MathObject^ Function::compute(Message^% message) {
+	StringBuilder^ fullFunctionNameBuilder = gcnew StringBuilder(this->functionName);
+	StringBuilder^ argTs = gcnew StringBuilder();
 
 	array<MathObject^>^ mos = gcnew array<MathObject^>(this->args->Length);
 	int i;
 	for (i = 0; i < mos->Length; i++) {
 		mos[i] = args[i]->compute(message);
-		if (mos[i] == nullptr || !mos[i]->mathID->Equals(argTs[i])) {
-			
-			if (message == nullptr) {
-				message = gcnew Message(Message::State::ERROR, "Incorrect argument types in functoin \"" + this->functionName + "\"");
-			}
+		if (mos[i] == nullptr) {
 			return nullptr;
 		}
+		argTs->AppendFormat("{0}_", mos[i]->mathID);
 	}
 	
+	if (i > 0) {
+		fullFunctionNameBuilder->Append("$");
+		fullFunctionNameBuilder->Append(argTs->ToString(), 0, argTs->Length - 1);
+	}
 
-	MathObject^ mo = this->performer(mos, message);
+	String^ fullFunctionName = fullFunctionNameBuilder->ToString();
+	if (!this->performers->ContainsKey(fullFunctionName)) {
+		message = gcnew Message(Message::State::ERROR, "Incorrect argument types in functoin \"" + this->functionName + "\"");
+		return nullptr;
+	}
+
+	MathObject^ mo = this->performers[fullFunctionName](mos, message);
 	if (mo == nullptr) {
 		return nullptr;
 	}
