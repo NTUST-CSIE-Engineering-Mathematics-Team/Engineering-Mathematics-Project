@@ -19,7 +19,6 @@ namespace em {
 						static MathObject^ compnt$V_V(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ angle$V_V(array<MathObject^>^ mos, Message^% msg);
 
-						static Message^ differentRankErrMsg();
 					};
 				}
 			}

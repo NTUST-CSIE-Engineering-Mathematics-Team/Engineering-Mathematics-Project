@@ -11,10 +11,11 @@ VariableTable::VariableTable() {
 
 static VariableTable::VariableTable() {
 	stgSetCreators = gcnew Dictionary<String^, CreateStorageSet^>();
-	stgSetCreators->Add(KeywordCollection::SCALARS, gcnew CreateStorageSet(&createStgSet<Scalar>));
-	stgSetCreators->Add(KeywordCollection::VECTORS, gcnew CreateStorageSet(&createStgSet<Vector>));
-	stgSetCreators->Add(KeywordCollection::MATRICES, gcnew CreateStorageSet(&createStgSet<Matrix>));
-	stgSetCreators->Add(KeywordCollection::SETS, gcnew CreateStorageSet(&createStgSet<MathObjSet>));
+	stgSetCreators->Add(KeywordCollection::SCALARS, gcnew CreateStorageSet(&createStgSet<Scalar^>));
+	stgSetCreators->Add(KeywordCollection::VECTORS, gcnew CreateStorageSet(&createStgSet<Vector^>));
+	stgSetCreators->Add(KeywordCollection::MATRICES, gcnew CreateStorageSet(&createStgSet<Matrix^>));
+	stgSetCreators->Add(KeywordCollection::SETS, gcnew CreateStorageSet(&createStgSet<MathObjSet^>));
+	stgSetCreators->Add(KeywordCollection::ANGLES, gcnew CreateStorageSet(&createStgSet<Angle^>));
 }
 
 
@@ -100,4 +101,14 @@ String^ VariableTable::generateNewVariableName() {
 
 System::Collections::IEnumerator^ VariableTable::GetNGEnumerator() {
 	return this->GetEnumerator();
+}
+
+generic<typename M> where M : MathObject
+MathObjSet^ VariableTable::createStgSet(VariableTable^ vTable) {
+	MathObjSet^ set = gcnew MathObjGenericSet<M>();
+	for each(KeyValuePair<String^, MathObject^> pair in vTable) {
+		set->add(pair.Value);
+	}
+
+	return set;
 }

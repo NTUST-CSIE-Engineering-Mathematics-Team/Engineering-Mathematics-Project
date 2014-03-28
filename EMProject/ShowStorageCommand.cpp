@@ -12,6 +12,7 @@ static ShowStorageCommand::ShowStorageCommand() {
 	map->Add(KeywordCollection::VECTORS, Vector::TAG);
 	map->Add(KeywordCollection::SCALARS, Scalar::TAG);
 	map->Add(KeywordCollection::SETS, MathObjSet::TAG);
+	map->Add(KeywordCollection::ANGLES, Angle::TAG);
 }
 ShowStorageCommand::ShowStorageCommand() : Command(KeywordCollection::STORAGE_CMD, 'K') {
 	
@@ -29,13 +30,13 @@ Message^ ShowStorageCommand::performCommand(String^ arg, Interpreter^ iptr) {
 	int count = 0;
 	if (isAll) {
 		for each(KeyValuePair<String^, MathObject^> pair in iptr->variableTable) {
-			sb->AppendFormat("{0}\n", PrintCommand::buildHeader(pair.Value, pair.Key));
+			sb->AppendFormat("{0} = {1}\n", pair.Key, pair.Value->getHeader());
 			count++;
 		}
 	} else {
 		for each(KeyValuePair<String^, MathObject^> pair in iptr->variableTable) {
 			if (map[arg]->Equals(pair.Value->mathType)) {
-				sb->AppendFormat("{0}\n", PrintCommand::buildHeader(pair.Value, pair.Key));
+				sb->AppendFormat("{0} = {1}\n", pair.Key, pair.Value->getHeader());
 				count++;
 			}
 		}

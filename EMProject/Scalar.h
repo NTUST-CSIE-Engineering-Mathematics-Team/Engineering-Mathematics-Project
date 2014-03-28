@@ -31,6 +31,7 @@ namespace em {
 			Scalar(Scalar^ scl);
 			virtual ~Scalar();
 
+			virtual String^ getHeader() override;
 			virtual String^ ToString() override;
 			virtual MathObject^ operator-() override;
 

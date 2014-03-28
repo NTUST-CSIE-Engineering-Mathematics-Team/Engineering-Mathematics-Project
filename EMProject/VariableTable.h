@@ -48,15 +48,8 @@ namespace em {
 			static VariableTable();
 			String^ generateNewVariableName();
 
-			template<typename M>
-			static MathObjSet^ createStgSet(VariableTable^ vTable) {
-				MathObjSet^ set = gcnew MathObjGenericSet<M^>(M::ID);
-				for each(KeyValuePair<String^, MathObject^> pair in vTable) {
-					set->add(pair.Value);
-				}
-
-				return set;
-			}
+			generic<typename M> where M : MathObject
+			static MathObjSet^ createStgSet(VariableTable^ vTable);
 
 			virtual System::Collections::IEnumerator^ GetNGEnumerator() sealed = System::Collections::IEnumerable::GetEnumerator;
 		};

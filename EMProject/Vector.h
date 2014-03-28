@@ -60,6 +60,7 @@ namespace em {
 			Vector(Vector^ vec);
 			virtual ~Vector();
 
+			virtual String^ getHeader() override;
 			virtual String^ ToString() override;
 			virtual MathObject^ operator-() override;
 

@@ -80,6 +80,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Angle.cpp" />
     <ClCompile Include="ArithmeticEngine.cpp" />
     <ClCompile Include="AssignmentPatternAnalyzer.cpp" />
     <ClCompile Include="BinaryOperator.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="All_Math.h" />
     <ClInclude Include="All_Operators.h" />
     <ClInclude Include="All_Patterns.h" />
+    <ClInclude Include="Angle.h" />
     <ClInclude Include="ArithmeticEngine.h" />
     <ClInclude Include="AssignmentPatternAnalyzer.h" />
     <ClInclude Include="BinaryOperator.h" />

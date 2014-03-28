@@ -50,11 +50,19 @@ MathObject^ Vector::overrideAssign(MathObject^ mo) {
 	return this->overrideAssign(tmp);
 }
 
+String^ Vector::getHeader() {
+
+	StringBuilder^ sb = gcnew StringBuilder(TAG);
+	sb->AppendFormat(" rank = {0}", this->rank);
+	return sb->ToString();
+}
+
 String^ Vector::ToString() {
 
-	StringBuilder^ sb = gcnew StringBuilder("< ");
-	int i;
+	StringBuilder^ sb = gcnew StringBuilder(getHeader());
 
+	sb->Append("\n< ");
+	int i;
 	for (i = 0; i < this->value->Length - 1; i++) {
 		sb->AppendFormat(NUMERAL_FORMAT, this[i]);
 		sb->Append(",");

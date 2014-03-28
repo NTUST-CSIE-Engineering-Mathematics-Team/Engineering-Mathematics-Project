@@ -210,6 +210,9 @@
     <ClCompile Include="ScalarBasicFunctions.cpp">
       <Filter>Source Files\math\engine\expression\functions</Filter>
     </ClCompile>
+    <ClCompile Include="Angle.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainForm.h">
@@ -379,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="ScalarBasicFunctions.h">
       <Filter>Header Files\math\engine\expression\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="Angle.h">
+      <Filter>Header Files\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

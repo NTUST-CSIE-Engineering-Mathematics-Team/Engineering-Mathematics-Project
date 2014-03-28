@@ -6,6 +6,7 @@
 #include "Scalar.h"
 #include "MathObjSet.h"
 #include "MathObjGenericSet.h"
+#include "Angle.h"
 #include "MathHelper.h"
 
 

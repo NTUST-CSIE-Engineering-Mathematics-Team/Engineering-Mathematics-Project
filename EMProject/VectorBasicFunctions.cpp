@@ -23,10 +23,6 @@ MathObject^ VectorBasicFunctions::compnt$V_V(array<MathObject^>^ mos, Message^% 
 
 	compnt = v1->component(v2);
 
-	if (compnt == nullptr) {
-		msg = differentRankErrMsg();
-	}
-
 	return compnt;
 }
 
@@ -37,10 +33,6 @@ MathObject^ VectorBasicFunctions::proj$V_V(array<MathObject^>^ mos, Message^% ms
 
 	v3 = v1->projection(v2);
 
-	if (v3 == nullptr) {
-		msg = differentRankErrMsg();
-	}
-
 	return v3;
 }
 
@@ -49,16 +41,7 @@ MathObject^ VectorBasicFunctions::angle$V_V(array<MathObject^>^ mos, Message^% m
 	Vector::vectorCast(mos[0], v1);
 	Vector::vectorCast(mos[1], v2);
 
-	Scalar^ cos = v1->normalized * v2->normalized;
+	Angle^ angle = gcnew Angle(v1->normalized * v2->normalized);
 
-	if (cos == nullptr) {
-		msg = differentRankErrMsg();
-		return nullptr;
-	}
-
-	return MathHelper::radianToDegree(System::Math::Acos(cos));
-}
-
-Message^ VectorBasicFunctions::differentRankErrMsg() {
-	return gcnew Message(Message::State::ERROR, "vectors with different ranks cannot perform vector operation function");
+	return angle;
 }

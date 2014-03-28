@@ -68,11 +68,18 @@ void Matrix::default::set(VectorOption vo, int i, Vector^ vec) {
 	}
 }
 
+String^ Matrix::getHeader() {
+
+	StringBuilder^ sb = gcnew StringBuilder(TAG);
+	sb->AppendFormat(" size = ({0} x {1})", this->columnLength, this->rowLength);
+	return sb->ToString();
+}
+
 String^ Matrix::ToString() {
 	
-	StringBuilder^ sb = gcnew StringBuilder();
+	StringBuilder^ sb = gcnew StringBuilder(getHeader());
+	sb->Append("\n");
 	int i,j;
-
 	for (i = 0; i < this->columnLength - 1; i++) {
 		for (j = 0; j < this->rowLength; j++) {
 

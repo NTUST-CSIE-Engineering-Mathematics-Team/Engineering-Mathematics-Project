@@ -26,12 +26,15 @@ namespace em {
 				}
 			}
 		public:
-			MathObjGenericSet(String^ objID);
+			MathObjGenericSet();
 			MathObjGenericSet(MathObjGenericSet<M>^ set);
 			virtual ~MathObjGenericSet();
 			
 			virtual bool add(MathObject^ mo) override;
+
+			virtual String^ getHeader() override;
 			virtual String^ ToString() override;
+
 			virtual MathObject^ operator-() override;
 			virtual MathObject^ overrideAssign(MathObject^ mo) override;
 
@@ -43,6 +46,8 @@ namespace em {
 			static bool gSetCast(MathObject^ mo, MathObjGenericSet<M>^% set);
 			
 		private:
+			
+
 			virtual System::Collections::IEnumerator^ GetNGEnumerator() sealed = System::Collections::IEnumerable::GetEnumerator;
 			MathObjGenericSet<M>^ emptyClone();
 		};

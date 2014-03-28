@@ -2,20 +2,26 @@
 
 using namespace em::math::engine::expression::functions;
 
-MathObject^ TrigonometricFunctions::sin$S(array<MathObject^>^ mos, Message^% msg) {
+MathObject^ TrigonometricFunctions::angle$S(array<MathObject^>^ mos, Message^% msg) {
 	Scalar^ scl;
 	Scalar::scalarCast(mos[0], scl);
-	return gcnew Scalar(Math::Sin(MathHelper::degreeToRadian(scl)));
+	return gcnew Angle(scl);
 }
 
-MathObject^ TrigonometricFunctions::cos$S(array<MathObject^>^ mos, Message^% msg) {
-	Scalar^ scl;
-	Scalar::scalarCast(mos[0], scl);
-	return gcnew Scalar(Math::Cos(MathHelper::degreeToRadian(scl)));
+MathObject^ TrigonometricFunctions::sin$A(array<MathObject^>^ mos, Message^% msg) {
+	Angle^ agl;
+	Angle::angleCast(mos[0], agl);
+	return gcnew Scalar(Math::Sin(agl->radian));
 }
 
-MathObject^ TrigonometricFunctions::tan$S(array<MathObject^>^ mos, Message^% msg) {
-	Scalar^ scl;
-	Scalar::scalarCast(mos[0], scl);
-	return gcnew Scalar(Math::Tan(MathHelper::degreeToRadian(scl)));
+MathObject^ TrigonometricFunctions::cos$A(array<MathObject^>^ mos, Message^% msg) {
+	Angle^ agl;
+	Angle::angleCast(mos[0], agl);
+	return gcnew Scalar(Math::Cos(agl->radian));
+}
+
+MathObject^ TrigonometricFunctions::tan$A(array<MathObject^>^ mos, Message^% msg) {
+	Angle^ agl;
+	Angle::angleCast(mos[0], agl);
+	return gcnew Scalar(Math::Tan(agl->radian));
 }
