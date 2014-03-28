@@ -50,7 +50,7 @@ namespace em {
 						Expression^ opndA;
 						Expression^ opndB;
 
-						Dictionary<String^, CasterInterface^>^ operationMap;
+						Dictionary<String^, CasterInterface^>^ overloadsMap;
 
 					public:
 						BinaryOperator(String^ symbol, Expression^ opndA, Expression^ opndB);

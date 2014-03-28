@@ -2,8 +2,8 @@
 
 using namespace em::math::engine::expression::functions;
 using System::Text::StringBuilder;
-Function::Function(bool negative, array<Expression^>^ exps, String^ name, Dictionary<String^, FunctionPerformer^>^ performers)
-	: negative(negative), args(exps), name(name), performers(performers) {
+Function::Function(bool negative, array<Expression^>^ exps, String^ name, Dictionary<String^, FunctionPerformer^>^ overloadsMap)
+	: negative(negative), args(exps), name(name), overloadsMap(overloadsMap) {
 }
 
 
@@ -33,12 +33,12 @@ MathObject^ Function::compute(Message^% message) {
 	}
 
 	String^ fullFunctionName = fullFunctionNameBuilder->ToString();
-	if (!this->performers->ContainsKey(fullFunctionName)) {
+	if (!this->overloadsMap->ContainsKey(fullFunctionName)) {
 		message = gcnew Message(Message::State::ERROR, "Incorrect argument types in functoin \"" + this->functionName + "\"");
 		return nullptr;
 	}
 
-	MathObject^ mo = this->performers[fullFunctionName](mos, message);
+	MathObject^ mo = this->overloadsMap[fullFunctionName](mos, message);
 	if (mo == nullptr) {
 		return nullptr;
 	}

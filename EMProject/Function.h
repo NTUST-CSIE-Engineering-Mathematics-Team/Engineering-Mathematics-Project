@@ -28,7 +28,7 @@ namespace em {
 						const bool negative;
 						array<Expression^>^ args;
 						String^ const name;
-						Dictionary<String^, FunctionPerformer^>^ performers;
+						Dictionary<String^, FunctionPerformer^>^ overloadsMap;
 
 					public:
 						Function(bool negative, array<Expression^>^ exps, String^ name, Dictionary<String^, FunctionPerformer^>^ performers);
