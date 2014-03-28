@@ -13,9 +13,9 @@ namespace em {
 						virtual ~DivisionOperator();
 
 					private:
-						static MathObject^ SS(Scalar^ a, Scalar^ b, Message^% msg);
-						static MathObject^ MS(Matrix^ a, Scalar^ b, Message^% msg);
-						static MathObject^ VS(Vector^ a, Scalar^ b, Message^% msg);
+						static MathObject^ S_S(Scalar^ a, Scalar^ b, Message^% msg);
+						static MathObject^ M_S(Matrix^ a, Scalar^ b, Message^% msg);
+						static MathObject^ V_S(Vector^ a, Scalar^ b, Message^% msg);
 					};
 				}
 			}

@@ -52,11 +52,14 @@
     <Filter Include="Header Files\math\engine\expression\functions">
       <UniqueIdentifier>{39dbb31c-7c06-4b9c-b2d7-e1769a4b1b99}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\math\engine\functions">
-      <UniqueIdentifier>{8780bbc6-53c3-4898-8c02-554dbac7ca15}</UniqueIdentifier>
+    <Filter Include="Source Files\math\engine\expression">
+      <UniqueIdentifier>{67835732-545d-4ae2-9559-f05c09856078}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\math\engine\operators">
+    <Filter Include="Source Files\math\engine\expression\operators">
       <UniqueIdentifier>{f9cd90dc-800a-4b99-bc02-74ead6359f9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\math\engine\expression\functions">
+      <UniqueIdentifier>{8780bbc6-53c3-4898-8c02-554dbac7ca15}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -70,9 +73,6 @@
       <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
     <ClCompile Include="PrintCommand.cpp">
-      <Filter>Source Files\intrprt\cmd</Filter>
-    </ClCompile>
-    <ClCompile Include="CreateMatrixCommand.cpp">
       <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
     <ClCompile Include="CommandPatternAnalyzer.cpp">
@@ -111,12 +111,6 @@
     <ClCompile Include="MappingTable.cpp">
       <Filter>Source Files\intrprt</Filter>
     </ClCompile>
-    <ClCompile Include="CreateVectorCommand.cpp">
-      <Filter>Source Files\intrprt\cmd</Filter>
-    </ClCompile>
-    <ClCompile Include="CreateScalarCommand.cpp">
-      <Filter>Source Files\intrprt\cmd</Filter>
-    </ClCompile>
     <ClCompile Include="CreateMathObjectCommand.cpp">
       <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
@@ -144,67 +138,82 @@
     <ClCompile Include="ArithmeticEngine.cpp">
       <Filter>Source Files\math\engine</Filter>
     </ClCompile>
-    <ClCompile Include="MathObjExp.cpp">
-      <Filter>Source Files\math\engine</Filter>
-    </ClCompile>
     <ClCompile Include="BinaryOperator.cpp">
-      <Filter>Source Files\math\engine\operators</Filter>
+      <Filter>Source Files\math\engine\expression\operators</Filter>
     </ClCompile>
     <ClCompile Include="Function.cpp">
-      <Filter>Source Files\math\engine\functions</Filter>
+      <Filter>Source Files\math\engine\expression\functions</Filter>
     </ClCompile>
     <ClCompile Include="OperatorFactory.cpp">
-      <Filter>Source Files\math\engine\operators</Filter>
+      <Filter>Source Files\math\engine\expression\operators</Filter>
     </ClCompile>
     <ClCompile Include="FunctionFactory.cpp">
-      <Filter>Source Files\math\engine\functions</Filter>
+      <Filter>Source Files\math\engine\expression\functions</Filter>
     </ClCompile>
     <ClCompile Include="SubtractionOperator.cpp">
-      <Filter>Source Files\math\engine\operators</Filter>
+      <Filter>Source Files\math\engine\expression\operators</Filter>
     </ClCompile>
     <ClCompile Include="AdditionOperator.cpp">
-      <Filter>Source Files\math\engine\operators</Filter>
+      <Filter>Source Files\math\engine\expression\operators</Filter>
     </ClCompile>
     <ClCompile Include="DivisionOperator.cpp">
-      <Filter>Source Files\math\engine\operators</Filter>
+      <Filter>Source Files\math\engine\expression\operators</Filter>
     </ClCompile>
     <ClCompile Include="MultiplicationOperator.cpp">
-      <Filter>Source Files\math\engine\operators</Filter>
+      <Filter>Source Files\math\engine\expression\operators</Filter>
     </ClCompile>
     <ClCompile Include="CrossProductOperator.cpp">
-      <Filter>Source Files\math\engine\operators</Filter>
+      <Filter>Source Files\math\engine\expression\operators</Filter>
     </ClCompile>
     <ClCompile Include="KeywordCollection.cpp">
       <Filter>Source Files\intrprt</Filter>
     </ClCompile>
     <ClCompile Include="CommutativeOperator.cpp">
-      <Filter>Source Files\math\engine\operators</Filter>
+      <Filter>Source Files\math\engine\expression\operators</Filter>
     </ClCompile>
     <ClCompile Include="AssignmentPatternAnalyzer.cpp">
       <Filter>Source Files\intrprt\pattern</Filter>
     </ClCompile>
-    <ClCompile Include="MagFunction.cpp">
-      <Filter>Source Files\math\engine\functions</Filter>
-    </ClCompile>
-    <ClCompile Include="ProjFunction.cpp">
-      <Filter>Source Files\math\engine\functions</Filter>
-    </ClCompile>
     <ClCompile Include="RegistrationArea.cpp">
       <Filter>Source Files\intrprt</Filter>
     </ClCompile>
-    <ClCompile Include="CommandFactory.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="JudgeCommand.cpp">
+      <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
-    <ClCompile Include="NormalizationFunction.cpp">
-      <Filter>Source Files\math\engine\functions</Filter>
+    <ClCompile Include="CommandFactory.cpp">
+      <Filter>Source Files\intrprt\cmd</Filter>
+    </ClCompile>
+    <ClCompile Include="MathObjSet.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="MathObjGenericSet.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="MathObjSetExp.cpp">
+      <Filter>Source Files\math\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="VMConstructExp.cpp">
+      <Filter>Source Files\math\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="MathObjExp.cpp">
+      <Filter>Source Files\math\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="TrigonometricFunctions.cpp">
+      <Filter>Source Files\math\engine\expression\functions</Filter>
+    </ClCompile>
+    <ClCompile Include="VectorBasicFunctions.cpp">
+      <Filter>Source Files\math\engine\expression\functions</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixBasicFunctions.cpp">
+      <Filter>Source Files\math\engine\expression\functions</Filter>
+    </ClCompile>
+    <ClCompile Include="ScalarBasicFunctions.cpp">
+      <Filter>Source Files\math\engine\expression\functions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainForm.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Header Files\math</Filter>
     </ClInclude>
     <ClInclude Include="Scalar.h">
       <Filter>Header Files\math</Filter>
@@ -219,9 +228,6 @@
       <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
     <ClInclude Include="CommandTable.h">
-      <Filter>Header Files\intrprt\cmd</Filter>
-    </ClInclude>
-    <ClInclude Include="CreateMatrixCommand.h">
       <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
     <ClInclude Include="PrintCommand.h">
@@ -250,12 +256,6 @@
     </ClInclude>
     <ClInclude Include="Message.h">
       <Filter>Header Files\intrprt</Filter>
-    </ClInclude>
-    <ClInclude Include="CreateVectorCommand.h">
-      <Filter>Header Files\intrprt\cmd</Filter>
-    </ClInclude>
-    <ClInclude Include="CreateScalarCommand.h">
-      <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
     <ClInclude Include="CreateMathObjectCommand.h">
       <Filter>Header Files\intrprt\cmd</Filter>
@@ -292,9 +292,6 @@
     </ClInclude>
     <ClInclude Include="ArithmeticEngine.h">
       <Filter>Header Files\math\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="MathObjExp.h">
-      <Filter>Header Files\math\engine\expression</Filter>
     </ClInclude>
     <ClInclude Include="Expression.h">
       <Filter>Header Files\math\engine\expression</Filter>
@@ -341,21 +338,58 @@
     <ClInclude Include="AssignmentPatternAnalyzer.h">
       <Filter>Header Files\intrprt\pattern</Filter>
     </ClInclude>
-    <ClInclude Include="MagFunction.h">
-      <Filter>Header Files\math\engine\expression\functions</Filter>
-    </ClInclude>
-    <ClInclude Include="ProjFunction.h">
-      <Filter>Header Files\math\engine\expression\functions</Filter>
-    </ClInclude>
     <ClInclude Include="CommandFactory.h">
       <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
     <ClInclude Include="RegistrationArea.h">
       <Filter>Header Files\intrprt</Filter>
     </ClInclude>
-    <ClInclude Include="NormalizationFunction.h">
+    <ClInclude Include="JudgeCommand.h">
+      <Filter>Header Files\intrprt\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="MathObjSet.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="MathObjGenericSet.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="MathObjSetExp.h">
+      <Filter>Header Files\math\engine\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="VMConstructExp.h">
+      <Filter>Header Files\math\engine\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="MathObjExp.h">
+      <Filter>Header Files\math\engine\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="TrigonometricFunctions.h">
       <Filter>Header Files\math\engine\expression\functions</Filter>
     </ClInclude>
+    <ClInclude Include="VectorBasicFunctions.h">
+      <Filter>Header Files\math\engine\expression\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixBasicFunctions.h">
+      <Filter>Header Files\math\engine\expression\functions</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="ScalarBasicFunctions.h">
+      <Filter>Header Files\math\engine\expression\functions</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EMProject.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">

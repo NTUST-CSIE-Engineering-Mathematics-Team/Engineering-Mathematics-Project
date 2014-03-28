@@ -11,8 +11,15 @@ namespace em {
 
 		public:
 			
-			static String^ const tag = "Vector";
-			
+			static String^ const TAG = "Vector";
+			static String^  const ID = "V";
+
+			property MathObject^ clone{
+				virtual MathObject^ get() override {
+					return gcnew Vector(this);
+				}
+			}
+
 			property double default[int] {
 				double get(int i) {
 					return this->value[i];
@@ -57,20 +64,24 @@ namespace em {
 			virtual MathObject^ operator-() override;
 
 			Vector^ fitAssign(Vector^ vec);
+
+			virtual MathObject^ overrideAssign(MathObject^ mo) override;
 			Vector^ overrideAssign(Vector^ vec);
 			
-			Vector^ operator-(Vector^ v);
-			Vector^ operator+(Vector^ v);
-			Vector^ operator*(Scalar^ s);
-			Scalar^ operator*(Vector^ v);
-			Vector^ operator/(Scalar^ s);
-			Vector^ cross(Vector^ v);
-			Scalar^ projection(Vector^ v);
-
+			virtual Vector^ operator-(Vector^ v);
+			virtual Vector^ operator+(Vector^ v);
+			virtual Vector^ operator*(Scalar^ s);
+			virtual Scalar^ operator*(Vector^ v);
+			virtual Vector^ operator/(Scalar^ s);
+			virtual Vector^ cross(Vector^ v);
+			virtual Scalar^ component(Vector^ v);
+			virtual Vector^ projection(Vector^ v);
+			
 			static bool isSameRank(Vector^ a, Vector^ b);
 			static bool vectorCast(MathObject^ mo, Vector^% vec);
 			static int getWiderRank(Vector^ a, Vector^ b);
 			static void widerConvert(Vector^% a, Vector^% b);
+			
 		};
 	}
 	

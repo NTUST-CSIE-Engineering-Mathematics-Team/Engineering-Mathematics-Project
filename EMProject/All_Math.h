@@ -4,6 +4,8 @@
 #include "Matrix.h"
 #include "Vector.h"
 #include "Scalar.h"
+#include "MathObjSet.h"
+#include "MathObjGenericSet.h"
 #include "MathHelper.h"
 
 

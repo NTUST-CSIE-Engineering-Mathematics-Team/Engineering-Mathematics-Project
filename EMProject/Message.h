@@ -28,6 +28,12 @@ namespace em {
 				}
 			}
 
+			static property Message^ PARENTHESE_NOT_BALANCED_MSG {
+				Message^ get() {
+					return gcnew Message(Message::State::ERROR, "The parenthese is not balanced");
+				}
+			}
+
 			static property Message^ SYNTAX_ERROR_MSG {
 				Message^ get() {
 					return  gcnew Message(Message::State::ERROR, "wrong syntax, maybe it is not fit the format or argument type");
@@ -52,7 +58,9 @@ namespace em {
 			static const Color MATH_OBJECT_COLOR = Color::DarkGreen;
 			static const Color SETTING_COLOR = Color::BlueViolet;
 			static const Color COMMENT_COLOR = Color::Gray;
-
+			static const Color JUDGE_PASS_COLOR = Color::DarkBlue;
+			static const Color JUDGE_NOT_PASS_COLOR = Color::DarkRed;
+			
 		private:
 			State state;
 			String^ const content;
@@ -60,7 +68,7 @@ namespace em {
 		
 		public:
 			Message(State t, String^ s);
-			Message(State t, String^ s, Color msgColor);
+			Message(State t, Color msgColor, String^ s);
 			virtual ~Message();
 			
 			operator String^ ();
@@ -68,7 +76,7 @@ namespace em {
 
 			static Message^ Message::varNotFoundMsg(String^ var);
 			static Message^ Message::varAlreadyExistMsg(String^ var);
-
+			static Message^ useKeywordAsNameError(String^ var);
 		};
 	}
 }

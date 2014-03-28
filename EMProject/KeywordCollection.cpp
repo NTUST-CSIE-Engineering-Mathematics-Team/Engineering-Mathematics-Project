@@ -13,13 +13,15 @@ bool KeywordCollection::contains(String^ keywords) {
 }
 
 static KeywordCollection::KeywordCollection() {
-	keywordsSet->Add(CREATE_MATRIX_CMD);
-	keywordsSet->Add(CREATE_VECTOR_CMD);
-	keywordsSet->Add(CREATE_SCALAR_CMD);
+	keywordsSet->Add(MATRICES);
+	keywordsSet->Add(VECTORS);
+	keywordsSet->Add(SCALARS);
+	keywordsSet->Add(ALL);
 	keywordsSet->Add(SETTINGS_CMD);
 	keywordsSet->Add(PRINT_CMD);
 	keywordsSet->Add(DELETE_CMD);
 	keywordsSet->Add(STORAGE_CMD);
 	keywordsSet->Add(JUDGE_CMD);
+
 }
 

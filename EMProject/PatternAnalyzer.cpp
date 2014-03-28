@@ -17,41 +17,50 @@ static PatternAnalyzer::PatternAnalyzer() {
 	checkTable->Add(L'I', gcnew IsType(isInteger));
 	checkTable->Add(L'D', gcnew IsType(isDouble));
 	checkTable->Add(L'C', gcnew IsType(isChar));
-	checkTable->Add(L'V', gcnew IsType(isNameOrValue));
 	checkTable->Add(L'E', gcnew IsType(isExpression));
+	checkTable->Add(L'K', gcnew IsType(isKeyword));
+	checkTable->Add(L'P', gcnew IsType(isPair));
 }
 
 PatternAnalyzer::~PatternAnalyzer() {
 	delete this->regex;
 }
 
-int PatternAnalyzer::checkVarTypes(array<String^>^ rawArgs, array<String^>^ types) {
-	int j;
-	for (int i = 0; i < types->Length; i++) {
+bool PatternAnalyzer::checkVarType(String^ rawArg, wchar_t type) {
+	return checkTable[Char::ToUpper(type)](rawArg);
+}
+bool PatternAnalyzer::isPair(String^ arg) {
+	String^ emptyS;
+	int emptyI;
+	return isPair(arg, emptyS, emptyI);
+}
 
-		if (types[i]->Length != rawArgs->Length) {
-			continue;
-		}
-		
-		for (j = 0; j < types[i]->Length; j++) {
-			if (!checkTable[Char::ToUpper(types[i][j])](rawArgs[j])) {
-				break;
-			}
-		}
-
-		if (j == rawArgs->Length) {
-			return i;
-		}
+bool PatternAnalyzer::isPair(String^ arg, String^% key, int% value) {
+	Match^ m = pairPattern->Match(arg);
+	if (!m->Success) {
+		return false;
 	}
 
-	return -1;
+	key = m->Groups[1]->Value;
+	isInteger(m->Groups[2]->Value, value);
+
+	return true;
 }
 
 bool PatternAnalyzer::isName(String^ arg) {
-	return namePattern->IsMatch(arg) && !KeywordCollection::contains(arg);
+	return namePattern->IsMatch(arg) && !isKeyword(arg);
+}
+
+bool PatternAnalyzer::isKeyword(String^ arg) {
+	return KeywordCollection::contains(arg);
 }
 
 bool PatternAnalyzer::isExpression(String^ arg, String^% v) {
+
+	if (isDouble(arg) || isName(arg)) {
+		return true;
+	}
+
 	Match^ m = expressionPattern->Match(arg);
 	if (!m->Success || m->Groups["i"]->Success) {
 		return false;
@@ -91,10 +100,6 @@ bool PatternAnalyzer::isChar(String^ arg, wchar_t% v) {
 bool PatternAnalyzer::isChar(String^ arg) {
 	wchar_t empty;
 	return isChar(arg, empty);
-}
-
-bool PatternAnalyzer::isNameOrValue(String^ arg) {
-	return isDouble(arg) || isName(arg);
 }
 
 String^ PatternAnalyzer::rowValuePattern(int maxPattern) {

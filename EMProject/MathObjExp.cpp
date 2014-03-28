@@ -2,7 +2,7 @@
 
 using namespace em::math::engine::expression;
 
-MathObjExp::MathObjExp(MathObject^ mo) : mo(mo) {
+MathObjExp::MathObjExp(bool negative, MathObject^ mo) : mo(negative ? -mo : mo) {
 }
 
 

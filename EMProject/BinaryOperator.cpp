@@ -20,10 +20,10 @@ MathObject^ BinaryOperator::compute(Message^% message) {
 		return nullptr;
 	}
 
-	String^ types = String::Concat(moA->mathType[0], moB->mathType[0]);
+	String^ types = String::Concat(moA->mathID, "_", moB->mathID);
 
 	if (!this->operationMap->ContainsKey(types)) {
-		message = gcnew Message(Message::State::ERROR, "Wrong arithmetic operation, the operands are not match to this \"" + this->symbol + "\" operation");
+		message = gcnew Message(Message::State::ERROR, "Wrong arithmetic operation, the operands do not match to this \"" + this->symbol + "\" operator");
 		return nullptr;
 	}
 	

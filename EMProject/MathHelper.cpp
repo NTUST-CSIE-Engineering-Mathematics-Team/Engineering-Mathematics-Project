@@ -2,15 +2,14 @@
 
 using namespace em::math;
 
-
-MathHelper::MathHelper() {
+double MathHelper::degreeToRadian(Scalar^ d) {
+	return d * Math::PI / 180;
 }
 
-
-MathHelper::~MathHelper() {
+Scalar^ MathHelper::radianToDegree(double r) {
+	return gcnew Scalar(r * 180 / Math::PI);
 }
 
-
-
+		
 
 

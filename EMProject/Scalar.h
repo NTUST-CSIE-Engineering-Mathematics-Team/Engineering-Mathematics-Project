@@ -8,7 +8,14 @@ namespace em {
 		ref class Scalar : public MathObject {
 		public:
 			
-			static String^ const tag = "Scalar";
+			static String^ const TAG = "Scalar";
+			static String^  const ID = "S";
+
+			property MathObject^ clone{
+				virtual MathObject^ get() override {
+					return gcnew Scalar(this);
+				}
+			}
 
 			property double doubleValue {
 				double get() {
@@ -27,14 +34,16 @@ namespace em {
 			virtual String^ ToString() override;
 			virtual MathObject^ operator-() override;
 
-			Scalar^ operator-(Scalar^ s);
-			Scalar^ operator+(Scalar^ s);
-			Scalar^ operator*(Scalar^ s);
-			Scalar^ operator/(Scalar^ s);
-
-			Scalar^ overrideAssign(Scalar^ scl);
+			virtual Scalar^ operator-(Scalar^ s);
+			virtual Scalar^ operator+(Scalar^ s);
+			virtual Scalar^ operator*(Scalar^ s);
+			virtual Scalar^ operator/(Scalar^ s);
 			
-			operator double();
+			virtual MathObject^ overrideAssign(MathObject^ mo) override;
+			virtual Scalar^ overrideAssign(Scalar^ scl);
+			virtual Scalar^ overrideAssign(double val);
+
+			virtual operator double();
 			
 			static bool scalarCast(MathObject^ mo, Scalar^% scl);
 		};

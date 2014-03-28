@@ -2,12 +2,14 @@
 
 using namespace em::math;
 
-Vector::Vector(int dim) : MathObject(tag) {
+Vector::Vector(int dim) : MathObject(TAG, ID) {
 	
 	this->value = gcnew array<double>(dim);
+	this->value[0];
+	this[0];
 }
 
-Vector::Vector(Vector^ vec) : MathObject(tag) {
+Vector::Vector(Vector^ vec) : MathObject(TAG, ID) {
 	this->overrideAssign(vec);
 }
 
@@ -33,10 +35,19 @@ Vector^ Vector::fitAssign(Vector^ vec) {
 
 
 Vector^ Vector::overrideAssign(Vector^ vec) {
-
+	delete this->value;
 	this->value = dynamic_cast<array<double>^>(vec->value->Clone());
 
 	return this;
+}
+
+MathObject^ Vector::overrideAssign(MathObject^ mo) {
+	Vector^ tmp;
+	if (!vectorCast(mo, tmp)) {
+		return nullptr;
+	}
+
+	return this->overrideAssign(tmp);
 }
 
 String^ Vector::ToString() {
@@ -72,15 +83,16 @@ MathObject^ Vector::operator-() {
 }
 
 Vector^ Vector::operator-(Vector^ v) {
+	
+	if (!isSameRank(v, this)) {
+		return nullptr;
+	}
 
-	Vector^ t = this;
-	widerConvert(t, v);
-
-	Vector^ newVec = gcnew Vector(t->rank);
+	Vector^ newVec = gcnew Vector(this->rank);
 
 	int i;
 	for (i = 0; i < newVec->rank; i++) {
-		newVec[i] = t[i] - v[i];
+		newVec[i] = this[i] - v[i];
 	}
 
 	return newVec;
@@ -88,13 +100,14 @@ Vector^ Vector::operator-(Vector^ v) {
 }
 
 Vector^ Vector::operator+(Vector^ v) {
-	Vector^ t = this;
-	widerConvert(t, v);
+	if (!isSameRank(v, this)) {
+		return nullptr;
+	}
 	
-	Vector^ newVec = gcnew Vector(t->rank);
+	Vector^ newVec = gcnew Vector(this->rank);
 
 	for (int i = 0; i < newVec->rank; i++) {
-		newVec[i] = t[i] + v[i];
+		newVec[i] = this[i] + v[i];
 	}
 
 	
@@ -113,14 +126,15 @@ Vector^ Vector::operator*(Scalar^ s) {
 }
 
 Scalar^ Vector::operator*(Vector^ v) {
-	
-	Vector^ t = this;
-	widerConvert(t, v);
+	if (!isSameRank(v, this)) {
+		return nullptr;
+	}
 
 	double product = 0;
-	
-	for (int i = 0; i < t->rank; i++) {
-		product += t[i] * v[i];
+	Vector^ newVec = gcnew Vector(this->rank);
+
+	for (int i = 0; i < newVec->rank; i++) {
+		product += this[i] * v[i];
 	}
 
 	return gcnew Scalar(product);
@@ -137,7 +151,7 @@ Vector^ Vector::operator/(Scalar^ s) {
 }
 
 Vector^ Vector::cross(Vector^ v) {
-	if (this->rank > 3 || v->rank > 3) {
+	if (!isSameRank(v, this) || this->rank > 3) {
 		return nullptr;
 	}
 
@@ -162,13 +176,17 @@ Vector^ Vector::cross(Vector^ v) {
 	return crs;
 }
 
-Scalar^ Vector::projection(Vector^ v) {
-	
+Scalar^ Vector::component(Vector^ v) {
 	return this * v->normalized;
 }
 
+Vector^ Vector::projection(Vector^ v) {
+	Vector^ n = v->normalized;
+	return n * (this * n);
+}
+
 bool Vector::isSameRank(Vector^ a, Vector^ b) {
-	return a->rank == b->rank;
+	return a != nullptr && b != nullptr && a->rank == b->rank;
 }
 
 int Vector::getWiderRank(Vector^ a, Vector^ b) {

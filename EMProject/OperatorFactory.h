@@ -17,8 +17,10 @@ namespace em {
 
 					public:
 						template<typename O>
-						static void addOperation(String^ symbol) {
-							operatorConstructors->Add(symbol, gcnew ConcreteOperator(concreteOperation<O>));
+						static void addOperation() {
+							O^ tmpO = gcnew O(nullptr, nullptr);
+							operatorConstructors->Add(tmpO->operatorSymbol, gcnew ConcreteOperator(concreteOperation<O>));
+							delete tmpO;
 						}
 
 						static BinaryOperator^ createOperatorInstance(String^ symbol, Expression^ a, Expression^ b);

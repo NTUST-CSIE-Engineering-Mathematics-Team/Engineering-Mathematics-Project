@@ -2,6 +2,7 @@
 #include "Expression.h"
 #include "Message.h"
 #include "All_Math.h"
+
 namespace em {
 	namespace math {
 		namespace engine {

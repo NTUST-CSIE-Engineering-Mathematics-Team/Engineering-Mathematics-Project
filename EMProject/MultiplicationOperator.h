@@ -13,12 +13,12 @@ namespace em {
 						virtual ~MultiplicationOperator();
 
 					private:
-						static MathObject^ SS(Scalar^ a, Scalar^ b, Message^% msg);
-						static MathObject^ VV(Vector^ a, Vector^ b, Message^% msg);
-						static MathObject^ MM(Matrix^ a, Matrix^ b, Message^% msg);
-						static MathObject^ SV(Scalar^ a, Vector^ b, Message^% msg);
-						static MathObject^ SM(Scalar^ a, Matrix^ b, Message^% msg);
-						static MathObject^ MV(Matrix^ a, Vector^ b, Message^% msg);
+						static MathObject^ S_S(Scalar^ a, Scalar^ b, Message^% msg);
+						static MathObject^ V_V(Vector^ a, Vector^ b, Message^% msg);
+						static MathObject^ M_M(Matrix^ a, Matrix^ b, Message^% msg);
+						static MathObject^ S_V(Scalar^ a, Vector^ b, Message^% msg);
+						static MathObject^ S_M(Scalar^ a, Matrix^ b, Message^% msg);
+						static MathObject^ M_V(Matrix^ a, Vector^ b, Message^% msg);
 					};
 				}
 			}

@@ -10,28 +10,22 @@ namespace em {
 
 
 					ref class FunctionFactory abstract {
-					private:
-						delegate Function^ ConcreteFunction(bool negative, array<Expression^>^ exps);
+					
 
 					private:
-						static Dictionary<String^, ConcreteFunction^>^ const functionConstructors = gcnew Dictionary<String^, ConcreteFunction^>();
+						static Dictionary<String^, Dictionary<String^, Function::FunctionPerformer^>^>^ const functionConstructors = gcnew Dictionary<String^, Dictionary<String^, Function::FunctionPerformer^>^>();
 							
 					public:
-						template<typename F>
-						static void addFunction(String^ name) {
-							functionConstructors->Add(name, gcnew ConcreteFunction(concreteFunction<F>));
-						}
+						
+						static void addFunction(Function::FunctionPerformer^ performer);
 
 						static bool hasFunction(String^ name);
 						static Function^ createFunctionInstance(String^ name, bool negative, array<Expression^>^ exps);
 						~FunctionFactory();
+
 					private:
 						FunctionFactory();
-
-						template<typename F>
-						static Function^ concreteFunction(bool negative, array<Expression^>^ exps) {
-							return gcnew F(negative, exps);
-						}
+						
 					};
 				}
 			}

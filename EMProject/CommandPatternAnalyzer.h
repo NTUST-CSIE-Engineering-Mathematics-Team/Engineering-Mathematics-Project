@@ -14,7 +14,6 @@ namespace em {
 
 			protected:
 				CommandTable^ commandTable;
-
 			public:
 				CommandPatternAnalyzer(array<Command^>^ commands);
 				virtual ~CommandPatternAnalyzer();

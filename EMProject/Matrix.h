@@ -8,13 +8,19 @@ namespace em {
 		using System::String;
 		using System::Text::StringBuilder;
 
-		ref class Matrix : public MathObject {
+		ref class Matrix : public MathObject{
 
 		public:
 			enum class VectorOption { ROW, COLUMN };
 
-			static String^ const tag = "Matrix";
-			
+			static String^ const TAG = "Matrix";
+			static String^ const ID = "M";
+
+			property MathObject^ clone{
+				virtual MathObject^ get() override {
+					return gcnew Matrix(this);
+				}
+			}
 
 			property double default[int, int] {
 				double get(int i, int j) {
@@ -42,29 +48,41 @@ namespace em {
 				}
 			}
 
+			property bool square {
+				bool get() {
+					return this->rowLength == this->columnLength;
+				}
+			}
 		private: 
 			array<double, 2>^ value;
 		
 		public:
 			Matrix(int dim1, int dim2);
 			Matrix(Matrix^ mat);
+			Matrix(VectorOption op, Vector^ vec);
 			virtual ~Matrix();
 
 			virtual String^ ToString() override;
 			virtual MathObject^ operator-() override;
 
-			Matrix^ fitAssign(Matrix^ mat);
+			virtual Matrix^ fitAssign(Matrix^ mat);
+			virtual MathObject^ overrideAssign(MathObject^ mo) override;
 			virtual Matrix^ overrideAssign(Matrix^ mat);
 
-			Matrix^ operator-(Matrix^ m);
-			Matrix^ operator+(Matrix^ m);
-			Matrix^ operator*(Matrix^ m);
-			Vector^ operator*(Vector^ v);
-			Matrix^ operator*(Scalar^ s);
-			Matrix^ operator/(Scalar^ s);
+			virtual Matrix^ operator-(Matrix^ m);
+			virtual Matrix^ operator+(Matrix^ m);
+			virtual Matrix^ operator*(Matrix^ m);
+			virtual Vector^ operator*(Vector^ v);
+			virtual Matrix^ operator*(Scalar^ s);
+			virtual Matrix^ operator/(Scalar^ s);
 
-			bool isSameSize(Matrix^ m);
+			virtual bool isSameSize(Matrix^ m);
+			virtual Matrix^ transpose();
+			virtual Matrix^ pow(int exponent);
+
 			static bool matrixCast(MathObject^ mo, Matrix^% mat);
+			static Matrix^ getIdentityMatrix(int size);
+		
 		};
 	}
 }

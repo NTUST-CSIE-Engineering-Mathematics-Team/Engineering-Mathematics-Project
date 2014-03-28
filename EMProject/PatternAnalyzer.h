@@ -16,6 +16,7 @@ namespace em {
 			public:
 				static String^ const NAME_PATTERN = "(?:[A-Za-z_]\\w*)";
 				static String^ const DOUBLE_PATTERN = "(?:-?\\d+(?:\\.\\d+)?)";
+				static String^ const INTEGER_PATTERN = "(?:-?\\d+)";
 				static String^ const NAME_OR_VALUE_PATTERN = "(?:" + NAME_PATTERN + "|" + DOUBLE_PATTERN + ")";
 				
 
@@ -32,7 +33,8 @@ namespace em {
 				delegate bool IsType(String^ var);
 
 				static Regex^ const namePattern = gcnew Regex("^" + NAME_PATTERN + "$", RegexOptions::Compiled);
-				static Regex^ const expressionPattern = gcnew Regex("^\\((" + ArithmeticEngine::arithmeticContentPattern("i") + ")\\)$");
+				static Regex^ const expressionPattern = gcnew Regex("^(" + ArithmeticEngine::arithmeticContentPattern("i") + ")$", RegexOptions::Compiled);
+				static Regex^ const pairPattern = gcnew Regex("^(" + NAME_PATTERN + ")\\s+(" + INTEGER_PATTERN + ")$", RegexOptions::Compiled);
 				static Dictionary<wchar_t, IsType^>^ checkTable;
 
 			public:
@@ -40,7 +42,10 @@ namespace em {
 
 				virtual Message^ analyze(Match^ result, Interpreter^ iptr) abstract;
 
+				static bool isPair(String^ arg);
+				static bool isPair(String^ arg, String^% key, int% value);
 				static bool isName(String^ arg);
+				static bool PatternAnalyzer::isKeyword(String^ arg);
 
 				static bool isExpression(String^ arg);
 				static bool isExpression(String^ arg, String^% v);
@@ -54,10 +59,8 @@ namespace em {
 				static bool isChar(String^ arg, wchar_t% v);
 				static bool isChar(String^ arg);
 
-				static bool isNameOrValue(String^ arg);
-
 				static String^ rowValuePattern(int maxArgs);
-				static int checkVarTypes(array<String^>^ rawArgs, array<String^>^ types);
+				static bool checkVarType(String^ rawArg, wchar_t type);
 
 			protected:
 				PatternAnalyzer();
