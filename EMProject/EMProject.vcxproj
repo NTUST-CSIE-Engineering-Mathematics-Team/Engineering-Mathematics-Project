@@ -112,6 +112,7 @@
     <ClCompile Include="MappingTable.cpp" />
     <ClCompile Include="MultiplicationOperator.cpp" />
     <ClCompile Include="MagFunction.cpp" />
+    <ClCompile Include="NormalizationFunction.cpp" />
     <ClCompile Include="ProjFunction.cpp" />
     <ClCompile Include="RegistrationArea.cpp" />
     <ClCompile Include="SubtractionOperator.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="Message.h" />
     <ClInclude Include="MappingTable.h" />
     <ClInclude Include="MultiplicationOperator.h" />
+    <ClInclude Include="NormalizationFunction.h" />
     <ClInclude Include="ProjFunction.h" />
     <ClInclude Include="RegistrationArea.h" />
     <ClInclude Include="SubtractionOperator.h" />

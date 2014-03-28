@@ -195,6 +195,9 @@
     <ClCompile Include="CommandFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NormalizationFunction.cpp">
+      <Filter>Source Files\math\engine\functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainForm.h">
@@ -349,6 +352,9 @@
     </ClInclude>
     <ClInclude Include="RegistrationArea.h">
       <Filter>Header Files\intrprt</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalizationFunction.h">
+      <Filter>Header Files\math\engine\expression\functions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,5 +11,5 @@ MagFunction::~MagFunction() {
 MathObject^ MagFunction::performFunction(array<MathObject^>^ mos) {
 	Vector^ v;
 	Vector::vectorCast(mos[0], v);
-	return gcnew Scalar(v->magnitude);
+	return gcnew Scalar(v->magnitude));
 }
