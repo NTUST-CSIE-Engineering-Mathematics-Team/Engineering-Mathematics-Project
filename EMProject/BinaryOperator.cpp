@@ -4,7 +4,7 @@
 using namespace em::math::engine::expression::operators;
 
 BinaryOperator::BinaryOperator(String^ symbol, Expression^ opndA, Expression^ opndB) : symbol(symbol), opndA(opndA), opndB(opndB) {
-	this->operationMap = gcnew Dictionary<String^, CasterInterface^>(12);
+	this->overloadsMap = gcnew Dictionary<String^, CasterInterface^>(12);
 }
 
 BinaryOperator::~BinaryOperator() {
@@ -20,10 +20,10 @@ MathObject^ BinaryOperator::compute(Message^% message) {
 		return nullptr;
 	}
 
-	String^ types = String::Concat(moA->mathType[0], moB->mathType[0]);
+	String^ types = String::Concat(moA->mathID, "_", moB->mathID);
 
-	if (!this->operationMap->ContainsKey(types)) {
-		message = gcnew Message(Message::State::ERROR, "Wrong arithmetic operation, the operands are not match to this \"" + this->symbol + "\" operation");
+	if (!this->overloadsMap->ContainsKey(types)) {
+		message = gcnew Message(Message::State::ERROR, "Wrong arithmetic operation, the operands do not match to this \"" + this->symbol + "\" operator");
 		return nullptr;
 	}
 	
@@ -31,12 +31,12 @@ MathObject^ BinaryOperator::compute(Message^% message) {
 }
 
 MathObject^ BinaryOperator::castInvoke(String^ types, MathObject^ a, MathObject^ b, Message^% message) {
-	return this->operationMap[types]->castInvoke(a, b, message);
+	return this->overloadsMap[types]->castInvoke(a, b, message);
 }
 
 generic<typename A, typename B> where A : MathObject where B : MathObject
 void BinaryOperator::addOperation(String^ types, Operation<A, B>^ operation) {
-	this->operationMap->Add(types, gcnew Caster<A, B>(operation));
+	this->overloadsMap->Add(types, gcnew Caster<A, B>(operation));
 }
 
 generic<typename A, typename B> where A : MathObject where B : MathObject

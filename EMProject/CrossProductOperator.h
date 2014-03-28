@@ -13,7 +13,7 @@ namespace em {
 						virtual ~CrossProductOperator();
 
 					private:
-						static MathObject^ VV(Vector^ a, Vector^ b, Message^% msg);
+						static MathObject^ V_V(Vector^ a, Vector^ b, Message^% msg);
 					};
 				}
 			}

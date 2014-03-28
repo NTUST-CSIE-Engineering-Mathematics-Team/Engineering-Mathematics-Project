@@ -20,36 +20,41 @@ Message^ AssignmentPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 
 	Message^ msg;
 	VariableTable^ vTable = iptr->variableTable;
-	String^ lObjName = result->Groups[1]->Value;
+	CaptureCollection^ lObjNames = result->Groups[1]->Captures;
+	
+	MathObject^ output, ^ var;
+	msg = iptr->arithmeticEngine->execute(result->Groups[2]->Value, output);
 
-	if (!vTable->contains(lObjName)) {
-		return Message::varNotFoundMsg(lObjName);
-	}
 
-	MathObject^ mo;
-	msg = iptr->arithmeticEngine->execute(result->Groups[2]->Value, mo);
+	if (output != nullptr) {
 
-	if (mo != nullptr) {
-		MathObject^ v = vTable[lObjName];
-		if (mo->mathType->Equals(v->mathType)) {
-			Scalar^ scl;
-			Vector^ vec;
-			if (Scalar::scalarCast(v, scl)) {
-				scl->overrideAssign(dynamic_cast<Scalar^>(mo));
-			} else if (Vector::vectorCast(v, vec)) {
-				vec->overrideAssign(dynamic_cast<Vector^>(mo));
-			} else {
-				dynamic_cast<Matrix^>(v)->overrideAssign(dynamic_cast<Matrix^>(mo));
+		String^ lObjName;
+		var = output;
+
+		for (int i = lObjNames->Count - 1; i >= 0; i--) {
+
+			lObjName = lObjNames[i]->Value;
+
+			if (isKeyword(lObjName)) {
+				return Message::useKeywordAsNameError(lObjName);
 			}
-		} else {
-			StringBuilder^ sb = gcnew StringBuilder();
-			sb->AppendFormat("Type error, can not assign a {0} to a {1}", mo->mathType->ToLower(), v->mathType->ToLower());
-			return gcnew Message(Message::State::ERROR, sb->ToString());
 
+			if (!vTable->contains(lObjName)) {
+				vTable->addVariable(lObjName, var);
+			} else {
+				MathObject^ lmo = vTable[lObjName];
+				var = lmo->overrideAssign(var);
+				if (var == nullptr) {
+					StringBuilder^ sb = gcnew StringBuilder();
+					sb->AppendFormat("Type error, can not assign a {0} to a {1}", output->mathType->ToLower(), lmo->mathType->ToLower());
+					return gcnew Message(Message::State::ERROR, sb->ToString());
+
+				}
+			}
 		}
-		 
-	}
 
+	}
+	
 	return msg;
 }
 
@@ -57,7 +62,7 @@ Message^ AssignmentPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 String^ AssignmentPatternAnalyzer::buildInitPattern() {
 	StringBuilder^ sb = gcnew StringBuilder();
 	
-	sb->AppendFormat("^({0})\\s*=\\s*({1})$", NAME_PATTERN, ArithmeticEngine::arithmeticContentPattern("p"));
+	sb->AppendFormat("^(?:({0})\\s*=\\s*)+({1})$", NAME_PATTERN, ArithmeticEngine::arithmeticContentPattern("p"));
 	
 	return sb->ToString();
 }

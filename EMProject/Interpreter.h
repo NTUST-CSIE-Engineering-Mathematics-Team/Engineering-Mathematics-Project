@@ -10,7 +10,7 @@ namespace em {
 	namespace intrprt {
 		using namespace pattern;
 		using System::String;
-		
+
 		ref class Interpreter abstract{
 
 		public:
@@ -27,15 +27,16 @@ namespace em {
 			}
 		private:
 			PatternAnalyzer^ needNext;
+			StringBuilder^ fullLine;
 			PatternAnalyzer^ const commentPattern = gcnew CommentPatternAnalyzer();
 			PatternTable^ pTable;
 			VariableTable^ proxyVTable;
 			ArithmeticEngine^ engine;
-
+			int beenIntrprtedLineCount;
 		public:
 			virtual ~Interpreter();
 
-			Message^ interpret(String^ line);
+			Message^ interpret(String^ line, int% beenIntrprtedLineCount);
 			void releaseNextLine();
 			void needNextLine(PatternAnalyzer^ analyzer);
 
@@ -44,9 +45,6 @@ namespace em {
 			
 		protected:
 			Interpreter(array<PatternAnalyzer^>^ patternList);
-		
-		private:
-			static Interpreter();
 
 		private:
 			ref class VariableTableProxy : public VariableTable {
@@ -72,7 +70,7 @@ namespace em {
 				virtual void load(VariableTable^ vTable) override;
 				virtual void unload(VariableTable^ vTable) override;
 				virtual bool checkGet(String^ name, MathObject^% mo) override;
-				virtual Dictionary<String^, MathObject^>::Enumerator getEnumerator() override;
+				virtual System::Collections::Generic::IEnumerator<KeyValuePair<String^, MathObject^>>^ GetEnumerator() override;
 
 			};
 		};

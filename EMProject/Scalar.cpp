@@ -2,10 +2,10 @@
 
 using namespace em::math;
 
-Scalar::Scalar(double v) : MathObject(tag), value(v) {
+Scalar::Scalar(double v) : MathObject(TAG, ID), value(v) {
 }
 
-Scalar::Scalar(Scalar^ scl) : MathObject(tag) {
+Scalar::Scalar(Scalar^ scl) : MathObject(TAG, ID) {
 	this->overrideAssign(scl);
 }
 
@@ -17,9 +17,24 @@ String^ Scalar::ToString() {
 }
 
 Scalar^ Scalar::overrideAssign(Scalar^ scl) {
-	this->value = scl->value;
+	return this->overrideAssign(scl->value);
+}
+
+Scalar^ Scalar::overrideAssign(double val) {
+	this->value = val;
 	return this;
 }
+
+
+MathObject^ Scalar::overrideAssign(MathObject^ mo) {
+	Scalar^ tmp;
+	if (!scalarCast(mo, tmp)) {
+		return nullptr;
+	}
+
+	return this->overrideAssign(tmp);
+}
+
 
 Scalar::operator double() {
 	return this->value;

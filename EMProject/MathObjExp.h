@@ -1,13 +1,11 @@
 #pragma once
 #include "Expression.h"
-#include "VariableTable.h"
 #include "Message.h"
 
 namespace em {
 	namespace math {
 		namespace engine {
 			namespace expression {
-				using em::intrprt::VariableTable;
 				using em::math::MathObject;
 				using em::intrprt::Message;
 
@@ -16,7 +14,7 @@ namespace em {
 					MathObject^ mo;
 
 				public:
-					MathObjExp(MathObject^ mo);
+					MathObjExp(bool negative, MathObject^ mo);
 					virtual ~MathObjExp();
 
 					virtual MathObject^ compute(Message^% message);

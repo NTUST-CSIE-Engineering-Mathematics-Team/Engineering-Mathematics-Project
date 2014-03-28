@@ -3,8 +3,18 @@
 using namespace em::intrprt;
 using System::Collections::Generic::KeyValuePair;
 
+using System::Collections::Generic::IEnumerator;
+
 VariableTable::VariableTable() {
 	this->lastGeneratedName = gcnew StringBuilder(System::Convert::ToString((wchar_t)(L'a' - 1)));
+}
+
+static VariableTable::VariableTable() {
+	stgSetCreators = gcnew Dictionary<String^, CreateStorageSet^>();
+	stgSetCreators->Add(KeywordCollection::SCALARS, gcnew CreateStorageSet(&createStgSet<Scalar>));
+	stgSetCreators->Add(KeywordCollection::VECTORS, gcnew CreateStorageSet(&createStgSet<Vector>));
+	stgSetCreators->Add(KeywordCollection::MATRICES, gcnew CreateStorageSet(&createStgSet<Matrix>));
+	stgSetCreators->Add(KeywordCollection::SETS, gcnew CreateStorageSet(&createStgSet<MathObjSet>));
 }
 
 
@@ -27,6 +37,11 @@ String^ VariableTable::addVariable(MathObject^ mo) {
 	String^ newName = generateNewVariableName();
 	this->addVariable(newName, mo);
 	return newName;
+}
+
+bool VariableTable::contains(String^ name) {
+
+	return MappingTable<String^, MathObject^>::contains(name) || this->stgSetCreators->ContainsKey(name);
 }
 
 bool VariableTable::deleteVariable(String^ name) {
@@ -53,7 +68,7 @@ void VariableTable::clear() {
 	this->table->Clear();
 }
 
-Dictionary<String^, MathObject^>::Enumerator VariableTable::getEnumerator() {
+System::Collections::Generic::IEnumerator<KeyValuePair<String^, MathObject^>>^ VariableTable::GetEnumerator() {
 	return table->GetEnumerator();
 }
 
@@ -80,4 +95,9 @@ String^ VariableTable::generateNewVariableName() {
 	} while (this->table->ContainsKey(lastGeneratedName->ToString()));
 
 	return result;
+}
+
+
+System::Collections::IEnumerator^ VariableTable::GetNGEnumerator() {
+	return this->GetEnumerator();
 }

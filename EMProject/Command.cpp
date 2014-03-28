@@ -3,8 +3,7 @@
 using namespace em::intrprt::cmd;
 
 
-Command::Command(String^ cl, ...array<String^>^ argTs) : cmdLiteral(cl) {
-	this->argTs = argTs;
+Command::Command(String^ cl, wchar_t argT) : cmdLiteral(cl), argT(argT) {
 }
 
 

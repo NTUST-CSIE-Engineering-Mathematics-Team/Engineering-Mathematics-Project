@@ -2,6 +2,7 @@
 #include "Expression.h"
 #include "Message.h"
 #include "All_Math.h"
+
 namespace em {
 	namespace math {
 		namespace engine {
@@ -49,7 +50,7 @@ namespace em {
 						Expression^ opndA;
 						Expression^ opndB;
 
-						Dictionary<String^, CasterInterface^>^ operationMap;
+						Dictionary<String^, CasterInterface^>^ overloadsMap;
 
 					public:
 						BinaryOperator(String^ symbol, Expression^ opndA, Expression^ opndB);

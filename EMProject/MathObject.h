@@ -5,7 +5,7 @@ namespace em {
 		using System::String;
 		ref class MathObject abstract{
 		public:
-			static property int a;
+			
 			static property int numPrecision {
 				void set(int p) {
 					precision = p;
@@ -26,6 +26,16 @@ namespace em {
 				}
 			}
 
+			property String^ mathID{
+				String^ get() {
+					return mID;
+				}
+			}
+
+			property MathObject^ clone{
+				virtual MathObject^ get() abstract;
+			}
+
 		protected:
 			static property String^ NUMERAL_FORMAT {
 				String^ get() {
@@ -34,18 +44,19 @@ namespace em {
 			}
 
 		private:
-			String^ mType;
-
-			static int precision = 2;
-			static int width = 7;
+			String^ const mType;
+			String^ const mID;
+			static int precision = 7;
+			static int width = 12;
 	
 		public:
 			virtual ~MathObject();
 
 			virtual String^ ToString()override abstract;
 			virtual MathObject^ operator-() abstract;
+			virtual MathObject^ overrideAssign(MathObject^ mo) abstract;
 		public:
-			MathObject(String^ type);
+			MathObject(String^ type, String^  mID);
 		};
 	}
 }

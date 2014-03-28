@@ -14,7 +14,7 @@ namespace em {
 				SettingsCommand();
 				virtual ~SettingsCommand();
 
-				virtual Message^ performCommand(array<String^>^ args, int typeIndex, Interpreter^ iptr) override;
+				virtual Message^ performCommand(String^ args, Interpreter^ iptr) override;
 			};
 		}
 	}

@@ -4,10 +4,10 @@
 using namespace em::intrprt;
 using System::Text::StringBuilder;
 
-Message::Message(State t, String^ s) : Message(t, s, Color::Black) {
+Message::Message(State t, String^ s) : Message(t, Color::Black, s) {
 }
 
-Message::Message(State t, String^ s, Color msgColor) : state(t), content(s), color(msgColor) {
+Message::Message(State t, Color msgColor, String^ s) : state(t), color(msgColor), content(s) {
 	
 }
 
@@ -24,10 +24,12 @@ String ^ Message::ToString() {
 	return this->content;
 }
 
+Message^ Message::useKeywordAsNameError(String^ var) {
+	return gcnew Message(Message::State::ERROR, "Cannot use the keyword \"" + var + "\" as a variable name");
+
+}
+
 Message^ Message::varNotFoundMsg(String^ var) {
-	if (KeywordCollection::contains(var)) {
-		return gcnew Message(Message::State::ERROR, "Cannot use the keyword \"" + var + "\" as a variable name");
-	}
 
 	return gcnew Message(Message::State::ERROR, "Cannot find the variable \"" + var + "\"");
 }

@@ -1,17 +1,16 @@
 #pragma once
 #include "Function.h"
-#include "Vector.h"
-#include "Scalar.h"
+#include "all_Math.h"
 
 namespace em {
 	namespace math {
 		namespace engine {
 			namespace expression {
 				namespace functions {
-					ref class MagFunction : public Function {
+					ref class NormalizationFunction : public Function {
 					public:
-						MagFunction(bool negative, array<Expression^>^ exps);
-						virtual ~MagFunction();
+						NormalizationFunction(bool negative, array<Expression^>^ exps);
+						virtual ~NormalizationFunction();
 
 						virtual MathObject^ performFunction(array<MathObject^>^ mos) override;
 					};

@@ -4,3 +4,5 @@
 #include "Function.h"
 #include "MathObjExp.h"
 #include "BinaryOperator.h"
+#include "MathObjSetExp.h"
+#include "VMConstructExp.h"

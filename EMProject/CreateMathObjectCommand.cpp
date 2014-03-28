@@ -3,34 +3,13 @@
 
 using namespace em::intrprt::cmd;
 
-CreateMathObjectCommand::CreateMathObjectCommand(String^ cl, array<String^>^ argTs) : Command(cl, argTs) {
-	this->nameIndices = gcnew array<int>(argTs->Length);
-	int i = 0;
-	for each(String^ t in argTs) {
-		nameIndices[i++] = t->IndexOf('n');
-	}
-}
-
-CreateMathObjectCommand::~CreateMathObjectCommand() {
-}
-
-Message^ CreateMathObjectCommand::performCommand(array<String^>^ args, int typeIndex, Interpreter^ iptr) {
-
-	
-	if (iptr->variableTable->contains(args[this->nameIndices[typeIndex]])) {
-		return Message::varAlreadyExistMsg(args[this->nameIndices[typeIndex]]);
-	}
-	
-	return this->createMathObject(typeIndex, args[this->nameIndices[typeIndex]], args, iptr);
-}
-
-CreateFileMathObjectCommand::CreateFileMathObjectCommand(String^ cl, PatternAnalyzer^ analyzer) : Command(cl, nullptr), analyzer(analyzer) {
+CreateFileMathObjectCommand::CreateFileMathObjectCommand(String^ cl, PatternAnalyzer^ analyzer) : Command(cl, ' '), analyzer(analyzer) {
 }
 
 CreateFileMathObjectCommand::~CreateFileMathObjectCommand() {
 }
 
-Message^ CreateFileMathObjectCommand::performCommand(array<String^>^ args,int typeIndex, Interpreter^ iptr) {
+Message^ CreateFileMathObjectCommand::performCommand(String^ arg, Interpreter^ iptr) {
 	iptr->needNextLine(this->analyzer);
 	return Message::PARSING_MSG;
 }
@@ -76,7 +55,7 @@ Message^ CreateFileMathObjectCommand::FileMatrixConstructionAnalyzer::analyze(Ma
 		this->rowIndex = -1;
 		this->regex = this->initRegex;
 		this->tmpMat = nullptr;
-		return gcnew Message(Message::State::PASS, "Loaded matrix \"" + mName + "\" into the static storage", Message::STORAGE_COLOR);
+		return gcnew Message(Message::State::PASS, Message::STORAGE_COLOR, "Loaded matrix \"" + mName + "\" into the static storage");
 	}
 
 	return Message::PARSING_MSG;
@@ -102,6 +81,7 @@ Message^ CreateFileMathObjectCommand::FileVectorConstructionAnalyzer::analyze(Ma
 		if (!isInteger(result->Groups[1]->Value, r)) {
 			return gcnew Message(Message::State::ERROR, wot);
 		}
+
 		this->tmpVec = gcnew Vector(r);
 		this->initRegex = this->regex;
 		this->regex = gcnew Regex(PatternAnalyzer::rowValuePattern(tmpVec->rank));
@@ -118,13 +98,13 @@ Message^ CreateFileMathObjectCommand::FileVectorConstructionAnalyzer::analyze(Ma
 
 		this->tmpVec[i++] = s;
 	}
-
-	String^ vName = iptr->variableTable->addVariable(this->tmpVec);
+	bool isScl = this->tmpVec->rank == 1;
+	String^ vName = iptr->variableTable->addVariable( isScl ? (MathObject^)gcnew Scalar(this->tmpVec[0]) : this->tmpVec);
 	this->tmpVec = nullptr;
 
 	iptr->releaseNextLine();
 	this->regex = this->initRegex;
-	return gcnew Message(Message::State::PASS, "Loaded vector \"" + vName + "\" into the static storage", Message::STORAGE_COLOR);
+	return gcnew Message(Message::State::PASS, Message::STORAGE_COLOR, "Loaded " + (isScl ? "scalar" : "vector") + " \"" + vName + "\" into the static storage");
 
 }
 

@@ -11,23 +11,6 @@ namespace em {
 			using namespace em::math; 
 			using em::intrprt::pattern::PatternAnalyzer;
 
-			ref class CreateMathObjectCommand abstract: public Command {
-
-			private:
-				array<int>^ nameIndices;
-
-			public:
-				virtual ~CreateMathObjectCommand();
-
-				virtual Message^ performCommand(array<String^>^ args, int typeIndex, Interpreter^ iptr) override;
-
-			protected:
-				CreateMathObjectCommand(String^ cl, ...array<String^>^ argTypes);
-
-				virtual Message^ createMathObject(int typeIndex, String^ varName, array<String^>^ rawArgs, Interpreter^ iptr) abstract;
-				
-			};
-
 			ref class CreateFileMathObjectCommand : public Command {
 
 			public:
@@ -52,7 +35,7 @@ namespace em {
 			public:
 				virtual ~CreateFileMathObjectCommand();
 
-				virtual Message^ performCommand(array<String^>^ args, int typeIndex, Interpreter^ iptr) override;
+				virtual Message^ performCommand(String^ arg, Interpreter^ iptr) override;
 
 			private:
 				CreateFileMathObjectCommand(String^ cl, PatternAnalyzer^ storedAnalyzer);

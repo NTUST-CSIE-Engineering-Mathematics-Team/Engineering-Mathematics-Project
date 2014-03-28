@@ -4,18 +4,18 @@
 
 using namespace em::intrprt::cmd;
 
-DeleteCommand::DeleteCommand() : Command(KeywordCollection::DELETE_CMD, "N") {
+DeleteCommand::DeleteCommand() : Command(KeywordCollection::DELETE_CMD, 'N') {
 }
 
 DeleteCommand::~DeleteCommand() {
 }
 
-Message^ DeleteCommand::performCommand(array<String^>^ args, int typeIndex, Interpreter^ iptr) {
+Message^ DeleteCommand::performCommand(String^ arg, Interpreter^ iptr) {
 
-	if (!iptr->variableTable->contains(args[0])) {
-		return Message::varNotFoundMsg(args[0]);
+	if (!iptr->variableTable->contains(arg)) {
+		return Message::varNotFoundMsg(arg);
 	} 
 	
-	iptr->variableTable->deleteVariable(args[0]);
+	iptr->variableTable->deleteVariable(arg);
 	return Message::PASS_NO_CONTENT_MSG;
 }

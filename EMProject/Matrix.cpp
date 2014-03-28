@@ -2,12 +2,25 @@
 
 using namespace em::math;
 
-Matrix::Matrix(int dim1, int dim2) : MathObject(tag) {
+Matrix::Matrix(int dim1, int dim2) : MathObject(TAG, ID) {
 	this->value = gcnew array<double, 2>(dim1, dim2);
 }
 
-Matrix::Matrix(Matrix^ mat) : MathObject(tag) {
+Matrix::Matrix(Matrix^ mat) : MathObject(TAG, ID) {
 	this->overrideAssign(mat);
+}
+
+
+Matrix::Matrix(VectorOption op, Vector^ vec) : MathObject(TAG, ID) {
+
+	if (op == VectorOption::ROW) {
+		this->value = gcnew array<double, 2>(1, vec->rank);
+		this[VectorOption::ROW, 0] = vec;
+	} else {
+		this->value = gcnew array<double, 2>(vec->rank, 1);
+		this[VectorOption::COLUMN, 0] = vec;
+	}
+
 }
 
 Matrix::~Matrix() {
@@ -102,6 +115,15 @@ Matrix^ Matrix::overrideAssign(Matrix^ mat) {
 	this->value = dynamic_cast<array<double, 2>^>(mat->value->Clone());
 	
 	return this;
+}
+
+MathObject^ Matrix::overrideAssign(MathObject^ mo) {
+	Matrix^ tmp;
+	if (!matrixCast(mo, tmp)) {
+		return nullptr;
+	}
+
+	return this->overrideAssign(tmp);
 }
 
 bool Matrix::matrixCast(MathObject^ mo, Matrix^% mat) {
@@ -212,4 +234,45 @@ Matrix^ Matrix::operator/(Scalar^ s) {
 
 bool Matrix::isSameSize(Matrix^ m) {
 	return this->columnLength == m->columnLength && this->rowLength == m->rowLength;
+}
+
+Matrix^ Matrix::getIdentityMatrix(int size) {
+	Matrix^ idnty = gcnew Matrix(size, size);
+
+	for (int i = 0; i < size; i++) {
+		idnty[i, i] = 1;
+	}
+
+	return idnty;
+}
+
+Matrix^ Matrix::transpose() {
+	Matrix^ newMat = gcnew Matrix(this->rowLength, this->columnLength);
+	
+	for (int i = 0; i < this->columnLength; i++) {
+		for (int j = 0; j < this->rowLength; j++) {
+			newMat[j, i] = this[i, j];
+		}
+	}
+
+	return newMat;
+}
+
+
+Matrix^ Matrix::pow(int exponent) {
+	if (!this->isSquare) {
+		return nullptr;
+	}
+
+	if (exponent == 0) {
+		return getIdentityMatrix(this->columnLength);
+	}
+
+	Matrix^ m = gcnew Matrix(this);
+	// not support inverse of matrix yet
+	for (int i = 1; i < exponent; i++) {
+		m = m * this;
+	}
+
+	return m;
 }

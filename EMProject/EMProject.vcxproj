@@ -91,9 +91,6 @@
     <ClCompile Include="CommutativeOperator.cpp" />
     <ClCompile Include="ConstantTable.cpp" />
     <ClCompile Include="CreateMathObjectCommand.cpp" />
-    <ClCompile Include="CreateMatrixCommand.cpp" />
-    <ClCompile Include="CreateScalarCommand.cpp" />
-    <ClCompile Include="CreateVectorCommand.cpp" />
     <ClCompile Include="CrossProductOperator.cpp" />
     <ClCompile Include="DeleteCommand.cpp" />
     <ClCompile Include="DivisionOperator.cpp" />
@@ -102,17 +99,22 @@
     <ClCompile Include="FunctionFactory.cpp" />
     <ClCompile Include="Interpreter.cpp" />
     <ClCompile Include="InterpreterFactory.cpp" />
+    <ClCompile Include="JudgeCommand.cpp" />
     <ClCompile Include="KeywordCollection.cpp" />
     <ClCompile Include="MainForm.cpp" />
     <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="MathObject.cpp" />
+    <ClCompile Include="MathObjGenericSet.cpp" />
+    <ClCompile Include="MathObjSet.cpp" />
     <ClCompile Include="MathObjExp.cpp" />
+    <ClCompile Include="MathObjSetExp.cpp" />
     <ClCompile Include="Matrix.cpp" />
+    <ClCompile Include="MatrixBasicFunctions.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MappingTable.cpp" />
     <ClCompile Include="MultiplicationOperator.cpp" />
-    <ClCompile Include="MagFunction.cpp" />
-    <ClCompile Include="ProjFunction.cpp" />
+    <ClCompile Include="ScalarBasicFunctions.cpp" />
+    <ClCompile Include="VectorBasicFunctions.cpp" />
     <ClCompile Include="RegistrationArea.cpp" />
     <ClCompile Include="SubtractionOperator.cpp" />
     <ClCompile Include="OperatorFactory.cpp" />
@@ -123,8 +125,10 @@
     <ClCompile Include="Scalar.cpp" />
     <ClCompile Include="SettingsCommand.cpp" />
     <ClCompile Include="ShowStorageCommand.cpp" />
+    <ClCompile Include="TrigonometricFunctions.cpp" />
     <ClCompile Include="VariableTable.cpp" />
     <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="VMConstructExp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="All_Commands.h" />
@@ -144,9 +148,6 @@
     <ClInclude Include="CommutativeOperator.h" />
     <ClInclude Include="ConstantTable.h" />
     <ClInclude Include="CreateMathObjectCommand.h" />
-    <ClInclude Include="CreateMatrixCommand.h" />
-    <ClInclude Include="CreateScalarCommand.h" />
-    <ClInclude Include="CreateVectorCommand.h" />
     <ClInclude Include="CrossProductOperator.h" />
     <ClInclude Include="DeleteCommand.h" />
     <ClInclude Include="DivisionOperator.h" />
@@ -155,19 +156,25 @@
     <ClInclude Include="FunctionFactory.h" />
     <ClInclude Include="Interpreter.h" />
     <ClInclude Include="InterpreterFactory.h" />
+    <ClInclude Include="JudgeCommand.h" />
     <ClInclude Include="KeywordCollection.h" />
-    <ClInclude Include="MagFunction.h" />
+    <ClInclude Include="MatrixBasicFunctions.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="ScalarBasicFunctions.h" />
+    <ClInclude Include="VectorBasicFunctions.h" />
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="MathObject.h" />
+    <ClInclude Include="MathObjGenericSet.h" />
+    <ClInclude Include="MathObjSet.h" />
     <ClInclude Include="MathObjExp.h" />
+    <ClInclude Include="MathObjSetExp.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MappingTable.h" />
     <ClInclude Include="MultiplicationOperator.h" />
-    <ClInclude Include="ProjFunction.h" />
     <ClInclude Include="RegistrationArea.h" />
     <ClInclude Include="SubtractionOperator.h" />
     <ClInclude Include="OperatorFactory.h" />
@@ -178,13 +185,24 @@
     <ClInclude Include="Scalar.h" />
     <ClInclude Include="SettingsCommand.h" />
     <ClInclude Include="ShowStorageCommand.h" />
+    <ClInclude Include="TrigonometricFunctions.h" />
     <ClInclude Include="VariableTable.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="VMConstructExp.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.h</DependentUpon>
+      <SubType>Designer</SubType>
+      <LogicalName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </LogicalName>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EMProject.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
