@@ -48,7 +48,7 @@ namespace em {
 				}
 			}
 
-			property bool square {
+			property bool isSquare {
 				bool get() {
 					return this->rowLength == this->columnLength;
 				}

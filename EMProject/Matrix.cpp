@@ -260,7 +260,7 @@ Matrix^ Matrix::transpose() {
 
 
 Matrix^ Matrix::pow(int exponent) {
-	if (!this->square) {
+	if (!this->isSquare) {
 		return nullptr;
 	}
 
