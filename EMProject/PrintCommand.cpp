@@ -21,7 +21,7 @@ PrintCommand::~PrintCommand() {
 
 Message^ PrintCommand::performCommand(String^ arg, Interpreter^ iptr) {
 	String^ header = nullptr;
-	StringBuilder^ sb;
+	StringBuilder^ sb = gcnew StringBuilder(arg);
 	MathObject^ mo;
 
 		Message^ msg = iptr->arithmeticEngine->execute(arg, mo);
@@ -33,7 +33,7 @@ Message^ PrintCommand::performCommand(String^ arg, Interpreter^ iptr) {
 			header = arg;
 		}
 
-	sb = buildHeader(mo, header);
+		sb->AppendFormat(" =\n{0}", buildHeader(mo, header));
 	sb->AppendFormat("\n{0}\n", mo->ToString());
 	String^ result = sb->ToString();
 	delete sb;
