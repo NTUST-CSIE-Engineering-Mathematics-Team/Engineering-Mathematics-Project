@@ -26,7 +26,7 @@ Message^ CommandPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 
 		CaptureCollection^ cc = result->Groups[ArithmeticEngine::operandTag]->Captures;
 		
-		Message^ msg = gcnew Message(Message::State::PASS, "");
+		StringBuilder^ sb = gcnew StringBuilder();
 		Message^ tMsg;
 
 		for each(Capture^ cp in cc) {
@@ -40,11 +40,11 @@ Message^ CommandPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 				return tMsg;
 			}
 
-			msg = gcnew Message(Message::State::PASS, tMsg->msgColor, msg->msgContent + tMsg->msgContent + "\n");
-
+			sb->AppendFormat("{0}\n", tMsg->msgContent);
 		}
 
-		return msg;
+		sb->Remove(sb->Length - 1, 1);
+		return gcnew Message(tMsg->msgState, tMsg->msgColor, sb->ToString());
 		
 	}
 
