@@ -20,7 +20,7 @@ MathObject^ SubtractionOperator::S_S(Scalar^ a, Scalar^ b, Message^% msg) {
 MathObject^ SubtractionOperator::V_V(Vector^ a, Vector^ b, Message^% msg) {
 	Vector^ v =  a - b;
 	if (v == nullptr) {
-		msg = gcnew Message(Message::State::ERROR, "The Vectors with different ranks cannot be subtracted");
+		msg = gcnew Message(Message::State::ERROR, "The vectors with different ranks cannot be subtracted");
 	}
 
 	return v;
@@ -30,7 +30,7 @@ MathObject^ SubtractionOperator::M_M(Matrix^ a, Matrix^ b, Message^% msg) {
 
 	Matrix^ m = a - b;
 	if (m == nullptr) {
-		msg = gcnew Message(Message::State::ERROR, "The Matrices with different sizes cannot be subtracted");
+		msg = gcnew Message(Message::State::ERROR, "The matrices with different sizes cannot be subtracted");
 	}
 
 	return m;

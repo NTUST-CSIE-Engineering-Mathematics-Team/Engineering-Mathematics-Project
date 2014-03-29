@@ -24,7 +24,7 @@ MathObject^ MultiplicationOperator::S_S(Scalar^ a, Scalar^ b, Message^% msg) {
 MathObject^ MultiplicationOperator::V_V(Vector^ a, Vector^ b, Message^% msg) {
 	Scalar^ s = a * b;
 	if (s == nullptr) {
-		msg = gcnew Message(Message::State::ERROR, "The Vectors with different ranks cannot perform dot product");
+		msg = gcnew Message(Message::State::ERROR, "The vectors with different ranks cannot perform dot product");
 	}
 
 	return s;
