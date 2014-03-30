@@ -65,7 +65,7 @@ Expression^ ArithmeticEngine::anaylzeCompoundExpMatch(Match^ match) {
 	}
 
 	LinkedList<Expression^>^ opnds;
-	LinkedList<String^>^ optors;
+	LinkedList<wchar_t>^ optors;
 	if (!loadTokens(groups, opnds, optors)) {
 		return nullptr;
 	}
@@ -73,38 +73,38 @@ Expression^ ArithmeticEngine::anaylzeCompoundExpMatch(Match^ match) {
 	return buildArithmeticTree(opnds, optors);
 }
 
-bool ArithmeticEngine::loadTokens(GroupCollection^ groups, LinkedList<Expression^>^% opnds, LinkedList<String^>^% optors) {
+bool ArithmeticEngine::loadTokens(GroupCollection^ groups, LinkedList<Expression^>^% opnds, LinkedList<wchar_t>^% optors) {
 	
-	CaptureCollection^ opndB = groups[3]->Captures;
-	CaptureCollection^ optorsC = groups[2]->Captures;
+	CaptureCollection^ opndsC = groups[operandTag]->Captures;
+	CaptureCollection^ optorsC = groups[1]->Captures;
 
 	opnds = gcnew LinkedList<Expression^>();
-	optors = gcnew LinkedList<String^>();
+	optors = gcnew LinkedList<wchar_t>();
 
 
-	for (int i = 0; i < opndB->Count; i++) {
-		opnds->AddLast(convertToExpression(opndB[i]->Value));
+	for (int i = 0; i < opndsC->Count; i++) {
+		opnds->AddLast(convertToExpression(opndsC[i]->Value));
 		if (opnds->Last->Value == nullptr) {
 			return false;
 		}
 	}
 
 	for (int i = 0; i < optorsC->Count; i++) {
-		optors->AddLast(optorsC[i]->Value);
+		optors->AddLast(optorsC[i]->Value[0]);
 	}
 
 	return true;
 }
 
-Expression^ ArithmeticEngine::buildArithmeticTree(LinkedList<Expression^>^ opnds, LinkedList<String^>^ optors) {
+Expression^ ArithmeticEngine::buildArithmeticTree(LinkedList<Expression^>^ opnds, LinkedList<wchar_t>^ optors) {
 	String^ lowPriorityOptor = "+-";
 	LinkedListNode<Expression^>^ rndNode = opnds->First;
 	LinkedListNode<Expression^>^ preRndNode;
-	LinkedListNode<String^>^ torNode = optors->First;
-	LinkedListNode<String^>^ preTorNode;
+	LinkedListNode<wchar_t>^ torNode = optors->First;
+	LinkedListNode<wchar_t>^ preTorNode;
 
 	for (; torNode != nullptr;) {
-		if (!lowPriorityOptor->Contains(torNode->Value)) {
+		if (lowPriorityOptor->IndexOf(!torNode->Value) < 0) {
 			this->CombineNodes(opnds, optors, rndNode, torNode, preRndNode, preTorNode);
 		} else {
 			rndNode = rndNode->Next;
@@ -119,9 +119,9 @@ Expression^ ArithmeticEngine::buildArithmeticTree(LinkedList<Expression^>^ opnds
 	return opnds->First->Value;
 }
 
-void ArithmeticEngine::CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<String^>^% optors,
-									LinkedListNode<Expression^>^% rndNode, LinkedListNode<String^>^% torNode,
-									LinkedListNode<Expression^>^% preRndNode, LinkedListNode<String^>^% preTorNode) {
+void ArithmeticEngine::CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<wchar_t>^% optors,
+									LinkedListNode<Expression^>^% rndNode, LinkedListNode<wchar_t>^% torNode,
+									LinkedListNode<Expression^>^% preRndNode, LinkedListNode<wchar_t>^% preTorNode) {
 
 	BinaryOperator^ optor = OperatorFactory::createOperatorInstance(torNode->Value, rndNode->Value, rndNode->Next->Value);
 
@@ -189,8 +189,28 @@ array<Expression^>^ ArithmeticEngine::vmAssistDelimiter(String^ literalWithComma
 	return exps;
 }
 
-Expression^ ArithmeticEngine::ExpressionFactory::concreteScalarExp(Match^ m, ArithmeticEngine^ engine) {
-	return gcnew MathObjExp(false ,gcnew Scalar(System::Convert::ToDouble(m->Value)));
+Expression^ ArithmeticEngine::ExpressionFactory::concreteDecimalExp(Match^ m, ArithmeticEngine^ engine) {
+	int vLast = m->Value->Length - 1;
+	wchar_t unit = m->Value[vLast];
+	
+	if (System::Char::IsLetter(unit)) {
+		String^ value = m->Value->Substring(0, vLast);
+		
+		switch (unit) {
+		case L'a':
+			return gcnew SimpleMathObjExp(false, gcnew Angle(System::Convert::ToDouble(value), true));
+
+		case L'p':
+			return gcnew SimpleMathObjExp(false, gcnew Scalar(System::Convert::ToDouble(value) * System::Math::PI));
+
+		case L'e':
+			return gcnew SimpleMathObjExp(false, gcnew Scalar(System::Convert::ToDouble(value) * System::Math::E));
+
+		default:
+			return nullptr;
+		}
+	}
+	return gcnew SimpleMathObjExp(false, gcnew Scalar(System::Convert::ToDouble(m->Value)));
 }
 
 Expression^ ArithmeticEngine::ExpressionFactory::concreteVarExp(Match^ m, ArithmeticEngine^ engine) {
@@ -200,7 +220,7 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteVarExp(Match^ m, Arithm
 		return nullptr;
 	}
 
-	return gcnew MathObjExp(m->Groups[1]->Success, mo);
+	return gcnew SimpleMathObjExp(m->Groups[1]->Success, mo);
 }
 
 Expression^ ArithmeticEngine::ExpressionFactory::concreteVMExp(Match^ m, ArithmeticEngine^ engine) {
@@ -296,6 +316,6 @@ String^ ArithmeticEngine::buildCompundExpPattern(bool atLeastOne) {
 
 	duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
 
-	full->AppendFormat("^\\s*(?:{0}(?:\\s*{1}\\s*{2}){3})\\s*$", duplicate, OPERATOR_PATTERN, duplicate, atLeastOne ? "+" : "*");
+	full->AppendFormat("^\\s*(?:{0}(?:\\s*({1})\\s*{2}){3})\\s*$", duplicate, OPERATOR_PATTERN, duplicate, atLeastOne ? "+" : "*");
 	return full->ToString();
 }

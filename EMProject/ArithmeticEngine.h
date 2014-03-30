@@ -30,7 +30,7 @@ namespace em {
 				public:
 					delegate Expression^ ConcreteExpression(Match^ m, ArithmeticEngine^ engine);
 					
-					static Expression^ concreteScalarExp(Match^ m, ArithmeticEngine^ engine);
+					static Expression^ concreteDecimalExp(Match^ m, ArithmeticEngine^ engine);
 					static Expression^ concreteVarExp(Match^ m, ArithmeticEngine^ engine);
 					static Expression^ concreteVMExp(Match^ m, ArithmeticEngine^ engine);
 					static Expression^ concreteSetExp(Match^ m, ArithmeticEngine^ engine);
@@ -49,11 +49,11 @@ namespace em {
 				static String^ const innerParentheseTag = "i";
 			
 				static String^ const NAME_PATTERN = "^(-)?([A-Za-z_]\\w*)$";
-				static String^ const DOUBLE_PATTERN = "^-?\\d+(?:\\.\\d+)?$";
-				static String^ const UNSIGNED_DOUBLE_PATTERN = "(?:\\d+(?:\\.\\d+)?)";
+				static String^ const DOUBLE_PATTERN = "^-?\\d+(?:\\.\\d+)?[ape]?$";
+				static String^ const UNSIGNED_DOUBLE_PATTERN = "(?:\\d+(?:\\.\\d+)?[ape]?)";
 				static String^ const PARENTHESE_UNIT_PATTERN = "^\\((" + arithmeticContentPattern2(innerParentheseTag, true) + ")\\)$";
 
-				static String^ const OPERATOR_PATTERN = "([-+*/x])";
+				static String^ const OPERATOR_PATTERN = "[-+*/x]";
 				static String^ const NAME_OR_FUNCTION_PATTERN = "(?:[A-Za-z_]\\w*(?:\\s*\\(" + arithmeticContentPattern2(innerParentheseTag, false) + "\\))?)";
 				static String^ const SET_PREVIEW_PATTERN = "{" + arithmeticContentPattern(innerParentheseTag) + "}";
 				static String^ const VM_PREVIEW_PATTERN = "\\[(?:(?<" + innerParentheseTag + ">\\()|(?<-" + innerParentheseTag + ">\\))|[-+*/A-Za-z0-9._,|]|\\s)+\\]";
@@ -123,7 +123,7 @@ namespace em {
 
 				static array<Regex^>^ regexList = { DOUBLE_REGEX, NAME_REGEX, FUNCTION_REGEX, VM_REGEX, SET_REGEX, COMPOUND_EXP_REGEX, PARENTHESE_UNIT_REGEX};
 				static array<ExpressionFactory::ConcreteExpression^>^ constrctorList = {
-					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteScalarExp),
+					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteDecimalExp),
 					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteVarExp),
 					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteFunction),
 					gcnew ExpressionFactory::ConcreteExpression(ExpressionFactory::concreteVMExp),
@@ -147,14 +147,14 @@ namespace em {
 				bool analyze(String^ expression);
 				bool compute(MathObject^% mo);
 
-				bool loadTokens(GroupCollection^ groups, LinkedList<Expression^>^% opnds, LinkedList<String^>^% optors);
+				bool loadTokens(GroupCollection^ groups, LinkedList<Expression^>^% opnds, LinkedList<wchar_t>^% optors);
 				Expression^ convertToExpression(String^ s);
 				array<Expression^>^ vmAssistDelimiter(String^ literalWithCommas);
 				array<Expression^>^ convertToExps(GroupCollection^ groups);
-				Expression^ buildArithmeticTree(LinkedList<Expression^>^ opnds, LinkedList<String^>^ optors);
-				void CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<String^>^% optors,
-								  LinkedListNode<Expression^>^% rndNode, LinkedListNode<String^>^% torNode,
-								  LinkedListNode<Expression^>^% preRndNode, LinkedListNode<String^>^% preTorNode);
+				Expression^ buildArithmeticTree(LinkedList<Expression^>^ opnds, LinkedList<wchar_t>^ optors);
+				void CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<wchar_t>^% optors,
+								  LinkedListNode<Expression^>^% rndNode, LinkedListNode<wchar_t>^% torNode,
+								  LinkedListNode<Expression^>^% preRndNode, LinkedListNode<wchar_t>^% preTorNode);
 				
 				static bool isParentheseBalanced(GroupCollection^ groups);
 				static String^ arithmeticContentPattern2(String^ tag, bool atLeastOne);

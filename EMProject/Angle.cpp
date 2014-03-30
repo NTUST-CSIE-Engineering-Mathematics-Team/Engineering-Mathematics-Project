@@ -2,16 +2,18 @@
 
 using namespace em::math;
 using System::Text::StringBuilder;
-Angle::Angle(double radian) : MathObject(TAG, ID), rAngle(radian) {
+Angle::Angle(double radian) : Angle(radian, false) {
 
 }
+Angle::Angle(double radian, bool isDegree) : MathObject(TAG, ID), rAngle(isDegree ? radian * RD_RATIO : radian) {
 
-Angle::Angle(Angle^ degree) : MathObject(TAG, ID) {
+}
+Angle::Angle(Angle^ angle) : MathObject(TAG, ID) {
+	overrideAssign(angle);
+}
+
+Angle::Angle(Scalar^ degree) : MathObject(TAG, ID) {
 	overrideAssign(degree);
-}
-
-Angle::Angle(Scalar^ radian) : MathObject(TAG, ID) {
-	overrideAssign(radian);
 }
 
 Angle::~Angle() {
@@ -33,13 +35,13 @@ Angle^ Angle::overrideAssign(Angle^ angle) {
 	return this->overrideAssign(angle->rAngle);
 }
 
-Angle^ Angle::overrideAssign(Scalar^ angle) {
-	this->rAngle = angle->doubleValue * Math::PI / 180;
+Angle^ Angle::overrideAssign(Scalar^ degree) {
+	this->rAngle = degree->doubleValue * RD_RATIO;
 	return this;
 }
 
-Angle^ Angle::overrideAssign(double val) {
-	this->rAngle = val;
+Angle^ Angle::overrideAssign(double radian) {
+	this->rAngle = radian;
 	return this;
 }
 
@@ -55,7 +57,7 @@ MathObject^ Angle::overrideAssign(MathObject^ mo) {
 
 
 Angle::operator double() {
-	return this->rAngle;
+	return this->radian;
 }
 
 bool Angle::angleCast(MathObject^ mo, Angle^% angle) {
@@ -65,4 +67,20 @@ bool Angle::angleCast(MathObject^ mo, Angle^% angle) {
 
 MathObject^ Angle::operator-() {
 	return gcnew Angle(-this->rAngle);
+}
+
+Angle^ Angle::operator-(Angle^ a) {
+	return gcnew Angle(this->radian - a->radian);
+}
+
+Angle^ Angle::operator+(Angle^ a) {
+	return gcnew Angle(this->radian + a->radian);
+}
+
+Angle^ Angle::operator*(Scalar^ s) {
+	return gcnew Angle(this->radian * s);
+}
+
+Angle^ Angle::operator/(Scalar^ s) {
+	return gcnew Angle(this->radian / s);
 }

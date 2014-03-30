@@ -3,7 +3,7 @@
 
 using namespace em::math::engine::expression::operators;
 
-BinaryOperator::BinaryOperator(String^ symbol, Expression^ opndA, Expression^ opndB) : symbol(symbol), opndA(opndA), opndB(opndB) {
+BinaryOperator::BinaryOperator(wchar_t symbol, Expression^ opndA, Expression^ opndB) : symbol(symbol), opndA(opndA), opndB(opndB) {
 	this->overloadsMap = gcnew Dictionary<String^, CasterInterface^>(12);
 }
 

@@ -3,10 +3,11 @@
 
 using namespace em::math::engine::expression::operators;
 
-SubtractionOperator::SubtractionOperator(Expression^ a, Expression^ b) : BinaryOperator("-", a, b) {
+SubtractionOperator::SubtractionOperator(Expression^ a, Expression^ b) : BinaryOperator(L'-', a, b) {
 	this->addOperation<Scalar^, Scalar^>(gcnew Operation<Scalar^, Scalar^>(S_S));
 	this->addOperation<Vector^, Vector^>(gcnew Operation<Vector^, Vector^>(V_V));
 	this->addOperation<Matrix^, Matrix^>(gcnew Operation<Matrix^, Matrix^>(M_M));
+	this->addOperation<Angle^, Angle^>(gcnew Operation<Angle^, Angle^>(A_A));
 }
 
 
@@ -34,4 +35,9 @@ MathObject^ SubtractionOperator::M_M(Matrix^ a, Matrix^ b, Message^% msg) {
 	}
 
 	return m;
+}
+
+MathObject^ SubtractionOperator::A_A(Angle^ a, Angle^ b, Message^% msg) {
+	
+	return a - b;
 }

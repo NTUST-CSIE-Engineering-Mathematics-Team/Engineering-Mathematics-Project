@@ -16,6 +16,7 @@ namespace em {
 						static MathObject^ S_S(Scalar^ a, Scalar^ b, Message^% msg);
 						static MathObject^ M_S(Matrix^ a, Scalar^ b, Message^% msg);
 						static MathObject^ V_S(Vector^ a, Scalar^ b, Message^% msg);
+						static MathObject^ A_S(Angle^ a, Scalar^ b, Message^% msg);
 					};
 				}
 			}

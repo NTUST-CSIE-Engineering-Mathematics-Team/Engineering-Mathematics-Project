@@ -30,10 +30,12 @@ namespace em {
 				}
 			}
 		private:
+			static const double RD_RATIO = Math::PI / 180;
 			double rAngle;
 
 		public:
 			Angle(double radian);
+			Angle(double radian, bool isDegree);
 			Angle(Scalar^ degree);
 			Angle(Angle^ angle);
 
@@ -49,6 +51,10 @@ namespace em {
 			Angle^ overrideAssign(Scalar^ degree);
 			Angle^ overrideAssign(double radian);
 
+			virtual Angle^ operator-(Angle^ a);
+			virtual Angle^ operator+(Angle^ a);
+			virtual Angle^ operator*(Scalar^ s);
+			virtual Angle^ operator/(Scalar^ s);
 
 			operator double();
 

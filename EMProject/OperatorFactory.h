@@ -13,7 +13,7 @@ namespace em {
 						delegate BinaryOperator^ ConcreteOperator(Expression^ a, Expression^ b);
 
 					private:
-						static Dictionary<String^, ConcreteOperator^>^ const operatorConstructors = gcnew Dictionary<String^, ConcreteOperator^>();
+						static Dictionary<wchar_t, ConcreteOperator^>^ const operatorConstructors = gcnew Dictionary<wchar_t, ConcreteOperator^>();
 
 					public:
 						template<typename O>
@@ -23,7 +23,7 @@ namespace em {
 							delete tmpO;
 						}
 
-						static BinaryOperator^ createOperatorInstance(String^ symbol, Expression^ a, Expression^ b);
+						static BinaryOperator^ createOperatorInstance(wchar_t symbol, Expression^ a, Expression^ b);
 						virtual ~OperatorFactory();
 
 					private:
