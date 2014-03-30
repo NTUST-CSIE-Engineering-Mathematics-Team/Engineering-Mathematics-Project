@@ -25,3 +25,21 @@ MathObject^ TrigonometricFunctions::tan$A(array<MathObject^>^ mos, Message^% msg
 	Angle::angleCast(mos[0], agl);
 	return gcnew Scalar(Math::Tan(agl->radian));
 }
+
+MathObject^ TrigonometricFunctions::asin$S(array<MathObject^>^ mos, Message^% msg) {
+	Scalar^ sin;
+	Scalar::scalarCast(mos[0], sin);
+	return gcnew Angle(Math::Asin(sin));
+}
+
+MathObject^ TrigonometricFunctions::acos$S(array<MathObject^>^ mos, Message^% msg) {
+	Scalar^ cos;
+	Scalar::scalarCast(mos[0], cos);
+	return gcnew Angle(Math::Acos(cos));
+}
+
+MathObject^ TrigonometricFunctions::atan$S(array<MathObject^>^ mos, Message^% msg) {
+	Scalar^ tan;
+	Scalar::scalarCast(mos[0], tan);
+	return gcnew Angle(Math::Atan(tan));
+}
