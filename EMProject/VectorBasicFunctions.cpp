@@ -56,7 +56,56 @@ MathObject^ VectorBasicFunctions::angle$V_V(array<MathObject^>^ mos, Message^% m
 		return nullptr;
 	}
 
-	return gcnew Angle(cos);
+
+	return gcnew Angle(Math::Acos(cos));
+}
+
+MathObject^ VectorBasicFunctions::tri_area$V_V(array<MathObject^>^ mos, Message^% msg) {
+	Vector^ v1, ^ v2;
+	Vector::vectorCast(mos[0], v1);
+	Vector::vectorCast(mos[1], v2);
+
+	Scalar^ cos = v1->normalized * v2->normalized;
+
+	if (cos == nullptr) {
+		msg = differentRankErrMsg();
+		return nullptr;
+	}
+	
+	return gcnew Scalar(0.5 * v1->magnitude * v2->magnitude * Math::Sin(Math::Acos(cos)));
+}
+
+MathObject^ VectorBasicFunctions::is_pallel$V_V(array<MathObject^>^ mos, Message^% msg) {
+	Vector^ v1, ^ v2;
+	Vector::vectorCast(mos[0], v1);
+	Vector::vectorCast(mos[1], v2);
+
+	Scalar^ cos = v1->normalized * v2->normalized;
+	
+	if (cos == nullptr) {
+		msg = differentRankErrMsg();
+		return nullptr;
+	}
+
+
+	return ((1 - Math::Abs(cos)) < MathHelper::EPSILON) ? v2 : nullptr;
+
+}
+
+MathObject^ VectorBasicFunctions::is_orth$V_V(array<MathObject^>^ mos, Message^% msg) {
+	Vector^ v1, ^ v2;
+	Vector::vectorCast(mos[0], v1);
+	Vector::vectorCast(mos[1], v2);
+
+	Scalar^ cos = v1->normalized * v2->normalized;
+
+	if (cos == nullptr) {
+		msg = differentRankErrMsg();
+		return nullptr;
+	}
+
+	return (Math::Abs(cos) < MathHelper::EPSILON) ? v2 : nullptr;
+
 }
 
 Message^ VectorBasicFunctions::differentRankErrMsg() {

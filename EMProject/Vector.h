@@ -31,6 +31,9 @@ namespace em {
 
 			property Vector^ normalized{
 				Vector^ get() {
+					if (isZeroVector(this)) {
+						return this;
+					}
 					return this / gcnew Scalar(this->magnitude);
 				}
 			}
@@ -82,7 +85,7 @@ namespace em {
 			static bool vectorCast(MathObject^ mo, Vector^% vec);
 			static int getWiderRank(Vector^ a, Vector^ b);
 			static void widerConvert(Vector^% a, Vector^% b);
-			
+			static bool isZeroVector(Vector^ vec);
 		};
 	}
 	

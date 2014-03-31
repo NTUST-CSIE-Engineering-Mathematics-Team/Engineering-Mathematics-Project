@@ -31,6 +31,9 @@ void RegistrationArea::registerHere() {
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::compnt$V_V));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::normlzd$V));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::angle$V_V));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::tri_area$V_V));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::is_pallel$V_V));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::is_orth$V_V));
 
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::transpose$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::pow$M_S));

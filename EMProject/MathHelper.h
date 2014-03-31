@@ -9,7 +9,7 @@ namespace em {
 		using System::Type;
 		interface class MathHelper {
 		public:
-			static double EPSILON = std::numeric_limits<double>::epsilon();
+			static double EPSILON = std::numeric_limits<float>::epsilon();
 			
 			generic<typename M> where M : MathObject
 			static String^ getGenericMathID();

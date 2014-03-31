@@ -150,7 +150,7 @@ Scalar^ Vector::operator*(Vector^ v) {
 
 Vector^ Vector::operator/(Scalar^ s) {
 	Vector^ newVec = gcnew Vector(this->dimension);
-
+	
 	for (int i = 0; i < this->dimension; i++) {
 		newVec[i] = this[i] / s;
 	}
@@ -199,6 +199,16 @@ bool Vector::isSameRank(Vector^ a, Vector^ b) {
 
 int Vector::getWiderRank(Vector^ a, Vector^ b) {
 	return a->dimension > b->dimension ? a->dimension : b->dimension;
+}
+
+bool Vector::isZeroVector(Vector^ vec) {
+	for (int i = 0; i < vec->dimension; i++) {
+		if (vec[i] != 0) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void Vector::widerConvert(Vector^% a, Vector^% b) {
