@@ -9,6 +9,12 @@ MathObject^ ScalarBasicFunctions::pow$S_S(array<MathObject^>^ mos, Message^% msg
 	return gcnew Scalar(Math::Pow(s1, s2));
 }
 
+MathObject^ ScalarBasicFunctions::sqrt$S(array<MathObject^>^ mos, Message^% msg) {
+	Scalar^ scl;
+	Scalar::scalarCast(mos[0], scl);
+	return gcnew Scalar(Math::Sqrt(scl));
+}
+
 MathObject^ ScalarBasicFunctions::test(array<MathObject^>^ mos, Message^% msg) {
 	
 	return gcnew Scalar(MathHelper::EPSILON);

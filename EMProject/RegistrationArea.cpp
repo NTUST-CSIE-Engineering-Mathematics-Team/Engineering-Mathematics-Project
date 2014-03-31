@@ -15,6 +15,7 @@ void RegistrationArea::registerHere() {
 	OperatorFactory::addOperation<CrossProductOperator>();
 
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&ScalarBasicFunctions::pow$S_S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&ScalarBasicFunctions::sqrt$S));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&ScalarBasicFunctions::test));
 
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::angle$S));
