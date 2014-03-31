@@ -231,8 +231,7 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteVMExp(Match^ m, Arithme
 	for (int i = 0; i < rows->Length; i++) {
 		rows[i] = engine->vmAssistDelimiter(argL[i]->Value);
 
-		if (rows[i] == nullptr || (i > 0 && rows[i]->Length != rows[i - 1]->Length)) {
-			engine->errorMsg = gcnew Message(Message::State::ERROR, "Cannot create an matrix with rows which are different sizes");
+		if (rows[i] == nullptr) {
 			return nullptr;
 		}
 	}

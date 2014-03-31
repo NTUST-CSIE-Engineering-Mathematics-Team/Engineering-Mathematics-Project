@@ -38,14 +38,14 @@ namespace em {
 			property double magnitude {
 				double get() {
 					double s = 0;
-					for (int i = 0; i < this->rank; i++) {
+					for (int i = 0; i < this->dimension; i++) {
 						s += this[i] * this[i];
 					}
 					return System::Math::Sqrt(s);
 				}
 			}
 
-			property int rank {
+			property int dimension {
 				int get() {
 					return this->value->Length;
 				}

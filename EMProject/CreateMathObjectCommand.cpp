@@ -84,7 +84,7 @@ Message^ CreateFileMathObjectCommand::FileVectorConstructionAnalyzer::analyze(Ma
 
 		this->tmpVec = gcnew Vector(r);
 		this->initRegex = this->regex;
-		this->regex = gcnew Regex(PatternAnalyzer::rowValuePattern(tmpVec->rank));
+		this->regex = gcnew Regex(PatternAnalyzer::rowValuePattern(tmpVec->dimension));
 
 		return Message::PARSING_MSG;
 	}
@@ -98,7 +98,7 @@ Message^ CreateFileMathObjectCommand::FileVectorConstructionAnalyzer::analyze(Ma
 
 		this->tmpVec[i++] = s;
 	}
-	bool isScl = this->tmpVec->rank == 1;
+	bool isScl = this->tmpVec->dimension == 1;
 	String^ vName = iptr->variableTable->addVariable( isScl ? (MathObject^)gcnew Scalar(this->tmpVec[0]) : this->tmpVec);
 	this->tmpVec = nullptr;
 

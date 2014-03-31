@@ -14,10 +14,10 @@ Matrix::Matrix(Matrix^ mat) : MathObject(TAG, ID) {
 Matrix::Matrix(VectorOption op, Vector^ vec) : MathObject(TAG, ID) {
 
 	if (op == VectorOption::ROW) {
-		this->value = gcnew array<double, 2>(1, vec->rank);
+		this->value = gcnew array<double, 2>(1, vec->dimension);
 		this[VectorOption::ROW, 0] = vec;
 	} else {
-		this->value = gcnew array<double, 2>(vec->rank, 1);
+		this->value = gcnew array<double, 2>(vec->dimension, 1);
 		this[VectorOption::COLUMN, 0] = vec;
 	}
 
@@ -31,12 +31,12 @@ Vector^ Matrix::default::get(VectorOption vo, int i) {
 	Vector^ vec;
 	if (vo == VectorOption::ROW) {
 		vec = gcnew Vector(this->rowLength);
-		for (int j = 0; j < vec->rank; j++) {
+		for (int j = 0; j < vec->dimension; j++) {
 			vec[j] = this[i, j];
 		}
 	} else {
 		vec = gcnew Vector(this->columnLength);
-		for (int j = 0; j < vec->rank; j++) {
+		for (int j = 0; j < vec->dimension; j++) {
 			vec[j] = this[j, i];
 		}
 	}
@@ -46,8 +46,8 @@ Vector^ Matrix::default::get(VectorOption vo, int i) {
 void Matrix::default::set(VectorOption vo, int i, Vector^ vec) {
 	int j;
 	if (vo == VectorOption::ROW) {
-		if (vec->rank <= this->rowLength) {
-			for (j = 0; j < vec->rank; j++) {
+		if (vec->dimension <= this->rowLength) {
+			for (j = 0; j < vec->dimension; j++) {
 				this[i, j] = vec[j];
 			}
 
@@ -56,8 +56,8 @@ void Matrix::default::set(VectorOption vo, int i, Vector^ vec) {
 			}
 		}
 	} else {
-		if (vec->rank <= this->columnLength) {
-			for (j = 0; j < vec->rank; j++) {
+		if (vec->dimension <= this->columnLength) {
+			for (j = 0; j < vec->dimension; j++) {
 				this[j, i] = vec[j];
 			}
 
@@ -200,14 +200,14 @@ Matrix^ Matrix::operator*(Matrix^ m) {
 }
 
 Vector^ Matrix::operator*(Vector^ v) {
-	if (this->rowLength != v->rank) {
+	if (this->rowLength != v->dimension) {
 		return nullptr;
 	}
 
 	Vector^ newVec = gcnew Vector(this->columnLength);
 
 	for (int i = 0; i < this->columnLength; i++) {
-		for (int j = 0; j < v->rank; j++) {
+		for (int j = 0; j < v->dimension; j++) {
 			newVec[i] += this[i, j] * v[j];
 		}
 	}
