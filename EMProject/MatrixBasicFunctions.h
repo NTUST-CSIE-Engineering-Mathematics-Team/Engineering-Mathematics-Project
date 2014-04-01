@@ -13,8 +13,14 @@ namespace em {
 					interface class MatrixBasicFunctions {
 
 					public:
+						
 						static MathObject^ transpose$M(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ inverse$M(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ det$M(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ ul_decom$M(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ pow$M_S(array<MathObject^>^ mos, Message^% msg);
+
+						static Message^ notSquareErrMsg(String^ funName);
 					};
 				}
 			}

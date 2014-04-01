@@ -1,7 +1,7 @@
 #pragma once
 
 #include "PrintCommand.h"
-#include "SettingsCommand.h"
+#include "OptionCommand.h"
 #include "DeleteCommand.h"
 #include "ShowStorageCommand.h"
 #include "CreateMathObjectCommand.h"

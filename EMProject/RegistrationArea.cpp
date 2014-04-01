@@ -3,7 +3,7 @@
 using namespace em::intrprt;
 void RegistrationArea::registerHere() {
 	CommandFactory::addCommand<PrintCommand^>();
-	CommandFactory::addCommand<SettingsCommand^>();
+	CommandFactory::addCommand<OptionCommand^>();
 	CommandFactory::addCommand<DeleteCommand^>();
 	CommandFactory::addCommand<ShowStorageCommand^>();
 	CommandFactory::addCommand<JudgeCommand^>();
@@ -34,7 +34,11 @@ void RegistrationArea::registerHere() {
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::tri_area$V_V));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::is_pallel$V_V));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::is_orth$V_V));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::plane_norm$V_V));
 
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::transpose$M));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::inverse$M));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::det$M));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::ul_decom$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::pow$M_S));
 }

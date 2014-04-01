@@ -11,12 +11,6 @@ namespace em {
 			static String^ const TAG = "Scalar";
 			static String^  const ID = "S";
 
-			property MathObject^ clone{
-				virtual MathObject^ get() override {
-					return gcnew Scalar(this);
-				}
-			}
-
 			property double doubleValue {
 				double get() {
 					return value;
@@ -45,7 +39,8 @@ namespace em {
 			virtual Scalar^ overrideAssign(double val);
 
 			virtual operator double();
-			
+			Scalar^ clone();
+
 			static bool scalarCast(MathObject^ mo, Scalar^% scl);
 		};
 	}

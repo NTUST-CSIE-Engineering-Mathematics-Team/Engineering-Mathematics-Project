@@ -16,6 +16,16 @@ namespace em {
 				}
 
 			}
+			static property wchar_t formatSpecifier {
+				wchar_t get() {
+					return fSpec;
+				}
+
+				void set(wchar_t fs) {
+					fSpec = fs;
+				}
+
+			}
 
 			static property int numWidth {
 				int get() {
@@ -41,14 +51,10 @@ namespace em {
 				}
 			}
 
-			property MathObject^ clone{
-				virtual MathObject^ get() abstract;
-			}
-
 		protected:
 			static property String^ NUMERAL_FORMAT {
 				String^ get() {
-					return "{0," + width + ":F" + precision + "}";
+					return "{0," + width + ":" + formatSpecifier + precision + "}";
 				}
 			}
 
@@ -57,7 +63,7 @@ namespace em {
 			String^ const mID;
 			static int precision = 7;
 			static int width = 12;
-	
+			static wchar_t fSpec = 'f';
 		public:
 			virtual ~MathObject();
 			virtual String^ getHeader()abstract;

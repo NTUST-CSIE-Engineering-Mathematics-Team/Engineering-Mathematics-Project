@@ -123,9 +123,6 @@
     <ClCompile Include="DeleteCommand.cpp">
       <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
-    <ClCompile Include="SettingsCommand.cpp">
-      <Filter>Source Files\intrprt\cmd</Filter>
-    </ClCompile>
     <ClCompile Include="ShowStorageCommand.cpp">
       <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
@@ -213,6 +210,9 @@
     <ClCompile Include="SimpleMathObjExp.cpp">
       <Filter>Source Files\math\engine</Filter>
     </ClCompile>
+    <ClCompile Include="OptionCommand.cpp">
+      <Filter>Source Files\intrprt\cmd</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainForm.h">
@@ -274,9 +274,6 @@
     </ClInclude>
     <ClInclude Include="KeywordCollection.h">
       <Filter>Header Files\intrprt</Filter>
-    </ClInclude>
-    <ClInclude Include="SettingsCommand.h">
-      <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
     <ClInclude Include="ShowStorageCommand.h">
       <Filter>Header Files\intrprt\cmd</Filter>
@@ -385,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="SimpleMathObjExp.h">
       <Filter>Header Files\math\engine\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionCommand.h">
+      <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

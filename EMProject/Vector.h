@@ -14,8 +14,8 @@ namespace em {
 			static String^ const TAG = "Vector";
 			static String^  const ID = "V";
 
-			property MathObject^ clone{
-				virtual MathObject^ get() override {
+			property Vector^ clone{
+				Vector^ get() {
 					return gcnew Vector(this);
 				}
 			}

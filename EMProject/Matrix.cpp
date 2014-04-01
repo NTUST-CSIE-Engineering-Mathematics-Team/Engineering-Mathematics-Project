@@ -274,12 +274,133 @@ Matrix^ Matrix::pow(int exponent) {
 	if (exponent == 0) {
 		return getIdentityMatrix(this->columnLength);
 	}
+	Matrix^ m,^ o;
+	if (exponent < 0) {
+		Matrix^ inverse = this->inverse;
+		if (inverse == nullptr) {
+			return nullptr;
+		}
 
-	Matrix^ m = gcnew Matrix(this);
-	// not support inverse of matrix yet
+		m = inverse;
+		
+	} else {
+		m = gcnew Matrix(this);
+	}
+	o = m->clone;
+
 	for (int i = 1; i < exponent; i++) {
-		m = m * this;
+		m = m * o;
 	}
 
 	return m;
 }
+
+Matrix^ Matrix::inverse::get() {
+	if (!this->isSquare) {
+		return nullptr;
+	}
+	Matrix^ inverse = getIdentityMatrix(this->columnLength);
+	Matrix^ upper = this->makeUpperTriangle(inverse);
+	for (int i = 0; i < upper->columnLength; i++) {
+		if (upper[i, i] == 0) {
+			return nullptr;
+		}
+	}
+	
+	upper->doUpperToIdentity(inverse);
+	return inverse;
+}
+
+Scalar^ Matrix::determinant::get() {
+	if (!this->isSquare) {
+		return nullptr;
+	}
+
+	double det = 1;
+	Matrix^ upper = makeUpperTriangle(nullptr);
+	for (int i = 0; i < this->columnLength; i++) {
+		det *= upper[i, i];
+	}
+
+	return gcnew Scalar(det);
+}
+
+void Matrix::ulDecomposition(Matrix^% upper, Matrix^% lower) {
+	lower = getIdentityMatrix(this->columnLength);
+	upper = makeUpperTriangle(lower);
+	lower = lower->inverse;
+}
+
+Matrix^ Matrix::makeUpperTriangle(Matrix^ syncer) {
+	Matrix^ upper = this->clone;
+	bool hasSyncer = syncer != nullptr;
+	double q;
+	for (int i = 0, j = 0; i < upper->columnLength && j < upper->rowLength; i++, j++) {
+		for (; upper[i, j] == 0;) {
+			int k;
+			for (k = i; k < upper->columnLength; k++) {
+				if (upper[k, j] != 0) {
+					upper->addRowOperation(k, 1, i);
+					if (hasSyncer) {
+						syncer->addRowOperation(k, 1, i);
+					}
+					break;
+				}
+			}
+			if (k == upper->columnLength) {
+				j++;
+				if (j == upper->rowLength) {
+					return upper;
+				}
+			}
+		}
+
+		for (int k = i + 1; k < upper->columnLength; k++) {
+			q = upper[k, j] / upper[i, j];
+			if (q != 0) {
+				upper->addRowOperation(i, -q, k);
+				if (hasSyncer) {
+					syncer->addRowOperation(i, -q, k);
+				}
+			}
+			upper[k, j] = 0;
+		}
+	}
+
+	return upper;
+}
+
+void Matrix::doUpperToIdentity(Matrix^% syncer) {
+	for (int i = this->columnLength - 1; i >= 0; i--) {
+		for (int j = this->columnLength - 1; j > i; j--) {
+			syncer->addRowOperation(j, -this[i, j], i);
+			this[i, j] = 0;
+			
+		}
+		syncer->multiplyRowOperation(i, 1 / this[i, i]);
+		this[i, i] = 1;
+	}
+}
+
+void Matrix::multiplyRowOperation(int i, const double scalar) {
+	for (int j = 0; j < this->rowLength; j++) {
+		this[i, j] *= scalar;
+	}
+}
+
+void Matrix::swapRowOperation(int i, int j) {
+	double tmp;
+	for (int k = 0; k < this->rowLength; k++) {
+		tmp = this[i, k];
+		this[i, k] = this[j, k];
+		this[j, k] = tmp;
+	}
+}
+
+void Matrix::addRowOperation(int s, const double scalar, int d) {
+	for (int k = 0; k < this->rowLength; k++) {
+		this[d, k] += scalar * this[s, k];
+	}
+}
+
+

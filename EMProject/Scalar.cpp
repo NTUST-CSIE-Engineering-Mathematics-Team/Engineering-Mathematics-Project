@@ -19,6 +19,7 @@ String^ Scalar::getHeader() {
 String^ Scalar::ToString() {
 	StringBuilder^ sb = gcnew StringBuilder(getHeader());
 	sb->AppendFormat("\n{0}", System::String::Format(NUMERAL_FORMAT, this->value));
+	
 	return sb->ToString();
 }
 
@@ -44,6 +45,10 @@ MathObject^ Scalar::overrideAssign(MathObject^ mo) {
 
 Scalar::operator double() {
 	return this->value;
+}
+
+Scalar^ Scalar::clone() {
+	return gcnew Scalar(this);
 }
 
 bool Scalar::scalarCast(MathObject^ mo, Scalar^% scl) {

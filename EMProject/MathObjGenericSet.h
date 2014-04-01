@@ -14,8 +14,8 @@ namespace em {
 			LinkedList<M>^ list;
 
 		public:
-			property MathObject^ clone{
-				virtual MathObject^ get() override {
+			property MathObjGenericSet<M>^ clone{
+				MathObjGenericSet<M>^ get() {
 					return gcnew MathObjGenericSet<M>(this);
 				}
 			}

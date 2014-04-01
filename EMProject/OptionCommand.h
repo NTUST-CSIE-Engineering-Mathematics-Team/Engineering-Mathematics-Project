@@ -7,12 +7,12 @@ namespace em {
 		namespace cmd {
 			using em::intrprt::pattern::PatternAnalyzer;
 
-			ref class SettingsCommand : public Command {
+			ref class OptionCommand : public Command {
 			
 
 			public:
-				SettingsCommand();
-				virtual ~SettingsCommand();
+				OptionCommand();
+				virtual ~OptionCommand();
 
 				virtual Message^ performCommand(String^ args, Interpreter^ iptr) override;
 			};

@@ -124,7 +124,7 @@
     <ClCompile Include="AdditionOperator.cpp" />
     <ClCompile Include="PrintCommand.cpp" />
     <ClCompile Include="Scalar.cpp" />
-    <ClCompile Include="SettingsCommand.cpp" />
+    <ClCompile Include="OptionCommand.cpp" />
     <ClCompile Include="ShowStorageCommand.cpp" />
     <ClCompile Include="TrigonometricFunctions.cpp" />
     <ClCompile Include="VariableTable.cpp" />
@@ -185,7 +185,7 @@
     <ClInclude Include="AdditionOperator.h" />
     <ClInclude Include="PrintCommand.h" />
     <ClInclude Include="Scalar.h" />
-    <ClInclude Include="SettingsCommand.h" />
+    <ClInclude Include="OptionCommand.h" />
     <ClInclude Include="ShowStorageCommand.h" />
     <ClInclude Include="TrigonometricFunctions.h" />
     <ClInclude Include="VariableTable.h" />

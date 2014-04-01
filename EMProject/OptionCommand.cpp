@@ -1,4 +1,4 @@
-#include "SettingsCommand.h"
+#include "OptionCommand.h"
 #include "KeywordCollection.h"
 #include "MathObject.h"
 #include "CommentPatternAnalyzer.h"
@@ -7,13 +7,13 @@ using namespace em::intrprt::cmd;
 using em::intrprt::pattern::CommentPatternAnalyzer;
 using em::math::MathObject;
 
-SettingsCommand::SettingsCommand() : Command(KeywordCollection::SETTINGS_CMD, 'P') {
+OptionCommand::OptionCommand() : Command(KeywordCollection::SETTINGS_CMD, 'P') {
 }
 
-SettingsCommand::~SettingsCommand() {
+OptionCommand::~OptionCommand() {
 }
 
-Message^ SettingsCommand::performCommand(String^ arg, Interpreter^ iptr) {
+Message^ OptionCommand::performCommand(String^ arg, Interpreter^ iptr) {
 	String^ key;
 	int value;
 	PatternAnalyzer::isPair(arg, key, value);
@@ -22,17 +22,24 @@ Message^ SettingsCommand::performCommand(String^ arg, Interpreter^ iptr) {
 		return gcnew Message(Message::State::ERROR, "cannot find the flag \"" + key + "\"");
 	}
 
-	wchar_t flag = System::Char::ToUpper(key[0]);
+	wchar_t flag = System::Char::ToLower(key[0]);
 
 	switch (flag) {
-	case L'W':
+	case L'w':
 		MathObject::numWidth = value;
 		return gcnew Message(Message::State::PASS, Message::SETTING_COLOR, "Set numeral width to " + value);
 
-	case L'F':
+	case L'f':
+		MathObject::formatSpecifier = flag;
 		MathObject::numPrecision = value;
-		return gcnew Message(Message::State::PASS, Message::SETTING_COLOR, "Set floating precision to " + value);
-	case L'C':
+		return gcnew Message(Message::State::PASS, Message::SETTING_COLOR, "Set to fixed-point format, floating precision is " + value);
+
+	case L'e':
+		MathObject::formatSpecifier = flag;
+		MathObject::numPrecision = value;
+		return gcnew Message(Message::State::PASS, Message::SETTING_COLOR, "Set to exponential format, precision is " + value);
+
+	case L'c':
 		CommentPatternAnalyzer::displayComment = value >= 0 ? true : false;
 		return gcnew Message(Message::State::PASS, Message::SETTING_COLOR, "Comments will" + (CommentPatternAnalyzer::displayComment ? " " : " not ") + "be display");
 	}

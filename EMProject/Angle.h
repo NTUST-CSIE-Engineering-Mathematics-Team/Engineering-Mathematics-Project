@@ -24,8 +24,8 @@ namespace em {
 				}
 			}
 
-			property MathObject^ clone{
-				virtual MathObject^ get() override {
+			property Angle^ clone{
+				Angle^ get() {
 					return gcnew Angle(this);
 				}
 			}

@@ -16,8 +16,8 @@ namespace em {
 			static String^ const TAG = "Matrix";
 			static String^ const ID = "M";
 
-			property MathObject^ clone{
-				virtual MathObject^ get() override {
+			property Matrix^ clone{
+				Matrix^ get() {
 					return gcnew Matrix(this);
 				}
 			}
@@ -53,9 +53,18 @@ namespace em {
 					return this->rowLength == this->columnLength;
 				}
 			}
+
+			virtual property Matrix^ inverse {
+				Matrix^ get();
+			}
+
+			virtual property Scalar^ determinant {
+				Scalar^ get();
+			}
+			
 		private: 
 			array<double, 2>^ value;
-		
+			
 		public:
 			Matrix(int dim1, int dim2);
 			Matrix(Matrix^ mat);
@@ -81,9 +90,20 @@ namespace em {
 			virtual Matrix^ transpose();
 			virtual Matrix^ pow(int exponent);
 
+			
+			
+			virtual void ulDecomposition(Matrix^% upper, Matrix^% lower);
+			virtual Matrix^ makeUpperTriangle(Matrix^ syncer);
+			
+			virtual void multiplyRowOperation(int i, const double scalar);
+			virtual void swapRowOperation(int i, int j);
+			virtual void addRowOperation(int s, const double scalar, int d);
+			
 			static bool matrixCast(MathObject^ mo, Matrix^% mat);
 			static Matrix^ getIdentityMatrix(int size);
-		
+				
+		private:
+			void doUpperToIdentity(Matrix^% syncer);
 		};
 	}
 }

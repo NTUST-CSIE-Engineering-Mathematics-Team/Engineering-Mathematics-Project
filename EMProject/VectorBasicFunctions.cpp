@@ -24,7 +24,7 @@ MathObject^ VectorBasicFunctions::compnt$V_V(array<MathObject^>^ mos, Message^% 
 	compnt = v1->component(v2);
 
 	if (compnt == nullptr) {
-		msg = differentRankErrMsg();
+		msg = differentDimErrMsg("compnt");
 	}
 
 	return compnt;
@@ -38,7 +38,7 @@ MathObject^ VectorBasicFunctions::proj$V_V(array<MathObject^>^ mos, Message^% ms
 	v3 = v1->projection(v2);
 
 	if (v3 == nullptr) {
-		msg = differentRankErrMsg();
+		msg = differentDimErrMsg("proj");
 	}
 
 	return v3;
@@ -52,7 +52,7 @@ MathObject^ VectorBasicFunctions::angle$V_V(array<MathObject^>^ mos, Message^% m
 	Scalar^ cos = v1->normalized * v2->normalized;
 
 	if (cos == nullptr) {
-		msg = differentRankErrMsg();
+		msg = differentDimErrMsg("angle");
 		return nullptr;
 	}
 
@@ -68,7 +68,7 @@ MathObject^ VectorBasicFunctions::tri_area$V_V(array<MathObject^>^ mos, Message^
 	Scalar^ cos = v1->normalized * v2->normalized;
 
 	if (cos == nullptr) {
-		msg = differentRankErrMsg();
+		msg = differentDimErrMsg("tri_area");
 		return nullptr;
 	}
 	
@@ -83,7 +83,7 @@ MathObject^ VectorBasicFunctions::is_pallel$V_V(array<MathObject^>^ mos, Message
 	Scalar^ cos = v1->normalized * v2->normalized;
 	
 	if (cos == nullptr) {
-		msg = differentRankErrMsg();
+		msg = differentDimErrMsg("is_pallel");
 		return nullptr;
 	}
 
@@ -100,7 +100,7 @@ MathObject^ VectorBasicFunctions::is_orth$V_V(array<MathObject^>^ mos, Message^%
 	Scalar^ cos = v1->normalized * v2->normalized;
 
 	if (cos == nullptr) {
-		msg = differentRankErrMsg();
+		msg = differentDimErrMsg("is_orth");
 		return nullptr;
 	}
 
@@ -108,6 +108,21 @@ MathObject^ VectorBasicFunctions::is_orth$V_V(array<MathObject^>^ mos, Message^%
 
 }
 
-Message^ VectorBasicFunctions::differentRankErrMsg() {
-	return gcnew Message(Message::State::ERROR, "vectors with different ranks cannot perform vector operation function");
+MathObject^ VectorBasicFunctions::plane_norm$V_V(array<MathObject^>^ mos, Message^% msg) {
+	Vector^ v1, ^ v2, ^v3;
+	Vector::vectorCast(mos[0], v1);
+	Vector::vectorCast(mos[1], v2);
+
+	v3 = v1->cross(v2);
+
+	if (v3 == nullptr) {
+		msg = gcnew Message(Message::State::ERROR, "The ranks of vectors is invaild, it cannot be more than 3 or they have different ranks");
+		return nullptr;
+	}
+
+	return v3;
+
+}
+Message^ VectorBasicFunctions::differentDimErrMsg(String^ funName) {
+	return gcnew Message(Message::State::ERROR, "Cannot perform function \"" + funName + "\" on vectors with different dimensions");
 }

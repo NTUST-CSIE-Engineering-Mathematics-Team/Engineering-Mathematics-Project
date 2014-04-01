@@ -11,7 +11,7 @@ namespace em {
 					using em::intrprt::Message;
 
 					interface class VectorBasicFunctions {
-
+						
 					public:
 						static MathObject^ mag$V(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ normlzd$V(array<MathObject^>^ mos, Message^% msg);
@@ -21,8 +21,9 @@ namespace em {
 						static MathObject^ tri_area$V_V(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ is_pallel$V_V(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ is_orth$V_V(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ plane_norm$V_V(array<MathObject^>^ mos, Message^% msg);
 
-						static Message^ differentRankErrMsg();
+						static Message^ differentDimErrMsg(String^ funName);
 					};
 				}
 			}
