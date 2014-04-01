@@ -18,6 +18,7 @@ namespace em {
 						static MathObject^ proj$V_V(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ compnt$V_V(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ angle$V_V(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ pallel$V_VC(array<MathObject^>^ mos, Message^% msg);
 
 						static Message^ differentRankErrMsg();
 					};

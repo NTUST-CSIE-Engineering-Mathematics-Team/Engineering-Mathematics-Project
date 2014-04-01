@@ -59,6 +59,26 @@ MathObject^ VectorBasicFunctions::angle$V_V(array<MathObject^>^ mos, Message^% m
 	return MathHelper::radianToDegree(System::Math::Acos(cos));
 }
 
+MathObject^ VectorBasicFunctions::pallel$V_VC(array<MathObject^>^ mos, Message^% msg) {
+	Vector^ vec;
+	MathObjGenericSet<Vector^>^ set;
+	Vector::vectorCast(mos[0], vec);
+	MathObjGenericSet<Vector^>::gSetCast(mos[1], set);
+
+	MathObjGenericSet<Vector^>^ result = gcnew MathObjGenericSet<Vector^>(vec->mathID);
+	double theta;
+	for each(Vector^ op in set) {
+		theta = 1- Math::Abs(vec->normalized * op->normalized);
+
+		if (theta < MathHelper::EPSILON) {
+			result->add(op);
+		}
+		
+	}
+
+	return result;
+}
+
 Message^ VectorBasicFunctions::differentRankErrMsg() {
 	return gcnew Message(Message::State::ERROR, "vectors with different ranks cannot perform vector operation function");
 }
