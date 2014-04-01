@@ -23,11 +23,28 @@ Message^ CommandPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 	String^ cmdL = result->Groups[1]->Value;
 	Command^ cmd;
 	if (this->commandTable->checkGet(cmdL, cmd)) {
-		if (!checkVarType(result->Groups[2]->Value, cmd->argType)) {
-			return Message::SYNTAX_ERROR_MSG;
+
+		CaptureCollection^ cc = result->Groups[ArithmeticEngine::operandTag]->Captures;
+		
+		StringBuilder^ sb = gcnew StringBuilder();
+		Message^ tMsg;
+
+		for each(Capture^ cp in cc) {
+			if (!checkVarType(cp->Value, cmd->argType)) {
+				return Message::SYNTAX_ERROR_MSG;
+			}
+
+			tMsg = cmd->performCommand(cp->Value, iptr);
+
+			if (tMsg->msgState == Message::State::ERROR) {
+				return tMsg;
+			}
+
+			sb->AppendFormat("{0}\n", tMsg->msgContent);
 		}
 
-		return cmd->performCommand(result->Groups[2]->Value, iptr);
+		sb->Remove(sb->Length - 1, 1);
+		return gcnew Message(tMsg->msgState, tMsg->msgColor, sb->ToString());
 		
 	}
 
@@ -37,7 +54,7 @@ Message^ CommandPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 String^ CommandPatternAnalyzer::buildInitPattern() {
 	StringBuilder^ sb = gcnew StringBuilder();
 
-	sb->AppendFormat("^\\s*(\\w+)\\s+({0})$", ArithmeticEngine::arithmeticContentPattern("i")); 
+	sb->AppendFormat("^\\s*(\\w+)\\s+{0}$", ArithmeticEngine::multiArithmeticContentPattern("i")); 
 
 	return sb->ToString();
 }

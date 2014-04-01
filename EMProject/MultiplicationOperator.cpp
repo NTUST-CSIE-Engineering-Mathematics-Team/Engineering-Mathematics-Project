@@ -2,7 +2,7 @@
 
 using namespace em::math::engine::expression::operators;
 
-MultiplicationOperator::MultiplicationOperator(Expression^ a, Expression^ b) : CommutativeOperator("*", a, b) {
+MultiplicationOperator::MultiplicationOperator(Expression^ a, Expression^ b) : CommutativeOperator(L'*', a, b) {
 	this->addOperation<Scalar^, Scalar^>(gcnew Operation<Scalar^, Scalar^>(S_S));
 	this->addOperation<Vector^, Vector^>(gcnew Operation<Vector^, Vector^>(V_V));
 	
@@ -11,6 +11,7 @@ MultiplicationOperator::MultiplicationOperator(Expression^ a, Expression^ b) : C
 
 	this->addCommutativeOperation<Scalar^, Vector^>(gcnew Operation<Scalar^, Vector^>(S_V));
 	this->addCommutativeOperation<Scalar^, Matrix^>(gcnew Operation<Scalar^, Matrix^>(S_M));
+	this->addCommutativeOperation<Scalar^, Angle^>(gcnew Operation<Scalar^, Angle^>(S_A));
 }
 
 
@@ -24,7 +25,7 @@ MathObject^ MultiplicationOperator::S_S(Scalar^ a, Scalar^ b, Message^% msg) {
 MathObject^ MultiplicationOperator::V_V(Vector^ a, Vector^ b, Message^% msg) {
 	Scalar^ s = a * b;
 	if (s == nullptr) {
-		msg = gcnew Message(Message::State::ERROR, "The Vectors with different ranks cannot perform dot product");
+		msg = gcnew Message(Message::State::ERROR, "The vectors with different ranks cannot perform dot product");
 	}
 
 	return s;
@@ -54,4 +55,8 @@ MathObject^ MultiplicationOperator::M_V(Matrix^ a, Vector^ b, Message^% msg) {
 	}
 
 	return v;
+}
+
+MathObject^ MultiplicationOperator::S_A(Scalar^ a, Angle^ b, Message^% msg) {
+	return b * a;
 }

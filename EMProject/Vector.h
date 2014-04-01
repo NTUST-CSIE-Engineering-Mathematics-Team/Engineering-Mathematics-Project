@@ -31,6 +31,9 @@ namespace em {
 
 			property Vector^ normalized{
 				Vector^ get() {
+					if (isZeroVector(this)) {
+						return this;
+					}
 					return this / gcnew Scalar(this->magnitude);
 				}
 			}
@@ -38,14 +41,14 @@ namespace em {
 			property double magnitude {
 				double get() {
 					double s = 0;
-					for (int i = 0; i < this->rank; i++) {
+					for (int i = 0; i < this->dimension; i++) {
 						s += this[i] * this[i];
 					}
 					return System::Math::Sqrt(s);
 				}
 			}
 
-			property int rank {
+			property int dimension {
 				int get() {
 					return this->value->Length;
 				}
@@ -60,6 +63,7 @@ namespace em {
 			Vector(Vector^ vec);
 			virtual ~Vector();
 
+			virtual String^ getHeader() override;
 			virtual String^ ToString() override;
 			virtual MathObject^ operator-() override;
 
@@ -81,7 +85,7 @@ namespace em {
 			static bool vectorCast(MathObject^ mo, Vector^% vec);
 			static int getWiderRank(Vector^ a, Vector^ b);
 			static void widerConvert(Vector^% a, Vector^% b);
-			
+			static bool isZeroVector(Vector^ vec);
 		};
 	}
 	

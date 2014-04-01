@@ -1,13 +1,13 @@
 #include "MathObjGenericSet.h"
 #include "PrintCommand.h"
+#include "MathHelper.h"
 
 using namespace em::math;
 using em::intrprt::cmd::PrintCommand;
 
 generic<typename M> where M : MathObject
-MathObjGenericSet<M>::MathObjGenericSet(String^ objID) : MathObjSet(objID) {
+MathObjGenericSet<M>::MathObjGenericSet() : MathObjSet(MathHelper::getGenericMathID<M>()) {
 	this->list = gcnew LinkedList<M>();
-	
 }
 
 generic<typename M> where M : MathObject
@@ -64,13 +64,24 @@ MathObject^ MathObjGenericSet<M>::overrideAssign(MathObject^ mo) {
 }
 
 generic<typename M> where M : MathObject
+String^ MathObjGenericSet<M>::getHeader() {
+
+	StringBuilder^ sb = gcnew StringBuilder(TAG);
+	sb->AppendFormat(" of {0}s size = {1}", MathHelper::getGenericMathType<M>()->ToLower(), this->size);
+
+	return sb->ToString();
+}
+
+generic<typename M> where M : MathObject
 String^ MathObjGenericSet<M>::ToString() {
-	StringBuilder^ sb = gcnew StringBuilder("{");
 	
+	StringBuilder^ sb = gcnew StringBuilder(getHeader());
+	sb->Append("\n{\n");
 	for each(M mo in this) {
-		sb->AppendFormat("\n   {0}\n   {1}\n", PrintCommand::buildHeader(mo), mo->ToString()->Replace("\n", "\n   "));
+		sb->AppendFormat("   {0}\n\n", mo->ToString()->Replace("\n", "\n   "));
 	}
-	
+
+	sb->Remove(sb->Length - 1, 1);
 	sb->Append("}");
 
 	return sb->ToString();
@@ -94,6 +105,6 @@ bool MathObjGenericSet<M>::gSetCast(MathObject^ mo, MathObjGenericSet<M>^% set) 
 
 generic<typename M> where M : MathObject
 MathObjGenericSet<M>^ MathObjGenericSet<M>::emptyClone() {
-	return gcnew MathObjGenericSet<M>(this->contentID);
+	return gcnew MathObjGenericSet<M>();
 }
 

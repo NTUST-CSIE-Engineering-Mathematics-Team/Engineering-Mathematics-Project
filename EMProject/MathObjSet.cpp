@@ -25,9 +25,14 @@ static MathObjSet::MathObjSet() {
 	setConstructors->Add(Vector::TAG, gcnew ConcreteSet(createSetInstance<Vector^>));
 	setConstructors->Add(Matrix::TAG, gcnew ConcreteSet(createSetInstance<Matrix^>));
 	setConstructors->Add(MathObjSet::TAG, gcnew ConcreteSet(createSetInstance<MathObjSet^>));
+	setConstructors->Add(Angle::TAG, gcnew ConcreteSet(createSetInstance<Angle^>));
 }
 
-MathObjSet^ MathObjSet::createSpecificSet(MathObject^ element) {
-	return setConstructors[element->mathType](element->mathID);
+MathObjSet^ MathObjSet::createSpecificSet(String^ mathType) {
+	return setConstructors[mathType]();
 }
 
+generic<typename M> where M : MathObject
+MathObjSet^ MathObjSet::createSetInstance() {
+	return gcnew MathObjGenericSet<M>();
+}

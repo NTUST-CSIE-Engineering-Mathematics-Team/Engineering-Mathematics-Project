@@ -65,7 +65,7 @@ Expression^ ArithmeticEngine::anaylzeCompoundExpMatch(Match^ match) {
 	}
 
 	LinkedList<Expression^>^ opnds;
-	LinkedList<String^>^ optors;
+	LinkedList<wchar_t>^ optors;
 	if (!loadTokens(groups, opnds, optors)) {
 		return nullptr;
 	}
@@ -73,44 +73,38 @@ Expression^ ArithmeticEngine::anaylzeCompoundExpMatch(Match^ match) {
 	return buildArithmeticTree(opnds, optors);
 }
 
-bool ArithmeticEngine::loadTokens(GroupCollection^ groups, LinkedList<Expression^>^% opnds, LinkedList<String^>^% optors) {
+bool ArithmeticEngine::loadTokens(GroupCollection^ groups, LinkedList<Expression^>^% opnds, LinkedList<wchar_t>^% optors) {
 	
-	CaptureCollection^ opndB = groups[3]->Captures;
-	CaptureCollection^ optorsC = groups[2]->Captures;
+	CaptureCollection^ opndsC = groups[operandTag]->Captures;
+	CaptureCollection^ optorsC = groups[1]->Captures;
 
-	int opndCount = 1 + opndB->Count;
-	int optorsCount = optorsC->Count;
 	opnds = gcnew LinkedList<Expression^>();
-	optors = gcnew LinkedList<String^>();
+	optors = gcnew LinkedList<wchar_t>();
 
-	opnds->AddLast(convertToExpression(groups[1]->Value));
-	if (opnds->Last->Value == nullptr) {
-		return false;
-	}
 
-	for (int i = 1; i < opndCount; i++) {
-		opnds->AddLast(convertToExpression(opndB[i - 1]->Value));
+	for (int i = 0; i < opndsC->Count; i++) {
+		opnds->AddLast(convertToExpression(opndsC[i]->Value));
 		if (opnds->Last->Value == nullptr) {
 			return false;
 		}
 	}
 
-	for (int i = 0; i < optorsCount; i++) {
-		optors->AddLast(optorsC[i]->Value);
+	for (int i = 0; i < optorsC->Count; i++) {
+		optors->AddLast(optorsC[i]->Value[0]);
 	}
 
 	return true;
 }
 
-Expression^ ArithmeticEngine::buildArithmeticTree(LinkedList<Expression^>^ opnds, LinkedList<String^>^ optors) {
+Expression^ ArithmeticEngine::buildArithmeticTree(LinkedList<Expression^>^ opnds, LinkedList<wchar_t>^ optors) {
 	String^ lowPriorityOptor = "+-";
 	LinkedListNode<Expression^>^ rndNode = opnds->First;
 	LinkedListNode<Expression^>^ preRndNode;
-	LinkedListNode<String^>^ torNode = optors->First;
-	LinkedListNode<String^>^ preTorNode;
+	LinkedListNode<wchar_t>^ torNode = optors->First;
+	LinkedListNode<wchar_t>^ preTorNode;
 
 	for (; torNode != nullptr;) {
-		if (!lowPriorityOptor->Contains(torNode->Value)) {
+		if (lowPriorityOptor->IndexOf(!torNode->Value) < 0) {
 			this->CombineNodes(opnds, optors, rndNode, torNode, preRndNode, preTorNode);
 		} else {
 			rndNode = rndNode->Next;
@@ -125,9 +119,9 @@ Expression^ ArithmeticEngine::buildArithmeticTree(LinkedList<Expression^>^ opnds
 	return opnds->First->Value;
 }
 
-void ArithmeticEngine::CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<String^>^% optors,
-									LinkedListNode<Expression^>^% rndNode, LinkedListNode<String^>^% torNode,
-									LinkedListNode<Expression^>^% preRndNode, LinkedListNode<String^>^% preTorNode) {
+void ArithmeticEngine::CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<wchar_t>^% optors,
+									LinkedListNode<Expression^>^% rndNode, LinkedListNode<wchar_t>^% torNode,
+									LinkedListNode<Expression^>^% preRndNode, LinkedListNode<wchar_t>^% preTorNode) {
 
 	BinaryOperator^ optor = OperatorFactory::createOperatorInstance(torNode->Value, rndNode->Value, rndNode->Next->Value);
 
@@ -163,18 +157,13 @@ Expression^ ArithmeticEngine::convertToExpression(String^ s) {
 
 }
 
-array<Expression^>^ ArithmeticEngine::convertToExps(GroupCollection^ groups, int firstIndex) {
+array<Expression^>^ ArithmeticEngine::convertToExps(GroupCollection^ groups) {
 
-	CaptureCollection^ argL = groups[firstIndex + 1]->Captures;
-	array<Expression^>^ args = gcnew array<Expression^>(1 + argL->Count);
+	CaptureCollection^ argL = groups[operandTag]->Captures;
+	array<Expression^>^ args = gcnew array<Expression^>(argL->Count);
 
-	args[0] = this->convertToExpression(groups[firstIndex]->Value);
-	if (args[0] == nullptr) {
-		return nullptr;
-	}
-
-	for (int i = 1; i < args->Length; i++) {
-		args[i] = this->convertToExpression(argL[i - 1]->Value);
+	for (int i = 0; i < args->Length; i++) {
+		args[i] = this->convertToExpression(argL[i]->Value);
 
 		if (args[i] == nullptr) {
 			return nullptr;
@@ -192,7 +181,7 @@ array<Expression^>^ ArithmeticEngine::vmAssistDelimiter(String^ literalWithComma
 	Match^ m = VM_ASSIST_REGEX->Match(literalWithCommas);
 
 	array<Expression^>^ exps;
-	if (!m->Success || (exps = this->convertToExps(m->Groups, 1)) == nullptr) {
+	if (!m->Success || (exps = this->convertToExps(m->Groups)) == nullptr) {
 		this->errorMsg = gcnew Message(Message::State::ERROR, "Empty operand or argument");
 		return nullptr;
 	}
@@ -200,8 +189,28 @@ array<Expression^>^ ArithmeticEngine::vmAssistDelimiter(String^ literalWithComma
 	return exps;
 }
 
-Expression^ ArithmeticEngine::ExpressionFactory::concreteScalarExp(Match^ m, ArithmeticEngine^ engine) {
-	return gcnew MathObjExp(false ,gcnew Scalar(System::Convert::ToDouble(m->Value)));
+Expression^ ArithmeticEngine::ExpressionFactory::concreteDecimalExp(Match^ m, ArithmeticEngine^ engine) {
+	int vLast = m->Value->Length - 1;
+	wchar_t unit = m->Value[vLast];
+	
+	if (System::Char::IsLetter(unit)) {
+		String^ value = m->Value->Substring(0, vLast);
+		
+		switch (unit) {
+		case L'a':
+			return gcnew SimpleMathObjExp(false, gcnew Angle(System::Convert::ToDouble(value), true));
+
+		case L'p':
+			return gcnew SimpleMathObjExp(false, gcnew Scalar(System::Convert::ToDouble(value) * System::Math::PI));
+
+		case L'e':
+			return gcnew SimpleMathObjExp(false, gcnew Scalar(System::Convert::ToDouble(value) * System::Math::E));
+
+		default:
+			return nullptr;
+		}
+	}
+	return gcnew SimpleMathObjExp(false, gcnew Scalar(System::Convert::ToDouble(m->Value)));
 }
 
 Expression^ ArithmeticEngine::ExpressionFactory::concreteVarExp(Match^ m, ArithmeticEngine^ engine) {
@@ -211,26 +220,18 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteVarExp(Match^ m, Arithm
 		return nullptr;
 	}
 
-	return gcnew MathObjExp(m->Groups[1]->Success, mo);
+	return gcnew SimpleMathObjExp(m->Groups[1]->Success, mo);
 }
 
 Expression^ ArithmeticEngine::ExpressionFactory::concreteVMExp(Match^ m, ArithmeticEngine^ engine) {
 	GroupCollection^ groups = m->Groups;
-	CaptureCollection^ argL = groups[3]->Captures;
-	array<Expression^>^ row1;
+	CaptureCollection^ argL = groups[operandTag]->Captures;
 	
+	array<array<Expression^>^>^ rows = gcnew array<array<Expression^>^>(argL->Count);
+	for (int i = 0; i < rows->Length; i++) {
+		rows[i] = engine->vmAssistDelimiter(argL[i]->Value);
 
-	row1 = engine->vmAssistDelimiter(groups[2]->Value);
-	if (row1 == nullptr) {
-		return nullptr;
-	}
-
-	array<array<Expression^>^>^ rows = gcnew array<array<Expression^>^>(1 + argL->Count);
-	rows[0] = row1;
-	for (int i = 1; i < rows->Length; i++) {
-		rows[i] = engine->vmAssistDelimiter(argL[i - 1]->Value);
-
-		if (rows[i] == nullptr || rows[i]->Length != row1->Length) {
+		if (rows[i] == nullptr) {
 			return nullptr;
 		}
 	}
@@ -240,7 +241,7 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteVMExp(Match^ m, Arithme
 
 Expression^ ArithmeticEngine::ExpressionFactory::concreteSetExp(Match^ m, ArithmeticEngine^ engine) {
 	GroupCollection^ groups = m->Groups;
-	array<Expression^>^ exps = engine->convertToExps(groups, 2);
+	array<Expression^>^ exps = engine->convertToExps(groups);
 
 	if (exps == nullptr) {
 		return nullptr;
@@ -259,16 +260,11 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteFunction(Match^ m, Arit
 	}
 
 	array<Expression^>^ exps;
-	if (groups[4]->Captures->Count == 0 && String::IsNullOrWhiteSpace(groups[3]->Value)) {
-		exps = gcnew array<Expression^>(0);
-	} else {
-		exps = engine->convertToExps(groups, 3);
-		if (exps == nullptr) {
-			return nullptr;
-		}
-		
+	exps = engine->convertToExps(groups);
+	if (exps == nullptr) {
+		return nullptr;
 	}
-
+		
 	Function^ function = FunctionFactory::createFunctionInstance(funName, groups[1]->Success, exps);
 
 	return function;
@@ -290,12 +286,26 @@ String^ ArithmeticEngine::arithmeticContentPattern2(String^ tag, bool atLeastOne
 	String^ s = "(?:(?<" + tag + ">[(\\[{])|(?<-" + tag + ">[)\\]}])|[-+*/A-Za-z0-9._,|]|\\s)" + (atLeastOne ? "+" : "*");
 	return s;
 }
+
+String^ ArithmeticEngine::multiArithmeticContentPattern(String^ tag) {
+	StringBuilder^ result = gcnew StringBuilder();
+	StringBuilder^ duplicate = gcnew StringBuilder();
+	duplicate->AppendFormat("(?:{0}\\s*", OPEN_PARENTHESE_PATTERN);
+
+	duplicate->AppendFormat("(?<{0}>(?:(?<{1}>[(\\[{{])|(?<-{2}>[)\\]}}])|\\s|(?({3})[-+*/A-Za-z0-9._,|]|[-+*/A-Za-z0-9._]))+)", operandTag, tag, tag, tag);
+	duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
+	result->AppendFormat("(?:{0}(?:,\\s*{1})*)", duplicate, duplicate);
+
+	return result->ToString();
+}
+
 String^ ArithmeticEngine::buildCompundExpPattern(bool atLeastOne) {
 	StringBuilder^ full = gcnew StringBuilder();
 	StringBuilder^ duplicate = gcnew StringBuilder();
 
 	duplicate->AppendFormat("(?:{0}\\s*", OPEN_PARENTHESE_PATTERN);
-	duplicate->AppendFormat("(-?(?({0}){1}|(?:{2}|{3}|{4}|{5})))",
+	duplicate->AppendFormat("(?<{0}>-?(?({1}){2}|(?:{3}|{4}|{5}|{6})))",
+		operandTag,
 		parentheseTag,
 		arithmeticContentPattern(innerParentheseTag),
 		UNSIGNED_DOUBLE_PATTERN,
@@ -305,6 +315,6 @@ String^ ArithmeticEngine::buildCompundExpPattern(bool atLeastOne) {
 
 	duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
 
-	full->AppendFormat("^\\s*(?:{0}(?:\\s*{1}\\s*{2}){3})\\s*$", duplicate, OPERATOR_PATTERN, duplicate, atLeastOne ? "+" : "*");
+	full->AppendFormat("^\\s*(?:{0}(?:\\s*({1})\\s*{2}){3})\\s*$", duplicate, OPERATOR_PATTERN, duplicate, atLeastOne ? "+" : "*");
 	return full->ToString();
 }

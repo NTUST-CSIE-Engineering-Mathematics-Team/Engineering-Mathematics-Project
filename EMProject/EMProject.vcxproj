@@ -80,6 +80,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Angle.cpp" />
     <ClCompile Include="ArithmeticEngine.cpp" />
     <ClCompile Include="AssignmentPatternAnalyzer.cpp" />
     <ClCompile Include="BinaryOperator.cpp" />
@@ -106,7 +107,7 @@
     <ClCompile Include="MathObject.cpp" />
     <ClCompile Include="MathObjGenericSet.cpp" />
     <ClCompile Include="MathObjSet.cpp" />
-    <ClCompile Include="MathObjExp.cpp" />
+    <ClCompile Include="SimpleMathObjExp.cpp" />
     <ClCompile Include="MathObjSetExp.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="MatrixBasicFunctions.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="All_Math.h" />
     <ClInclude Include="All_Operators.h" />
     <ClInclude Include="All_Patterns.h" />
+    <ClInclude Include="Angle.h" />
     <ClInclude Include="ArithmeticEngine.h" />
     <ClInclude Include="AssignmentPatternAnalyzer.h" />
     <ClInclude Include="BinaryOperator.h" />
@@ -169,7 +171,7 @@
     <ClInclude Include="MathObject.h" />
     <ClInclude Include="MathObjGenericSet.h" />
     <ClInclude Include="MathObjSet.h" />
-    <ClInclude Include="MathObjExp.h" />
+    <ClInclude Include="SimpleMathObjExp.h" />
     <ClInclude Include="MathObjSetExp.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Message.h" />
@@ -200,9 +202,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EMProject.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

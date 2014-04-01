@@ -9,7 +9,7 @@ namespace em {
 		ref class MathObjSet abstract : public MathObject {
 
 		private:
-			delegate MathObjSet^ ConcreteSet(String^ typeID);
+			delegate MathObjSet^ ConcreteSet();
 
 		private:
 			static Dictionary<String^, ConcreteSet^>^ const setConstructors = gcnew Dictionary<String^, ConcreteSet^>();
@@ -34,17 +34,15 @@ namespace em {
 			virtual bool add(MathObject^ mo) abstract;
 
 			static bool setCast(MathObject^ mo, MathObjSet^% set);
-			static MathObjSet^ createSpecificSet(MathObject^ element);
+			static MathObjSet^ createSpecificSet(String^ typeName);
 			
 		protected:
 			MathObjSet(String^ contentID);
 			static String^ getVaildContentID(String^ contentID);
-		private:
-			template<typename M>
-			static MathObjSet^ createSetInstance(String^ typeID) {
-				return gcnew MathObjGenericSet<M>(typeID);
-			}
 
+		private:
+			generic<typename M> where M : MathObject
+			static MathObjSet^ createSetInstance();
 		};
 
 

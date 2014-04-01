@@ -146,8 +146,8 @@ namespace EMProject {
 			// splitContainer.Panel2
 			// 
 			this->splitContainer->Panel2->Controls->Add(this->inputTextBox);
-			this->splitContainer->Size = System::Drawing::Size(507, 352);
-			this->splitContainer->SplitterDistance = 246;
+			this->splitContainer->Size = System::Drawing::Size(654, 337);
+			this->splitContainer->SplitterDistance = 317;
 			this->splitContainer->TabIndex = 1;
 			// 
 			// outputTextBox
@@ -160,7 +160,7 @@ namespace EMProject {
 			this->outputTextBox->Location = System::Drawing::Point(0, 0);
 			this->outputTextBox->Name = L"outputTextBox";
 			this->outputTextBox->ReadOnly = true;
-			this->outputTextBox->Size = System::Drawing::Size(246, 352);
+			this->outputTextBox->Size = System::Drawing::Size(317, 337);
 			this->outputTextBox->TabIndex = 1;
 			this->outputTextBox->TabStop = false;
 			this->outputTextBox->Text = L"";
@@ -177,7 +177,7 @@ namespace EMProject {
 			this->inputTextBox->ForeColor = System::Drawing::Color::White;
 			this->inputTextBox->Location = System::Drawing::Point(0, 0);
 			this->inputTextBox->Name = L"inputTextBox";
-			this->inputTextBox->Size = System::Drawing::Size(257, 352);
+			this->inputTextBox->Size = System::Drawing::Size(333, 337);
 			this->inputTextBox->TabIndex = 0;
 			this->inputTextBox->Text = L"#Write your instructions here";
 			this->inputTextBox->WordWrap = false;
@@ -191,7 +191,7 @@ namespace EMProject {
 			});
 			this->menu->Location = System::Drawing::Point(0, 0);
 			this->menu->Name = L"menu";
-			this->menu->Size = System::Drawing::Size(507, 24);
+			this->menu->Size = System::Drawing::Size(654, 24);
 			this->menu->TabIndex = 2;
 			this->menu->Text = L"menu";
 			// 
@@ -297,7 +297,7 @@ namespace EMProject {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(507, 376);
+			this->ClientSize = System::Drawing::Size(654, 361);
 			this->Controls->Add(this->splitContainer);
 			this->Controls->Add(this->menu);
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));

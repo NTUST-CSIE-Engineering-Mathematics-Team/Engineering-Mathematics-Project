@@ -1,15 +1,18 @@
 #include "MathHelper.h"
 
 using namespace em::math;
+using System::Reflection::BindingFlags;
 
-double MathHelper::degreeToRadian(Scalar^ d) {
-	return d * Math::PI / 180;
-}
-
-Scalar^ MathHelper::radianToDegree(double r) {
-	return gcnew Scalar(r * 180 / Math::PI);
-}
 
 		
+generic<typename M> where M : MathObject
+String^ MathHelper::getGenericMathID() {
+	return M::typeid->GetField("ID", BindingFlags::Public | BindingFlags::Static)->GetValue(nullptr)->ToString();
+}
+
+generic<typename M> where M : MathObject
+String^ MathHelper::getGenericMathType() {
+	return M::typeid->GetField("TAG", BindingFlags::Public | BindingFlags::Static)->GetValue(nullptr)->ToString();
+}
 
 

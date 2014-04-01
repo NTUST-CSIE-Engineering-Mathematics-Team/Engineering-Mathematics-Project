@@ -15,9 +15,13 @@ namespace em {
 					interface class TrigonometricFunctions {
 
 					public:
-						static MathObject^ sin$S(array<MathObject^>^ mos, Message^% msg);
-						static MathObject^ cos$S(array<MathObject^>^ mos, Message^% msg);
-						static MathObject^ tan$S(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ angle$S(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ sin$A(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ cos$A(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ tan$A(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ asin$S(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ acos$S(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ atan$S(array<MathObject^>^ mos, Message^% msg);
 					};
 				}
 			}

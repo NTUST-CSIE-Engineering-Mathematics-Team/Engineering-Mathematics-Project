@@ -1,7 +1,7 @@
 #include "Scalar.h"
 
 using namespace em::math;
-
+using System::Text::StringBuilder;
 Scalar::Scalar(double v) : MathObject(TAG, ID), value(v) {
 }
 
@@ -12,8 +12,14 @@ Scalar::Scalar(Scalar^ scl) : MathObject(TAG, ID) {
 Scalar::~Scalar() {
 }
 
+String^ Scalar::getHeader() {
+	return TAG;
+}
+
 String^ Scalar::ToString() {
-	return System::String::Format(NUMERAL_FORMAT, this->value);
+	StringBuilder^ sb = gcnew StringBuilder(getHeader());
+	sb->AppendFormat("\n{0}", System::String::Format(NUMERAL_FORMAT, this->value));
+	return sb->ToString();
 }
 
 Scalar^ Scalar::overrideAssign(Scalar^ scl) {

@@ -16,7 +16,7 @@ MathObject^ MathObjSetExp::compute(Message^% message) {
 		return nullptr;
 	}
 
-	MathObjSet^ ms = MathObjSet::createSpecificSet(m0);
+	MathObjSet^ ms = MathObjSet::createSpecificSet(m0->mathType);
 	MathObject^ mObj;
 
 	ms->add(this->negative ? -m0 : m0);

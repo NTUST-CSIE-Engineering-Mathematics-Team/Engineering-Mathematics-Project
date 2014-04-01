@@ -7,12 +7,21 @@ namespace em {
 		public:
 			
 			static property int numPrecision {
+				int get() {
+					return precision;
+				}
+
 				void set(int p) {
 					precision = p;
 				}
+
 			}
 
 			static property int numWidth {
+				int get() {
+					return width;
+				}
+
 				void set(int w) {
 					if (w > precision) {
 						width = w;
@@ -51,7 +60,7 @@ namespace em {
 	
 		public:
 			virtual ~MathObject();
-
+			virtual String^ getHeader()abstract;
 			virtual String^ ToString()override abstract;
 			virtual MathObject^ operator-() abstract;
 			virtual MathObject^ overrideAssign(MathObject^ mo) abstract;
