@@ -195,9 +195,6 @@
     <ClCompile Include="VMConstructExp.cpp">
       <Filter>Source Files\math\engine</Filter>
     </ClCompile>
-    <ClCompile Include="MathObjExp.cpp">
-      <Filter>Source Files\math\engine</Filter>
-    </ClCompile>
     <ClCompile Include="TrigonometricFunctions.cpp">
       <Filter>Source Files\math\engine\expression\functions</Filter>
     </ClCompile>
@@ -209,6 +206,12 @@
     </ClCompile>
     <ClCompile Include="ScalarBasicFunctions.cpp">
       <Filter>Source Files\math\engine\expression\functions</Filter>
+    </ClCompile>
+    <ClCompile Include="Angle.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleMathObjExp.cpp">
+      <Filter>Source Files\math\engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -359,9 +362,6 @@
     <ClInclude Include="VMConstructExp.h">
       <Filter>Header Files\math\engine\expression</Filter>
     </ClInclude>
-    <ClInclude Include="MathObjExp.h">
-      <Filter>Header Files\math\engine\expression</Filter>
-    </ClInclude>
     <ClInclude Include="TrigonometricFunctions.h">
       <Filter>Header Files\math\engine\expression\functions</Filter>
     </ClInclude>
@@ -380,16 +380,17 @@
     <ClInclude Include="ScalarBasicFunctions.h">
       <Filter>Header Files\math\engine\expression\functions</Filter>
     </ClInclude>
+    <ClInclude Include="Angle.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleMathObjExp.h">
+      <Filter>Header Files\math\engine\expression</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EMProject.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\icon.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">

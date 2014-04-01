@@ -15,17 +15,25 @@ void RegistrationArea::registerHere() {
 	OperatorFactory::addOperation<CrossProductOperator>();
 
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&ScalarBasicFunctions::pow$S_S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&ScalarBasicFunctions::sqrt$S));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&ScalarBasicFunctions::test));
 
-	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::sin$S));
-	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::cos$S));
-	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::tan$S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::angle$S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::sin$A));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::cos$A));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::tan$A));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::asin$S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::acos$S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::atan$S));
 
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::mag$V));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::proj$V_V));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::compnt$V_V));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::normlzd$V));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::angle$V_V));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::tri_area$V_V));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::is_pallel$V_V));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::is_orth$V_V));
 
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::transpose$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::pow$M_S));

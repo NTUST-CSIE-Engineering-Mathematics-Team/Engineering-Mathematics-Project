@@ -16,6 +16,7 @@ static KeywordCollection::KeywordCollection() {
 	keywordsSet->Add(MATRICES);
 	keywordsSet->Add(VECTORS);
 	keywordsSet->Add(SCALARS);
+	keywordsSet->Add(ANGLES);
 	keywordsSet->Add(ALL);
 	keywordsSet->Add(SETTINGS_CMD);
 	keywordsSet->Add(PRINT_CMD);

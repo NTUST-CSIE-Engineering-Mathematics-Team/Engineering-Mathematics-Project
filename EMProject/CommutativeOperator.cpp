@@ -1,7 +1,7 @@
 #include "CommutativeOperator.h"
 
 using namespace em::math::engine::expression::operators;
-CommutativeOperator::CommutativeOperator(String^ symbol, Expression^ opndA, Expression^ opndB) : BinaryOperator(symbol, opndA, opndB) {
+CommutativeOperator::CommutativeOperator(wchar_t symbol, Expression^ opndA, Expression^ opndB) : BinaryOperator(symbol, opndA, opndB) {
 }
 
 

@@ -3,10 +3,11 @@
 #include "OperatorFactory.h"
 using namespace em::math::engine::expression::operators;
 
-AdditionOperator::AdditionOperator(Expression^ a, Expression^ b) : CommutativeOperator("+", a, b) {
+AdditionOperator::AdditionOperator(Expression^ a, Expression^ b) : CommutativeOperator(L'+', a, b) {
 	this->addOperation<Scalar^, Scalar^>(gcnew Operation<Scalar^, Scalar^>(S_S));
 	this->addOperation<Vector^, Vector^>(gcnew Operation<Vector^, Vector^>(V_V));
 	this->addOperation<Matrix^, Matrix^>(gcnew Operation<Matrix^, Matrix^>(M_M));
+	this->addOperation<Angle^, Angle^>(gcnew Operation<Angle^, Angle^>(A_A));
 }
 
 
@@ -34,4 +35,8 @@ MathObject^ AdditionOperator::M_M(Matrix^ a, Matrix^ b, Message^% msg) {
 	}
 
 	return m;
+}
+
+MathObject^ AdditionOperator::A_A(Angle^ a, Angle^ b, Message^% msg) {
+	return a + b;
 }

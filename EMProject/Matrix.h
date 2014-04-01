@@ -1,7 +1,7 @@
 #pragma once
-#include "MathObject.h"
-#include "Vector.h"
 #include "Scalar.h"
+#include "Vector.h"
+#include "MathObject.h"
 
 namespace em {
 	namespace math {
@@ -62,6 +62,7 @@ namespace em {
 			Matrix(VectorOption op, Vector^ vec);
 			virtual ~Matrix();
 
+			virtual String^ getHeader() override;
 			virtual String^ ToString() override;
 			virtual MathObject^ operator-() override;
 

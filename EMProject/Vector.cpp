@@ -19,13 +19,13 @@ Vector::~Vector() {
 }
 
 Vector^ Vector::fitAssign(Vector^ vec) {
-	if (vec->rank <= this->rank) {
+	if (vec->dimension <= this->dimension) {
 		int i;
-		for (i = 0; i < vec->rank; i++) {
+		for (i = 0; i < vec->dimension; i++) {
 			this[i] = vec[i];
 		}
 
-		for (; i < this->rank; i++) {
+		for (; i < this->dimension; i++) {
 			this[i] = 0;
 		}
 	}
@@ -50,11 +50,19 @@ MathObject^ Vector::overrideAssign(MathObject^ mo) {
 	return this->overrideAssign(tmp);
 }
 
+String^ Vector::getHeader() {
+
+	StringBuilder^ sb = gcnew StringBuilder(TAG);
+	sb->AppendFormat(" rank = {0}", this->dimension);
+	return sb->ToString();
+}
+
 String^ Vector::ToString() {
 
-	StringBuilder^ sb = gcnew StringBuilder("< ");
-	int i;
+	StringBuilder^ sb = gcnew StringBuilder(getHeader());
 
+	sb->Append("\n< ");
+	int i;
 	for (i = 0; i < this->value->Length - 1; i++) {
 		sb->AppendFormat(NUMERAL_FORMAT, this[i]);
 		sb->Append(",");
@@ -74,8 +82,8 @@ bool Vector::vectorCast(MathObject^ mo, Vector^% vec) {
 }
 
 MathObject^ Vector::operator-() {
-	Vector^ vec = gcnew Vector(this->rank);
-	for (int i = 0; i < this->rank; i++) {
+	Vector^ vec = gcnew Vector(this->dimension);
+	for (int i = 0; i < this->dimension; i++) {
 		vec[i] = -this[i];
 	}
 
@@ -88,10 +96,10 @@ Vector^ Vector::operator-(Vector^ v) {
 		return nullptr;
 	}
 
-	Vector^ newVec = gcnew Vector(this->rank);
+	Vector^ newVec = gcnew Vector(this->dimension);
 
 	int i;
-	for (i = 0; i < newVec->rank; i++) {
+	for (i = 0; i < newVec->dimension; i++) {
 		newVec[i] = this[i] - v[i];
 	}
 
@@ -104,9 +112,9 @@ Vector^ Vector::operator+(Vector^ v) {
 		return nullptr;
 	}
 	
-	Vector^ newVec = gcnew Vector(this->rank);
+	Vector^ newVec = gcnew Vector(this->dimension);
 
-	for (int i = 0; i < newVec->rank; i++) {
+	for (int i = 0; i < newVec->dimension; i++) {
 		newVec[i] = this[i] + v[i];
 	}
 
@@ -116,9 +124,9 @@ Vector^ Vector::operator+(Vector^ v) {
 
 Vector^ Vector::operator*(Scalar^ s) {
 	
-	Vector^ newVec = gcnew Vector(this->rank);
+	Vector^ newVec = gcnew Vector(this->dimension);
 
-	for (int i = 0; i < this->rank; i++) {
+	for (int i = 0; i < this->dimension; i++) {
 		newVec[i] = this[i] * s;
 	}
 
@@ -131,9 +139,9 @@ Scalar^ Vector::operator*(Vector^ v) {
 	}
 
 	double product = 0;
-	Vector^ newVec = gcnew Vector(this->rank);
+	Vector^ newVec = gcnew Vector(this->dimension);
 
-	for (int i = 0; i < newVec->rank; i++) {
+	for (int i = 0; i < newVec->dimension; i++) {
 		product += this[i] * v[i];
 	}
 
@@ -141,9 +149,9 @@ Scalar^ Vector::operator*(Vector^ v) {
 }
 
 Vector^ Vector::operator/(Scalar^ s) {
-	Vector^ newVec = gcnew Vector(this->rank);
-
-	for (int i = 0; i < this->rank; i++) {
+	Vector^ newVec = gcnew Vector(this->dimension);
+	
+	for (int i = 0; i < this->dimension; i++) {
 		newVec[i] = this[i] / s;
 	}
 
@@ -151,7 +159,7 @@ Vector^ Vector::operator/(Scalar^ s) {
 }
 
 Vector^ Vector::cross(Vector^ v) {
-	if (!isSameRank(v, this) || this->rank > 3) {
+	if (!isSameRank(v, this) || this->dimension > 3) {
 		return nullptr;
 	}
 
@@ -159,12 +167,12 @@ Vector^ Vector::cross(Vector^ v) {
 	Vector^ b = v;
 	Vector^ crs = gcnew Vector(3);
 
-	if (this->rank < 3) {
+	if (this->dimension < 3) {
 		a = gcnew Vector(3);
 		a->fitAssign(this);
 	}
 
-	if (v->rank < 3) {
+	if (v->dimension < 3) {
 		b = gcnew Vector(3);
 		b->fitAssign(v);
 	}
@@ -186,11 +194,21 @@ Vector^ Vector::projection(Vector^ v) {
 }
 
 bool Vector::isSameRank(Vector^ a, Vector^ b) {
-	return a != nullptr && b != nullptr && a->rank == b->rank;
+	return a != nullptr && b != nullptr && a->dimension == b->dimension;
 }
 
 int Vector::getWiderRank(Vector^ a, Vector^ b) {
-	return a->rank > b->rank ? a->rank : b->rank;
+	return a->dimension > b->dimension ? a->dimension : b->dimension;
+}
+
+bool Vector::isZeroVector(Vector^ vec) {
+	for (int i = 0; i < vec->dimension; i++) {
+		if (vec[i] != 0) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void Vector::widerConvert(Vector^% a, Vector^% b) {
@@ -198,9 +216,9 @@ void Vector::widerConvert(Vector^% a, Vector^% b) {
 		return;
 	}
 
-	int wRank = a->rank;
-	if (b->rank > wRank) {
-		wRank = b->rank;
+	int wRank = a->dimension;
+	if (b->dimension > wRank) {
+		wRank = b->dimension;
 		Vector^ c = gcnew Vector(wRank);
 		c->fitAssign(a);
 		a = c;

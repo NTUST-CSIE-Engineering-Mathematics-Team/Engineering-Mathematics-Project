@@ -24,7 +24,7 @@ Message^ JudgeCommand::performCommand(String^ arg, Interpreter^ iptr) {
 		color = Message::JUDGE_NOT_PASS_COLOR;
 
 	} else {
-		result->AppendFormat("PASSED, the value is:\n{0}\n{1}\n", PrintCommand::buildHeader(mo), mo->ToString());
+		result->AppendFormat("PASSED, the value is:\n{0}\n", mo->ToString());
 		color = Message::JUDGE_PASS_COLOR;
 	}
 

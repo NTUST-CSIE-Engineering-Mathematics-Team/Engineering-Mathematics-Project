@@ -2,7 +2,7 @@
 
 using namespace em::math::engine::expression::operators;
 
-CrossProductOperator::CrossProductOperator(Expression^ a, Expression^ b) : BinaryOperator("x", a, b) {
+CrossProductOperator::CrossProductOperator(Expression^ a, Expression^ b) : BinaryOperator(L'x', a, b) {
 	this->addOperation<Vector^, Vector^>(gcnew Operation<Vector^, Vector^>(V_V));
 }
 

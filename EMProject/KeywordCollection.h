@@ -12,6 +12,7 @@ namespace em {
 			static String^ const VECTORS = "vecs";
 			static String^ const SCALARS = "scls";
 			static String^ const SETS = "sets";
+			static String^ const ANGLES = "agls";
 			static String^ const ALL = "all";
 			static String^ const SETTINGS_CMD = "option";
 			static String^ const PRINT_CMD = "print";

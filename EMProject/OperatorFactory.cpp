@@ -9,6 +9,6 @@ OperatorFactory::OperatorFactory() {
 OperatorFactory::~OperatorFactory() {
 }
 
-BinaryOperator^ OperatorFactory::createOperatorInstance(String^ type, Expression^ a, Expression^ b) {
+BinaryOperator^ OperatorFactory::createOperatorInstance(wchar_t type, Expression^ a, Expression^ b) {
 	return operatorConstructors[type](a, b);
 }

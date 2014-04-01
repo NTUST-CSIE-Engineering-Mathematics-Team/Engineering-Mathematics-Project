@@ -6,11 +6,16 @@ namespace em {
 	namespace math {
 
 		using System::Math;
-		interface class MathHelper{
-			static double EPSILON = std::numeric_limits<double>::epsilon();
+		using System::Type;
+		interface class MathHelper {
+		public:
+			static double EPSILON = std::numeric_limits<float>::epsilon();
+			
+			generic<typename M> where M : MathObject
+			static String^ getGenericMathID();
 
-			static double degreeToRadian(Scalar^ d);
-			static Scalar^ radianToDegree(double r);
+			generic<typename M> where M : MathObject
+			static String^ getGenericMathType();
 		};
 
 	}

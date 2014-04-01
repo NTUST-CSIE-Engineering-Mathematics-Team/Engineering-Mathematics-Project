@@ -39,21 +39,21 @@ namespace em {
 						};
 
 					public:
-						property String^ operatorSymbol {
-							String^ get() {
+						property wchar_t operatorSymbol {
+							wchar_t get() {
 								return this->symbol;
 							}
 						}
 
 					private:
-						String^ const symbol;
+						wchar_t const symbol;
 						Expression^ opndA;
 						Expression^ opndB;
 
 						Dictionary<String^, CasterInterface^>^ overloadsMap;
 
 					public:
-						BinaryOperator(String^ symbol, Expression^ opndA, Expression^ opndB);
+						BinaryOperator(wchar_t symbol, Expression^ opndA, Expression^ opndB);
 						virtual ~BinaryOperator();
 
 						generic<typename A, typename B> where A : MathObject where B : MathObject

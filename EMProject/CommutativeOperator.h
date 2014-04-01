@@ -9,7 +9,7 @@ namespace em {
 
 					ref class CommutativeOperator abstract : public BinaryOperator {
 					public:
-						CommutativeOperator(String^ symbol, Expression^ opndA, Expression^ opndB);
+						CommutativeOperator(wchar_t symbol, Expression^ opndA, Expression^ opndB);
 						virtual ~CommutativeOperator();
 
 						generic<typename A, typename B> where A:MathObject where B : MathObject

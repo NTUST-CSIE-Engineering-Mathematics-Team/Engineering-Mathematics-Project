@@ -31,7 +31,6 @@ namespace em {
 		
 			public:
 				virtual ~Command();
-
 				virtual Message^ performCommand(String^ arg, Interpreter^ iptr) abstract;
 				
 			protected:
