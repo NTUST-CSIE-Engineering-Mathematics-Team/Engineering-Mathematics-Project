@@ -280,7 +280,6 @@ Matrix^ Matrix::pow(int exponent) {
 		if (inverse == nullptr) {
 			return nullptr;
 		}
-
 		m = inverse;
 		
 	} else {
@@ -293,6 +292,22 @@ Matrix^ Matrix::pow(int exponent) {
 	}
 
 	return m;
+}
+
+Matrix^ Matrix::rowEchelonForm::get() {
+	
+	Matrix^ upper = this->makeUpperTriangle(nullptr);
+
+	for (int i = 0, j = 0; i < upper->columnLength && j < upper->rowLength; i++, j++) {
+		for (; j < upper->rowLength; j++) {
+			if (upper[i, j] != 0) {
+				upper->multiplyRowOperation(i, 1 / upper[i, j]);
+				break;
+			}
+		}
+	}
+	
+	return upper;
 }
 
 Matrix^ Matrix::inverse::get() {
@@ -325,10 +340,73 @@ Scalar^ Matrix::determinant::get() {
 	return gcnew Scalar(det);
 }
 
+Scalar^ Matrix::rank::get() {
+
+	Matrix^ upper = this->makeUpperTriangle(nullptr);
+	
+	int rank = 0;
+	for (int i = 0, j = 0; i < upper->columnLength && j < upper->rowLength; i++, j++) {
+		for (; j < upper->rowLength; j++) {
+			if (upper[i, j] != 0) {
+				rank++;
+				break;
+			}
+		}
+	}
+
+	return gcnew Scalar(rank);
+}
+
 void Matrix::ulDecomposition(Matrix^% upper, Matrix^% lower) {
 	lower = getIdentityMatrix(this->columnLength);
 	upper = makeUpperTriangle(lower);
 	lower = lower->inverse;
+}
+
+Matrix::SolutionState Matrix::solveLinearSystem(Vector^ constSet, Matrix^% solutions) {
+	return this->solveLinearSystem(gcnew Matrix(VectorOption::COLUMN, constSet), solutions);
+}
+
+Matrix::SolutionState Matrix::solveLinearSystem(Matrix^ constSet, Matrix^% solutions) {
+	if (constSet->rowLength != 1 || this->columnLength != constSet->columnLength) {
+		return SolutionState::BAD_CONSTANTS;
+	}
+
+	if (this->rowLength > this->columnLength) {
+		return SolutionState::INFINITE;
+	}
+
+	solutions = constSet->clone;
+	Matrix^ upper = this->makeUpperTriangle(solutions);
+
+	int i = 0;
+	for (; i < upper->rowLength; i++) {
+		if (upper[i, i] == 0) {
+			if (solutions[i, 0] != 0) {
+				delete solutions;
+				solutions = nullptr;
+				return SolutionState::INCONSISTENT;
+			}
+			delete solutions;
+			solutions = nullptr;
+			return SolutionState::INFINITE;
+			
+		}
+	}
+
+	for (; i < upper->columnLength; i++) {
+		if (solutions[i, 0] != 0) {
+			delete solutions;
+			solutions = nullptr;
+			return SolutionState::INCONSISTENT;
+		}
+	}
+
+	upper->doUpperToIdentity(solutions);
+	
+	
+	return SolutionState::UNIQUE;
+
 }
 
 Matrix^ Matrix::makeUpperTriangle(Matrix^ syncer) {
@@ -371,8 +449,9 @@ Matrix^ Matrix::makeUpperTriangle(Matrix^ syncer) {
 }
 
 void Matrix::doUpperToIdentity(Matrix^% syncer) {
-	for (int i = this->columnLength - 1; i >= 0; i--) {
-		for (int j = this->columnLength - 1; j > i; j--) {
+	int bounds = System::Math::Min(this->columnLength, this->rowLength) - 1;
+	for (int i = bounds; i >= 0; i--) {
+		for (int j = bounds; j > i; j--) {
 			syncer->addRowOperation(j, -this[i, j], i);
 			this[i, j] = 0;
 			
@@ -381,6 +460,8 @@ void Matrix::doUpperToIdentity(Matrix^% syncer) {
 		this[i, i] = 1;
 	}
 }
+
+
 
 void Matrix::multiplyRowOperation(int i, const double scalar) {
 	for (int j = 0; j < this->rowLength; j++) {

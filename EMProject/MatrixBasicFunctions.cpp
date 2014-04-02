@@ -8,6 +8,33 @@ MathObject^ MatrixBasicFunctions::transpose$M(array<MathObject^>^ mos, Message^%
 
 	return mat->transpose();
 }
+MathObject^ MatrixBasicFunctions::row_ech$M(array<MathObject^>^ mos, Message^% msg) {
+	Matrix^ mat;
+	Matrix::matrixCast(mos[0], mat);
+
+	return mat->rowEchelonForm;
+}
+
+MathObject^ MatrixBasicFunctions::solve_linear$M_V(array<MathObject^>^ mos, Message^% msg) {
+	Matrix^ mat, ^sols;
+	Vector^ consts;
+	Matrix::matrixCast(mos[0], mat);
+	Vector::vectorCast(mos[1], consts);
+
+	dealLinearSystemResult(mat->solveLinearSystem(consts, sols), msg);
+	return sols;
+		
+}
+
+MathObject^ MatrixBasicFunctions::solve_linear$M_M(array<MathObject^>^ mos, Message^% msg) {
+	Matrix^ mat, ^ consts, ^ sols;
+	Matrix::matrixCast(mos[0], mat);
+	Matrix::matrixCast(mos[1], consts);
+
+	dealLinearSystemResult(mat->solveLinearSystem(consts, sols), msg);
+	return sols;
+
+}
 
 MathObject^ MatrixBasicFunctions::inverse$M(array<MathObject^>^ mos, Message^% msg) {
 	Matrix^ mat;
@@ -33,6 +60,13 @@ MathObject^ MatrixBasicFunctions::det$M(array<MathObject^>^ mos, Message^% msg) 
 	}
 
 	return det;
+}
+
+MathObject^ MatrixBasicFunctions::rank$M(array<MathObject^>^ mos, Message^% msg) {
+	Matrix^ mat;
+	Matrix::matrixCast(mos[0], mat);
+
+	return mat->rank;
 }
 
 MathObject^ MatrixBasicFunctions::ul_decom$M(array<MathObject^>^ mos, Message^% msg) {
@@ -63,6 +97,20 @@ MathObject^ MatrixBasicFunctions::pow$M_S(array<MathObject^>^ mos, Message^% msg
 	}
 
 	return mat;
+}
+
+void MatrixBasicFunctions::dealLinearSystemResult(Matrix::SolutionState ss, Message^% msg) {
+	switch (ss) {
+	case Matrix::SolutionState::INCONSISTENT:
+		msg = gcnew Message(Message::State::ERROR, "There is no solution to this linear system");
+		break;
+	case Matrix::SolutionState::INFINITE:
+		msg = gcnew Message(Message::State::ERROR, "There are infinite solutions to this linear system");
+		break;
+	case Matrix::SolutionState::BAD_CONSTANTS:
+		msg = gcnew Message(Message::State::ERROR, "The size of the matrix of constants is invaild");
+		break;
+	}
 }
 
 Message^ MatrixBasicFunctions::notSquareErrMsg(String^ funName) {

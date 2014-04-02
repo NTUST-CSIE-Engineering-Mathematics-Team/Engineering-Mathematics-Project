@@ -37,8 +37,12 @@ void RegistrationArea::registerHere() {
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::plane_norm$V_V));
 
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::transpose$M));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::row_ech$M));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::solve_linear$M_V));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::solve_linear$M_M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::inverse$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::det$M));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::rank$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::ul_decom$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::pow$M_S));
 }

@@ -12,7 +12,7 @@ namespace em {
 
 		public:
 			enum class VectorOption { ROW, COLUMN };
-
+			enum class SolutionState {UNIQUE, INFINITE, INCONSISTENT, BAD_CONSTANTS};
 			static String^ const TAG = "Matrix";
 			static String^ const ID = "M";
 
@@ -54,6 +54,10 @@ namespace em {
 				}
 			}
 
+			virtual property Matrix^ rowEchelonForm {
+				Matrix^ get();
+			}
+
 			virtual property Matrix^ inverse {
 				Matrix^ get();
 			}
@@ -61,7 +65,10 @@ namespace em {
 			virtual property Scalar^ determinant {
 				Scalar^ get();
 			}
-			
+
+			virtual property Scalar^ rank {
+				Scalar^ get();
+			}
 		private: 
 			array<double, 2>^ value;
 			
@@ -90,9 +97,9 @@ namespace em {
 			virtual Matrix^ transpose();
 			virtual Matrix^ pow(int exponent);
 
-			
-			
 			virtual void ulDecomposition(Matrix^% upper, Matrix^% lower);
+			virtual SolutionState solveLinearSystem(Vector^ constSet, Matrix^% solutions);
+			virtual SolutionState solveLinearSystem(Matrix^ constSet, Matrix^% solutions);
 			virtual Matrix^ makeUpperTriangle(Matrix^ syncer);
 			
 			virtual void multiplyRowOperation(int i, const double scalar);
