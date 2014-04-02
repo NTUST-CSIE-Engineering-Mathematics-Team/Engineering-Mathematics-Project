@@ -216,7 +216,7 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteDecimalExp(Match^ m, Ar
 Expression^ ArithmeticEngine::ExpressionFactory::concreteVarExp(Match^ m, ArithmeticEngine^ engine) {
 	MathObject^ mo;
 	if (!engine->vTable->checkGet(m->Groups[2]->Value, mo)) {
-		engine->errorMsg = Message::varNotFoundMsg(m->Groups[2]->Value);
+		engine->errorMsg = Message::varNotDefinedMsg(m->Groups[2]->Value);
 		return nullptr;
 	}
 
@@ -255,7 +255,7 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteFunction(Match^ m, Arit
 	GroupCollection^ groups = m->Groups;
 	String^ funName = groups[2]->Value;
 	if (!FunctionFactory::hasFunction(funName)) {
-		engine->errorMsg = gcnew Message(Message::State::ERROR, "Cannot find funtion \"" + funName + "\"");
+		engine->errorMsg = gcnew Message(Message::State::ERROR, "Funtion \"" + funName + "\" is not defined");
 		return nullptr;
 	}
 

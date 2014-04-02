@@ -382,15 +382,21 @@ Matrix::SolutionState Matrix::solveLinearSystem(Matrix^ constSet, Matrix^% solut
 	int i = 0;
 	for (; i < upper->rowLength; i++) {
 		if (upper[i, i] == 0) {
-			if (solutions[i, 0] != 0) {
-				delete solutions;
-				solutions = nullptr;
-				return SolutionState::INCONSISTENT;
-			}
+			double sol = solutions[i, 0];
 			delete solutions;
 			solutions = nullptr;
-			return SolutionState::INFINITE;
 			
+			if ( sol != 0) {
+				for (int j = i + 1; j < this->columnLength; j++) {
+					if (upper[i, j] != 0) {
+						return SolutionState::INFINITE;
+					}
+				}
+
+				return SolutionState::INCONSISTENT;
+			}
+			
+			return SolutionState::INFINITE;
 		}
 	}
 

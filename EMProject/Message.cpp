@@ -29,9 +29,9 @@ Message^ Message::useKeywordAsNameError(String^ var) {
 
 }
 
-Message^ Message::varNotFoundMsg(String^ var) {
+Message^ Message::varNotDefinedMsg(String^ var) {
 
-	return gcnew Message(Message::State::ERROR, "Cannot find the variable \"" + var + "\"");
+	return gcnew Message(Message::State::ERROR, "Variable \"" + var + "\" is not defined");
 }
 
 Message^ Message::varAlreadyExistMsg(String^ var) {

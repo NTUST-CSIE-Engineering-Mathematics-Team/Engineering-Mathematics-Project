@@ -13,7 +13,7 @@ DeleteCommand::~DeleteCommand() {
 Message^ DeleteCommand::performCommand(String^ arg, Interpreter^ iptr) {
 
 	if (!iptr->variableTable->contains(arg)) {
-		return Message::varNotFoundMsg(arg);
+		return Message::varNotDefinedMsg(arg);
 	} 
 	
 	iptr->variableTable->deleteVariable(arg);

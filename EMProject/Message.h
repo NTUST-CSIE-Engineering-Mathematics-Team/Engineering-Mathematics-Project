@@ -74,7 +74,7 @@ namespace em {
 			operator String^ ();
 			virtual String^ ToString() override;
 
-			static Message^ Message::varNotFoundMsg(String^ var);
+			static Message^ Message::varNotDefinedMsg(String^ var);
 			static Message^ Message::varAlreadyExistMsg(String^ var);
 			static Message^ useKeywordAsNameError(String^ var);
 		};
