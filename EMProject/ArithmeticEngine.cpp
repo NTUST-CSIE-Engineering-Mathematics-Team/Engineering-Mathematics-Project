@@ -101,7 +101,7 @@ Expression^ ArithmeticEngine::buildArithmeticTree(LinkedList<Expression^>^ opnds
 	LinkedListNode<wchar_t>^ preTorNode;
 
 	for (; torNode != nullptr;) {
-		if (lowPriorityOptor->IndexOf(!torNode->Value) < 0) {
+		if (lowPriorityOptor->IndexOf(torNode->Value) < 0) {
 			this->CombineNodes(opnds, optors, rndNode, torNode, preRndNode, preTorNode);
 		} else {
 			rndNode = rndNode->Next;

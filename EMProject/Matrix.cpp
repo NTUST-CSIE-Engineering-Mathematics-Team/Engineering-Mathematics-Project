@@ -1,4 +1,5 @@
 #include "Matrix.h"
+#include "Vector.h"
 
 using namespace em::math;
 
@@ -199,20 +200,20 @@ Matrix^ Matrix::operator*(Matrix^ m) {
 	return newMat;
 }
 
-Vector^ Matrix::operator*(Vector^ v) {
+Matrix^ Matrix::operator*(Vector^ v) {
 	if (this->rowLength != v->dimension) {
 		return nullptr;
 	}
 
-	Vector^ newVec = gcnew Vector(this->columnLength);
+	Matrix^ newMat = gcnew Matrix(this->columnLength, 1);
 
 	for (int i = 0; i < this->columnLength; i++) {
 		for (int j = 0; j < v->dimension; j++) {
-			newVec[i] += this[i, j] * v[j];
+			newMat[i, 0] += this[i, j] * v[j];
 		}
 	}
 
-	return newVec;
+	return newMat;
 }
 
 Matrix^ Matrix::operator*(Scalar^ s) {

@@ -148,6 +148,22 @@ Scalar^ Vector::operator*(Vector^ v) {
 	return gcnew Scalar(product);
 }
 
+Matrix^ Vector::operator*(Matrix^ m) {
+	if (this->dimension != m->columnLength) {
+		return nullptr;
+	}
+
+	Matrix^ newMat = gcnew Matrix(1, m->rowLength);
+
+	for (int i = 0; i < m->rowLength; i++) {
+		for (int j = 0; j < this->dimension; j++) {
+			newMat[0, i] += this[j] * m[j, i];
+		}
+	}
+
+	return newMat;
+}
+
 Vector^ Vector::operator/(Scalar^ s) {
 	Vector^ newVec = gcnew Vector(this->dimension);
 	

@@ -1,12 +1,13 @@
 #pragma once
 #include "MathObject.h"
 #include "Scalar.h"
+#include "Matrix.h"
 
 namespace em {
 	namespace math {
 		using System::String;
 		using System::Text::StringBuilder;
-
+		
 		ref class Vector : public MathObject {
 
 		public:
@@ -76,6 +77,7 @@ namespace em {
 			virtual Vector^ operator+(Vector^ v);
 			virtual Vector^ operator*(Scalar^ s);
 			virtual Scalar^ operator*(Vector^ v);
+			virtual Matrix^ operator*(Matrix^ m);
 			virtual Vector^ operator/(Scalar^ s);
 			virtual Vector^ cross(Vector^ v);
 			virtual Scalar^ component(Vector^ v);

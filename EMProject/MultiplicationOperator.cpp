@@ -7,6 +7,7 @@ MultiplicationOperator::MultiplicationOperator(Expression^ a, Expression^ b) : C
 	this->addOperation<Vector^, Vector^>(gcnew Operation<Vector^, Vector^>(V_V));
 	
 	this->addOperation<Matrix^, Vector^>(gcnew Operation<Matrix^, Vector^>(M_V));
+	this->addOperation<Vector^, Matrix^>(gcnew Operation<Vector^, Matrix^>(V_M));
 	this->addOperation<Matrix^, Matrix^>(gcnew Operation<Matrix^, Matrix^>(M_M));
 
 	this->addCommutativeOperation<Scalar^, Vector^>(gcnew Operation<Scalar^, Vector^>(S_V));
@@ -49,12 +50,21 @@ MathObject^ MultiplicationOperator::S_M(Scalar^ a, Matrix^ b, Message^% msg) {
 }
 
 MathObject^ MultiplicationOperator::M_V(Matrix^ a, Vector^ b, Message^% msg) {
-	Vector^ v = a * b;
-	if (v == nullptr) {
+	Matrix^ m = a * b;
+	if (m == nullptr) {
 		msg = gcnew Message(Message::State::ERROR, "The matrix and vector cannot perform multiplication due to the mismatch of the row size and rank");
 	}
 
-	return v;
+	return m;
+}
+
+MathObject^ MultiplicationOperator::V_M(Vector^ a, Matrix^ b, Message^% msg) {
+	Matrix^ m = a * b;
+	if (m == nullptr) {
+		msg = gcnew Message(Message::State::ERROR, "The matrix and vector cannot perform multiplication due to the mismatch of the row size and rank");
+	}
+
+	return m;
 }
 
 MathObject^ MultiplicationOperator::S_A(Scalar^ a, Angle^ b, Message^% msg) {
