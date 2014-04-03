@@ -35,10 +35,7 @@ Message^ ArithmeticEngine::execute(String^ expressionString, MathObject^% mo) {
 
 bool ArithmeticEngine::analyze(String^ expression) {
 	this->root = this->anaylzeCompoundExpMatch(this->INPUT_COMPOUND_EXP_REGEX->Match(expression));
-	if (this->root == nullptr) {
-		return false;
-	}
-	return true;
+	return this->root != nullptr;
 }
 
 bool ArithmeticEngine::compute(MathObject^% mo) {

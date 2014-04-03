@@ -6,7 +6,6 @@ void RegistrationArea::registerHere() {
 	CommandFactory::addCommand<OptionCommand^>();
 	CommandFactory::addCommand<DeleteCommand^>();
 	CommandFactory::addCommand<ShowStorageCommand^>();
-	CommandFactory::addCommand<JudgeCommand^>();
 
 	OperatorFactory::addOperation<AdditionOperator>();
 	OperatorFactory::addOperation<SubtractionOperator>();

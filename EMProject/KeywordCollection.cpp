@@ -22,7 +22,6 @@ static KeywordCollection::KeywordCollection() {
 	keywordsSet->Add(PRINT_CMD);
 	keywordsSet->Add(DELETE_CMD);
 	keywordsSet->Add(STORAGE_CMD);
-	keywordsSet->Add(JUDGE_CMD);
 
 }
 

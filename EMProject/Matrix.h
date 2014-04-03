@@ -100,7 +100,6 @@ namespace em {
 			virtual void ulDecomposition(Matrix^% upper, Matrix^% lower);
 			virtual SolutionState solveLinearSystem(Vector^ constSet, Matrix^% solutions);
 			virtual SolutionState solveLinearSystem(Matrix^ constSet, Matrix^% solutions);
-			virtual Matrix^ makeUpperTriangle(Matrix^ syncer);
 			
 			virtual void multiplyRowOperation(int i, const double scalar);
 			virtual void swapRowOperation(int i, int j);
@@ -110,6 +109,7 @@ namespace em {
 			static Matrix^ getIdentityMatrix(int size);
 				
 		private:
+			Matrix^ makeUpperTriangle(Matrix^ syncer);
 			void doUpperToIdentity(Matrix^% syncer);
 		};
 	}

@@ -87,8 +87,12 @@ MathObject^ VectorBasicFunctions::is_pallel$V_V(array<MathObject^>^ mos, Message
 		return nullptr;
 	}
 
-
-	return ((1 - Math::Abs(cos)) < MathHelper::EPSILON) ? v2 : nullptr;
+	if ((1 - Math::Abs(cos)) < MathHelper::EPSILON) {
+		msg = gcnew Message(Message::State::PASS, Message::JUDGE_PASS_COLOR, "Two vectors are parallel to each other");
+	} else {
+		msg = gcnew Message(Message::State::PASS, Message::JUDGE_NOT_PASS_COLOR, "Two vectors are not parallel to each other");
+	}
+	return  nullptr;
 
 }
 
@@ -104,7 +108,13 @@ MathObject^ VectorBasicFunctions::is_orth$V_V(array<MathObject^>^ mos, Message^%
 		return nullptr;
 	}
 
-	return (Math::Abs(cos) < MathHelper::EPSILON) ? v2 : nullptr;
+	if (Math::Abs(cos) < MathHelper::EPSILON) {
+		msg = gcnew Message(Message::State::PASS, Message::JUDGE_PASS_COLOR, "Two vectors are perpendicular to each other");
+	} else {
+		msg = gcnew Message(Message::State::PASS, Message::JUDGE_NOT_PASS_COLOR, "Two vectors are not perpendicular to each other");
+	}
+
+	return nullptr;
 
 }
 
