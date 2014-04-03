@@ -190,19 +190,23 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteDecimalExp(Match^ m, Ar
 	int vLast = m->Value->Length - 1;
 	wchar_t unit = m->Value[vLast];
 	
-	if (System::Char::IsLetter(unit)) {
-		String^ value = m->Value->Substring(0, vLast);
+	if (System::Char::IsLetter(unit) || System::Char::IsPunctuation(unit)) {
+		double value = System::Convert::ToDouble(m->Value->Substring(0, vLast));
 		
 		switch (unit) {
 		case L'a':
-			return gcnew SimpleMathObjExp(false, gcnew Angle(System::Convert::ToDouble(value), true));
+			return gcnew SimpleMathObjExp(false, gcnew Angle(value, true));
 
 		case L'p':
-			return gcnew SimpleMathObjExp(false, gcnew Scalar(System::Convert::ToDouble(value) * System::Math::PI));
+			return gcnew SimpleMathObjExp(false, gcnew Scalar(value * System::Math::PI));
 
 		case L'e':
-			return gcnew SimpleMathObjExp(false, gcnew Scalar(System::Convert::ToDouble(value) * System::Math::E));
+			return gcnew SimpleMathObjExp(false, gcnew Scalar(value * System::Math::E));
 
+		case L'!':
+			if (System::Math::Truncate(value) == value) {
+				return gcnew SimpleMathObjExp(false, MathHelper::factorial(static_cast<int>(value)));
+			}
 		default:
 			return nullptr;
 		}
@@ -280,8 +284,10 @@ String^ ArithmeticEngine::arithmeticContentPattern(String^ tag) {
 }
 
 String^ ArithmeticEngine::arithmeticContentPattern2(String^ tag, bool atLeastOne) {
-	String^ s = "(?:(?<" + tag + ">[(\\[{])|(?<-" + tag + ">[)\\]}])|[-+*/A-Za-z0-9._,|]|\\s)" + (atLeastOne ? "+" : "*");
-	return s;
+	StringBuilder^ result = gcnew StringBuilder();
+	result->AppendFormat("(?:(?<{0}>[(\\[{{])|(?<-{1}>[)\\]}}])|{2}|\\s){3}", tag, tag, CHARACTERS_SET, (atLeastOne ? "+" : "*"));
+	
+	return result->ToString();
 }
 
 String^ ArithmeticEngine::multiArithmeticContentPattern(String^ tag) {
@@ -289,7 +295,7 @@ String^ ArithmeticEngine::multiArithmeticContentPattern(String^ tag) {
 	StringBuilder^ duplicate = gcnew StringBuilder();
 	duplicate->AppendFormat("(?:{0}\\s*", OPEN_PARENTHESE_PATTERN);
 
-	duplicate->AppendFormat("(?<{0}>(?:(?<{1}>[(\\[{{])|(?<-{2}>[)\\]}}])|\\s|(?({3})[-+*/A-Za-z0-9._,|]|[-+*/A-Za-z0-9._]))+)", operandTag, tag, tag, tag);
+	duplicate->AppendFormat("(?<{0}>(?:(?<{1}>[(\\[{{])|(?<-{2}>[)\\]}}])|\\s|(?({3}){4}|{5}))+)", operandTag, tag, tag, tag, CHARACTERS_SET, CHARACTERS_SET_WHITOUT_DELIMITERS);
 	duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
 	result->AppendFormat("(?:{0}(?:,\\s*{1})*)", duplicate, duplicate);
 

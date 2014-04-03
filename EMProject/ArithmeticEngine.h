@@ -49,9 +49,11 @@ namespace em {
 				static String^ const innerParentheseTag = "i";
 			
 				static String^ const NAME_PATTERN = "^(-)?([A-Za-z_]\\w*)$";
-				static String^ const DOUBLE_PATTERN = "^-?\\d+(?:\\.\\d+)?[ape]?$";
-				static String^ const UNSIGNED_DOUBLE_PATTERN = "(?:\\d+(?:\\.\\d+)?[ape]?)";
+				static String^ const DOUBLE_PATTERN = "^-?\\d+(?:\\.\\d+)?[ape!]?$";
+				static String^ const UNSIGNED_DOUBLE_PATTERN = "(?:\\d+(?:\\.\\d+)?[ape!]?)";
 				static String^ const PARENTHESE_UNIT_PATTERN = "^\\((" + arithmeticContentPattern2(innerParentheseTag, true) + ")\\)$";
+				static String^ const CHARACTERS_SET = "[-+*/A-Za-z0-9._,!|]";
+				static String^ const CHARACTERS_SET_WHITOUT_DELIMITERS = "[-+*/A-Za-z0-9._!]";
 
 				static String^ const OPERATOR_PATTERN = "[-+*/x]";
 				static String^ const NAME_OR_FUNCTION_PATTERN = "(?:[A-Za-z_]\\w*(?:\\s*\\(" + arithmeticContentPattern2(innerParentheseTag, false) + "\\))?)";

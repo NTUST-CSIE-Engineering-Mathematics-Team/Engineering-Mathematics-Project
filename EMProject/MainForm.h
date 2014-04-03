@@ -65,7 +65,7 @@ namespace EMProject {
 
 
 	private: System::Windows::Forms::ToolStripMenuItem^  runToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  setTestToolStripMenuItem;
+
 
 
 	protected:
@@ -116,7 +116,6 @@ namespace EMProject {
 			this->saveAsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveOutputToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->runToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->setTestToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveCodeFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->openObjectFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->saveOutputFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
@@ -185,9 +184,9 @@ namespace EMProject {
 			// 
 			// menu
 			// 
-			this->menu->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
+			this->menu->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
 				this->fileToolStripMenuItem,
-					this->runToolStripMenuItem, this->setTestToolStripMenuItem
+					this->runToolStripMenuItem
 			});
 			this->menu->Location = System::Drawing::Point(0, 0);
 			this->menu->Name = L"menu";
@@ -212,7 +211,7 @@ namespace EMProject {
 					this->loadObjectToolStripMenuItem
 			});
 			this->openGroupFileToolStripMenuItem->Name = L"openGroupFileToolStripMenuItem";
-			this->openGroupFileToolStripMenuItem->Size = System::Drawing::Size(103, 22);
+			this->openGroupFileToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->openGroupFileToolStripMenuItem->Text = L"Open";
 			// 
 			// openCodeToolStripMenuItem
@@ -236,7 +235,7 @@ namespace EMProject {
 					this->saveAsToolStripMenuItem, this->saveOutputToolStripMenuItem1
 			});
 			this->saveGroupFileToolStripMenuItem->Name = L"saveGroupFileToolStripMenuItem";
-			this->saveGroupFileToolStripMenuItem->Size = System::Drawing::Size(103, 22);
+			this->saveGroupFileToolStripMenuItem->Size = System::Drawing::Size(152, 22);
 			this->saveGroupFileToolStripMenuItem->Text = L"Save";
 			// 
 			// saveCodeToolStripMenuItem
@@ -268,13 +267,6 @@ namespace EMProject {
 			this->runToolStripMenuItem->Text = L"Run";
 			this->runToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::runToolStripMenuItem_Click_1);
 			// 
-			// setTestToolStripMenuItem
-			// 
-			this->setTestToolStripMenuItem->Name = L"setTestToolStripMenuItem";
-			this->setTestToolStripMenuItem->Size = System::Drawing::Size(60, 20);
-			this->setTestToolStripMenuItem->Text = L"Set Test";
-			this->setTestToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::setTestToolStripMenuItem_Click);
-			// 
 			// saveCodeFileDialog
 			// 
 			this->saveCodeFileDialog->FileName = L"sample";
@@ -303,7 +295,7 @@ namespace EMProject {
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MainMenuStrip = this->menu;
 			this->Name = L"MainForm";
-			this->Text = L"Engineering Mathematics Application";
+			this->Text = L"MiniMathLab Version 1.0";
 			this->WindowState = System::Windows::Forms::FormWindowState::Maximized;
 			this->splitContainer->Panel1->ResumeLayout(false);
 			this->splitContainer->Panel2->ResumeLayout(false);
@@ -373,11 +365,6 @@ namespace EMProject {
 
 		private: System::Void runToolStripMenuItem_Click_1(System::Object^  sender, System::EventArgs^  e) {
 			this->run();
-		}
-
-		private: System::Void setTestToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
-			
-
 		}
 
 		private: void writeFile(StreamWriter^ writer, TextReader^ reader) {

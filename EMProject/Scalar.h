@@ -42,6 +42,7 @@ namespace em {
 			Scalar^ clone();
 
 			static bool scalarCast(MathObject^ mo, Scalar^% scl);
+			
 		};
 	}
 }

@@ -11,6 +11,7 @@ namespace em {
 		public:
 			static double EPSILON = std::numeric_limits<float>::epsilon();
 			
+			static Scalar^ factorial(int n);
 			generic<typename M> where M : MathObject
 			static String^ getGenericMathID();
 
