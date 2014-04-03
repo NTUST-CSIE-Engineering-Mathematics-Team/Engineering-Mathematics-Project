@@ -28,11 +28,11 @@ namespace em {
 		private:
 			PatternAnalyzer^ needNext;
 			StringBuilder^ fullLine;
-			PatternAnalyzer^ const commentPattern = gcnew CommentPatternAnalyzer();
 			PatternTable^ pTable;
 			VariableTable^ proxyVTable;
 			ArithmeticEngine^ engine;
 			int beenIntrprtedLineCount;
+			Regex^ const commentPattern = gcnew Regex("^([^#]*)\\#(.*)$", RegexOptions::Compiled);
 		public:
 			virtual ~Interpreter();
 

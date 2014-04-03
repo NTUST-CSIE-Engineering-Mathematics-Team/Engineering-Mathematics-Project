@@ -14,8 +14,3 @@ MathObject^ ScalarBasicFunctions::sqrt$S(array<MathObject^>^ mos, Message^% msg)
 	Scalar::scalarCast(mos[0], scl);
 	return gcnew Scalar(Math::Sqrt(scl));
 }
-
-MathObject^ ScalarBasicFunctions::test(array<MathObject^>^ mos, Message^% msg) {
-	
-	return gcnew Scalar(MathHelper::EPSILON);
-}

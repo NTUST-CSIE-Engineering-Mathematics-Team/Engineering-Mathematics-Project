@@ -78,9 +78,6 @@
     <ClCompile Include="CommandPatternAnalyzer.cpp">
       <Filter>Source Files\intrprt\pattern</Filter>
     </ClCompile>
-    <ClCompile Include="CommentPatternAnalyzer.cpp">
-      <Filter>Source Files\intrprt\pattern</Filter>
-    </ClCompile>
     <ClCompile Include="PatternAnalyzer.cpp">
       <Filter>Source Files\intrprt\pattern</Filter>
     </ClCompile>
@@ -234,9 +231,6 @@
       <Filter>Header Files\intrprt\cmd</Filter>
     </ClInclude>
     <ClInclude Include="PatternTable.h">
-      <Filter>Header Files\intrprt\pattern</Filter>
-    </ClInclude>
-    <ClInclude Include="CommentPatternAnalyzer.h">
       <Filter>Header Files\intrprt\pattern</Filter>
     </ClInclude>
     <ClInclude Include="CommandPatternAnalyzer.h">

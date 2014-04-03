@@ -2,5 +2,4 @@
 
 #include "PatternAnalyzer.h"
 #include "CommandPatternAnalyzer.h"
-#include "CommentPatternAnalyzer.h"
 #include "AssignmentPatternAnalyzer.h"

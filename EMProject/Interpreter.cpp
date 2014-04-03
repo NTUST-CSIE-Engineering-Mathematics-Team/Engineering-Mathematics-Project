@@ -14,15 +14,24 @@ Interpreter::Interpreter(array<PatternAnalyzer^>^ patternList) {
 }
 
 Message^ Interpreter::interpret(String^ line, int% beenIntrprtedLineCount) {
-
-	line = line->Trim();
+	
 	beenIntrprtedLineCount = this->beenIntrprtedLineCount;
 	this->beenIntrprtedLineCount = 0;
-	Match^ result = this->commentPattern->bindingPattern->Match(line);
+
+	Match^ result = this->commentPattern->Match(line);
 	if (result->Success) {
-		return this->commentPattern->analyze(result, this);
+		if (String::IsNullOrWhiteSpace(result->Groups[1]->Value)) {
+			if (beenIntrprtedLineCount > 0) {
+				this->beenIntrprtedLineCount = beenIntrprtedLineCount + 1;
+			}
+
+			return Message::PASS_NO_CONTENT_MSG;
+		}
+		line = result->Groups[1]->Value;
 	}
 
+	
+	line = line->Trim();
 	if (this->needNext != nullptr) {
 
 		if (this->needNext->bindingPattern->IsMatch(line)) {

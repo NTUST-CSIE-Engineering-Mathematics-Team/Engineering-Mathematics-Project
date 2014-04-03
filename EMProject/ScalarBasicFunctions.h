@@ -17,7 +17,6 @@ namespace em {
 					public:
 						static MathObject^ pow$S_S(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ sqrt$S(array<MathObject^>^ mos, Message^% msg);
-						static MathObject^ test(array<MathObject^>^ mos, Message^% msg);
 					};
 				}
 			}

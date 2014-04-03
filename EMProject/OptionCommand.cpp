@@ -1,10 +1,8 @@
 #include "OptionCommand.h"
 #include "KeywordCollection.h"
 #include "MathObject.h"
-#include "CommentPatternAnalyzer.h"
 
 using namespace em::intrprt::cmd;
-using em::intrprt::pattern::CommentPatternAnalyzer;
 using em::math::MathObject;
 
 OptionCommand::OptionCommand() : Command(KeywordCollection::SETTINGS_CMD, 'P') {
@@ -39,9 +37,6 @@ Message^ OptionCommand::performCommand(String^ arg, Interpreter^ iptr) {
 		MathObject::numPrecision = value;
 		return gcnew Message(Message::State::PASS, Message::SETTING_COLOR, "Set to exponential format, precision is " + value);
 
-	case L'c':
-		CommentPatternAnalyzer::displayComment = value >= 0 ? true : false;
-		return gcnew Message(Message::State::PASS, Message::SETTING_COLOR, "Comments will" + (CommentPatternAnalyzer::displayComment ? " " : " not ") + "be display");
 	}
 
 	return gcnew Message(Message::State::ERROR, "cannot find the flag \"" + flag + "\"");

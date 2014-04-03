@@ -24,7 +24,6 @@ namespace em {
 
 			private:
 				static array<PatternAnalyzer^>^ analyzers = {
-					gcnew CommentPatternAnalyzer(),
 					gcnew AssignmentPatternAnalyzer(),
 					gcnew CommandPatternAnalyzer(CommandFactory::getCommandArray())
 				};

@@ -88,7 +88,6 @@
     <ClCompile Include="CommandFactory.cpp" />
     <ClCompile Include="CommandPatternAnalyzer.cpp" />
     <ClCompile Include="CommandTable.cpp" />
-    <ClCompile Include="CommentPatternAnalyzer.cpp" />
     <ClCompile Include="CommutativeOperator.cpp" />
     <ClCompile Include="ConstantTable.cpp" />
     <ClCompile Include="CreateMathObjectCommand.cpp" />
@@ -145,7 +144,6 @@
     <ClInclude Include="CommandFactory.h" />
     <ClInclude Include="CommandPatternAnalyzer.h" />
     <ClInclude Include="CommandTable.h" />
-    <ClInclude Include="CommentPatternAnalyzer.h" />
     <ClInclude Include="CommutativeOperator.h" />
     <ClInclude Include="ConstantTable.h" />
     <ClInclude Include="CreateMathObjectCommand.h" />
