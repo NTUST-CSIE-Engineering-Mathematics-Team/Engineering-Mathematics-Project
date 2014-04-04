@@ -39,11 +39,13 @@ Message^ CommandPatternAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 			if (tMsg->msgState == Message::State::ERROR) {
 				return tMsg;
 			}
-
-			sb->AppendFormat("{0}\n", tMsg->msgContent);
+			if (!String::IsNullOrEmpty(tMsg)) {
+				sb->AppendFormat("{0}\n", tMsg->msgContent);
+			}
 		}
-
-		sb->Remove(sb->Length - 1, 1);
+		if (sb->Length > 0) {
+			sb->Remove(sb->Length - 1, 1);
+		}
 		return gcnew Message(tMsg->msgState, tMsg->msgColor, sb->ToString());
 		
 	}
