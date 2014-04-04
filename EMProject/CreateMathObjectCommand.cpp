@@ -3,15 +3,29 @@
 
 using namespace em::intrprt::cmd;
 
-CreateFileMathObjectCommand::CreateFileMathObjectCommand(String^ cl, PatternAnalyzer^ analyzer) : Command(cl, ' '), analyzer(analyzer) {
+CreateFileMathObjectCommand::CreateFileMathObjectCommand(String^ cl, FilePatternAnalyzer^ analyzer) : Command(cl, ' '), analyzer(analyzer) {
 }
 
 CreateFileMathObjectCommand::~CreateFileMathObjectCommand() {
 }
 
 Message^ CreateFileMathObjectCommand::performCommand(String^ arg, Interpreter^ iptr) {
+	this->analyzer->reset(iptr);
 	iptr->needNextLine(this->analyzer);
 	return Message::PARSING_MSG;
+}
+
+CreateFileMathObjectCommand::FilePatternAnalyzer::FilePatternAnalyzer() : PatternAnalyzer() {
+	initRegex = this->bindingPattern;
+}
+
+CreateFileMathObjectCommand::FilePatternAnalyzer::~FilePatternAnalyzer() {
+}
+
+
+Message^ CreateFileMathObjectCommand::FilePatternAnalyzer::wrongFormatMsg (Interpreter^ iptr) {
+	reset(iptr);
+	return gcnew Message(Message::State::ERROR, "Wrong data type, please check out your object file");
 }
 
 CreateFileMathObjectCommand::FileMatrixConstructionAnalyzer::FileMatrixConstructionAnalyzer() : rowIndex(-1) {
@@ -23,11 +37,11 @@ CreateFileMathObjectCommand::FileMatrixConstructionAnalyzer::~FileMatrixConstruc
 
 Message^ CreateFileMathObjectCommand::FileMatrixConstructionAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 
-	String^ wot = "Wrong data type, please check out your object file";
+	
 	if (this->tmpMat == nullptr) {
 		int d1, d2;
 		if (!isInteger(result->Groups[1]->Captures[0]->Value, d1) || !isInteger(result->Groups[1]->Captures[1]->Value, d2)) {
-			return gcnew Message(Message::State::ERROR, wot);
+			return this->wrongFormatMsg(iptr);
 		}
 
 		this->tmpMat = gcnew Matrix(d1, d2);
@@ -40,7 +54,7 @@ Message^ CreateFileMathObjectCommand::FileMatrixConstructionAnalyzer::analyze(Ma
 		double s;
 		for each(Capture^ cp in result->Groups[1]->Captures) {
 			if (!isDouble(cp->Value, s)) {
-				return gcnew Message(Message::State::ERROR, wot);
+				return this->wrongFormatMsg(iptr);
 			}
 
 			this->tmpMat[this->rowIndex, col++] = s;
@@ -51,15 +65,20 @@ Message^ CreateFileMathObjectCommand::FileMatrixConstructionAnalyzer::analyze(Ma
 
 		String^ mName = iptr->variableTable->addVariable(this->tmpMat);
 		
-		iptr->releaseNextLine();
-		this->rowIndex = -1;
-		this->regex = this->initRegex;
-		this->tmpMat = nullptr;
+		reset(iptr);
 		return gcnew Message(Message::State::PASS, Message::STORAGE_COLOR, "Loaded matrix \"" + mName + "\" into the static storage");
 	}
 
 	return Message::PARSING_MSG;
 }
+
+void CreateFileMathObjectCommand::FileMatrixConstructionAnalyzer::reset(Interpreter^ iptr) {
+	iptr->releaseNextLine();
+	this->rowIndex = -1;
+	this->regex = this->initRegex;
+	this->tmpMat = nullptr;
+}
+
 
 String^ CreateFileMathObjectCommand::FileMatrixConstructionAnalyzer::buildInitPattern() {
 	return PatternAnalyzer::rowValuePattern(2);
@@ -75,11 +94,10 @@ CreateFileMathObjectCommand::FileVectorConstructionAnalyzer::~FileVectorConstruc
 
 Message^ CreateFileMathObjectCommand::FileVectorConstructionAnalyzer::analyze(Match^ result, Interpreter^ iptr) {
 
-	String^ wot = "Wrong data type, please check out your object file";
 	if (this->tmpVec == nullptr) {
 		int r;
 		if (!isInteger(result->Groups[1]->Value, r)) {
-			return gcnew Message(Message::State::ERROR, wot);
+			return this->wrongFormatMsg(iptr);
 		}
 
 		this->tmpVec = gcnew Vector(r);
@@ -93,19 +111,23 @@ Message^ CreateFileMathObjectCommand::FileVectorConstructionAnalyzer::analyze(Ma
 	int i = 0;
 	for each(Capture^ cp in result->Groups[1]->Captures) {
 		if (!isDouble(cp->Value, s)) {
-			return gcnew Message(Message::State::ERROR, wot);
+			return this->wrongFormatMsg(iptr);
 		}
 
 		this->tmpVec[i++] = s;
 	}
 	bool isScl = this->tmpVec->dimension == 1;
 	String^ vName = iptr->variableTable->addVariable( isScl ? (MathObject^)gcnew Scalar(this->tmpVec[0]) : this->tmpVec);
-	this->tmpVec = nullptr;
-
-	iptr->releaseNextLine();
-	this->regex = this->initRegex;
+	
+	reset(iptr);
 	return gcnew Message(Message::State::PASS, Message::STORAGE_COLOR, "Loaded " + (isScl ? "scalar" : "vector") + " \"" + vName + "\" into the static storage");
 
+}
+
+void CreateFileMathObjectCommand::FileVectorConstructionAnalyzer::reset(Interpreter^ iptr) {
+	iptr->releaseNextLine();
+	this->regex = this->initRegex;
+	this->tmpVec = nullptr;
 }
 
 String^ CreateFileMathObjectCommand::FileVectorConstructionAnalyzer::buildInitPattern() {

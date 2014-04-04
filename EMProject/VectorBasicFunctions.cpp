@@ -49,7 +49,7 @@ MathObject^ VectorBasicFunctions::angle$V_V(array<MathObject^>^ mos, Message^% m
 	Vector::vectorCast(mos[0], v1);
 	Vector::vectorCast(mos[1], v2);
 
-	Scalar^ cos = v1->normalized * v2->normalized;
+	Scalar^ cos = MathHelper::adjustCosAndSin(v1->normalized * v2->normalized);
 
 	if (cos == nullptr) {
 		msg = differentDimErrMsg("angle");
@@ -65,13 +65,13 @@ MathObject^ VectorBasicFunctions::tri_area$V_V(array<MathObject^>^ mos, Message^
 	Vector::vectorCast(mos[0], v1);
 	Vector::vectorCast(mos[1], v2);
 
-	Scalar^ cos = v1->normalized * v2->normalized;
+	Scalar^ cos = MathHelper::adjustCosAndSin(v1->normalized * v2->normalized);
 
 	if (cos == nullptr) {
 		msg = differentDimErrMsg("tri_area");
 		return nullptr;
 	}
-	
+	System::Diagnostics::Debug::WriteLine(Math::Sin(Math::Acos(cos)));
 	return gcnew Scalar(0.5 * v1->magnitude * v2->magnitude * Math::Sin(Math::Acos(cos)));
 }
 
@@ -80,7 +80,7 @@ MathObject^ VectorBasicFunctions::is_pallel$V_V(array<MathObject^>^ mos, Message
 	Vector::vectorCast(mos[0], v1);
 	Vector::vectorCast(mos[1], v2);
 
-	Scalar^ cos = v1->normalized * v2->normalized;
+	Scalar^ cos = MathHelper::adjustCosAndSin(v1->normalized * v2->normalized);
 	
 	if (cos == nullptr) {
 		msg = differentDimErrMsg("is_pallel");
@@ -101,7 +101,7 @@ MathObject^ VectorBasicFunctions::is_orth$V_V(array<MathObject^>^ mos, Message^%
 	Vector::vectorCast(mos[0], v1);
 	Vector::vectorCast(mos[1], v2);
 
-	Scalar^ cos = v1->normalized * v2->normalized;
+	Scalar^ cos = MathHelper::adjustCosAndSin(v1->normalized * v2->normalized);
 
 	if (cos == nullptr) {
 		msg = differentDimErrMsg("is_orth");

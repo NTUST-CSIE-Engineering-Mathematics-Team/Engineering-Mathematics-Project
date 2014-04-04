@@ -10,8 +10,57 @@ namespace em {
 		namespace cmd {
 			using namespace em::math; 
 			using em::intrprt::pattern::PatternAnalyzer;
-
+			
 			ref class CreateFileMathObjectCommand : public Command {
+			private:
+				ref class FilePatternAnalyzer abstract : public PatternAnalyzer {
+
+				protected:
+					Regex^ initRegex;
+
+				public:
+					FilePatternAnalyzer();
+					virtual ~FilePatternAnalyzer();
+					virtual void reset(Interpreter^ iptr) abstract;
+
+				protected:
+					Message^ wrongFormatMsg(Interpreter^ iptr);
+				};
+
+				ref class FileMatrixConstructionAnalyzer : public FilePatternAnalyzer {
+
+				private:
+					Matrix^ tmpMat;
+					int rowIndex;
+
+					
+				public:
+					FileMatrixConstructionAnalyzer();
+					virtual ~FileMatrixConstructionAnalyzer();
+
+					virtual Message^ analyze(Match^ result, Interpreter^ iptr) override;
+					virtual void reset(Interpreter^ iptr) override;
+				protected:
+					virtual String^ buildInitPattern() override;
+
+
+				};
+
+				ref class FileVectorConstructionAnalyzer : public FilePatternAnalyzer {
+
+				private:
+					Vector^ tmpVec;
+
+				public:
+					FileVectorConstructionAnalyzer();
+					virtual ~FileVectorConstructionAnalyzer();
+
+					virtual Message^ analyze(Match^ result, Interpreter^ iptr) override;
+					virtual void reset(Interpreter^ iptr) override;
+				protected:
+					virtual String^ buildInitPattern() override;
+
+				};
 
 			public:
 				static property CreateFileMathObjectCommand^ createFileMatrixCommand{
@@ -27,10 +76,10 @@ namespace em {
 				}
 
 			private:
-				static PatternAnalyzer^ fmcAnalyzer = gcnew FileMatrixConstructionAnalyzer();
-				static PatternAnalyzer^ fvcAnalyzer = gcnew FileVectorConstructionAnalyzer();
+				static FilePatternAnalyzer^ fmcAnalyzer = gcnew FileMatrixConstructionAnalyzer();
+				static FilePatternAnalyzer^ fvcAnalyzer = gcnew FileVectorConstructionAnalyzer();
 				
-				PatternAnalyzer^ analyzer;
+				FilePatternAnalyzer^ analyzer;
 
 			public:
 				virtual ~CreateFileMathObjectCommand();
@@ -38,41 +87,9 @@ namespace em {
 				virtual Message^ performCommand(String^ arg, Interpreter^ iptr) override;
 
 			private:
-				CreateFileMathObjectCommand(String^ cl, PatternAnalyzer^ storedAnalyzer);
+				CreateFileMathObjectCommand(String^ cl, FilePatternAnalyzer^ storedAnalyzer);
 
-			private:
-				ref class FileMatrixConstructionAnalyzer : public PatternAnalyzer {
-
-				private:
-					Matrix^ tmpMat;
-					Regex^ initRegex;
-					int rowIndex;
-
-				public:
-					FileMatrixConstructionAnalyzer();
-					virtual ~FileMatrixConstructionAnalyzer();
-
-					virtual Message^ analyze(Match^ result, Interpreter^ iptr) override;
-
-				protected:
-					virtual String^ buildInitPattern() override;
-				};
-
-				ref class FileVectorConstructionAnalyzer : public PatternAnalyzer {
-
-				private:
-					Vector^ tmpVec;
-					Regex^ initRegex;
-
-				public:
-					FileVectorConstructionAnalyzer();
-					virtual ~FileVectorConstructionAnalyzer();
-
-					virtual Message^ analyze(Match^ result, Interpreter^ iptr) override;
-
-				protected:
-					virtual String^ buildInitPattern() override;
-				};
+			
 			};
 		}
 	}

@@ -8,7 +8,7 @@ using System::Char;
 PatternAnalyzer::PatternAnalyzer() {
 	
 	this->regex = gcnew Regex(buildInitPattern(), RegexOptions::Compiled);
-	
+	System::Diagnostics::Debug::WriteLine("pa");
 }
 
 static PatternAnalyzer::PatternAnalyzer() {

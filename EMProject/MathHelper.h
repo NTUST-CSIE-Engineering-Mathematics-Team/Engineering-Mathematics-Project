@@ -10,7 +10,7 @@ namespace em {
 		interface class MathHelper {
 		public:
 			static double EPSILON = std::numeric_limits<float>::epsilon();
-			
+			static Scalar^ adjustCosAndSin(Scalar^ scl);
 			static Scalar^ factorial(int n);
 			generic<typename M> where M : MathObject
 			static String^ getGenericMathID();

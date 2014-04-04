@@ -76,8 +76,9 @@ MathObject^ MatrixBasicFunctions::ul_decom$M(array<MathObject^>^ mos, Message^% 
 	
 	Matrix^ upper,^ lower;
 	mat->ulDecomposition(upper, lower);
-	result->add(upper);
 	result->add(lower);
+	result->add(upper);
+	
 	return result;
 }
 

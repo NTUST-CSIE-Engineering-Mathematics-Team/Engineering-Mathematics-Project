@@ -33,10 +33,12 @@ Message^ Interpreter::interpret(String^ line, int% beenIntrprtedLineCount) {
 	
 	line = line->Trim();
 	if (this->needNext != nullptr) {
-
-		if (this->needNext->bindingPattern->IsMatch(line)) {
-			return this->needNext->analyze(this->needNext->bindingPattern->Match(line), this);
+		Match^ match = this->needNext->bindingPattern->Match(line);
+		if (match->Success) {
+			return this->needNext->analyze(match, this);
 		}
+
+		this->releaseNextLine();
 	} else {
 
 		if (line->EndsWith("\\")) {

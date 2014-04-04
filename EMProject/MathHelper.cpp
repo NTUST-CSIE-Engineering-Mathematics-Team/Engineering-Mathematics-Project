@@ -11,7 +11,16 @@ Scalar^ MathHelper::factorial(int n) {
 
 	return gcnew Scalar(f);
 }
-		
+
+Scalar^  MathHelper::adjustCosAndSin(Scalar^ scl) {
+	double val = Math::Abs(scl);
+	if ( val > 1) {
+		scl->overrideAssign(Math::Sign(scl) * Math::Floor(val));
+	}
+
+	return scl;
+}
+
 generic<typename M> where M : MathObject
 String^ MathHelper::getGenericMathID() {
 	return M::typeid->GetField("ID", BindingFlags::Public | BindingFlags::Static)->GetValue(nullptr)->ToString();
