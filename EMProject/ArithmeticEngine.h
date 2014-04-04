@@ -52,13 +52,14 @@ namespace em {
 				static String^ const DOUBLE_PATTERN = "^-?\\d+(?:\\.\\d+)?[ape!]?$";
 				static String^ const UNSIGNED_DOUBLE_PATTERN = "(?:\\d+(?:\\.\\d+)?[ape!]?)";
 				static String^ const PARENTHESE_UNIT_PATTERN = "^\\((" + arithmeticContentPattern2(innerParentheseTag, true) + ")\\)$";
-				static String^ const CHARACTERS_SET = "[-+*/A-Za-z0-9._,!|]";
+				static String^ const CHARACTERS_SET = "[-+*/A-Za-z0-9._,!\\|]";
 				static String^ const CHARACTERS_SET_WHITOUT_DELIMITERS = "[-+*/A-Za-z0-9._!]";
+				static String^ const VM_CHARACTERS_SET = "[-+*/A-Za-z0-9._,!]";
 
 				static String^ const OPERATOR_PATTERN = "[-+*/x]";
 				static String^ const NAME_OR_FUNCTION_PATTERN = "(?:[A-Za-z_]\\w*(?:\\s*\\(" + arithmeticContentPattern2(innerParentheseTag, false) + "\\))?)";
 				static String^ const SET_PREVIEW_PATTERN = "{" + arithmeticContentPattern(innerParentheseTag) + "}";
-				static String^ const VM_PREVIEW_PATTERN = "\\[(?:(?<" + innerParentheseTag + ">\\()|(?<-" + innerParentheseTag + ">\\))|[-+*/A-Za-z0-9._,|]|\\s)+\\]";
+				static String^ const VM_PREVIEW_PATTERN = "\\[(?:(?<" + innerParentheseTag + ">\\()|(?<-" + innerParentheseTag + ">\\))|" + CHARACTERS_SET + "|\\s)+\\]";
 				static String^ const COMPOUND_EXP_PATTERN = buildCompundExpPattern(true);
 				 
 
@@ -67,7 +68,6 @@ namespace em {
 						StringBuilder^ full = gcnew StringBuilder();
 
 						full->AppendFormat("^(-)?([A-Za-z_]\\w*)\\s*\\(\\s*{0}?\\s*\\)$", multiArithmeticContentPattern(innerParentheseTag));
-
 						return full->ToString();
 					}
 				}
@@ -88,11 +88,10 @@ namespace em {
 						StringBuilder^ duplicate = gcnew StringBuilder();
 						duplicate->AppendFormat("(?:{0}\\s*", OPEN_PARENTHESE_PATTERN);
 
-						duplicate->AppendFormat("(?<{0}>(?:(?<{1}>\\()|(?<-{2}>\\))|[-+*/A-Za-z0-9._,]|\\s)+)", operandTag, innerParentheseTag, innerParentheseTag, innerParentheseTag);
+						duplicate->AppendFormat("(?<{0}>(?:(?<{1}>\\()|(?<-{2}>\\))|{3}|\\s)+)", operandTag, innerParentheseTag, innerParentheseTag, VM_CHARACTERS_SET);
 						duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
 
 						full->AppendFormat("^(-)?\\[\\s*{0}(?:\\|\\s*{1})*\\s*\\]$", duplicate, duplicate);
-
 						return full->ToString();
 					}
 				}
@@ -103,7 +102,7 @@ namespace em {
 						StringBuilder^ duplicate = gcnew StringBuilder();
 						duplicate->AppendFormat("(?:{0}\\s*", OPEN_PARENTHESE_PATTERN);
 
-						duplicate->AppendFormat("(?<{0}>(?:(?<{1}>\\()|(?<-{2}>\\))|\\s|(?({3})[-+*/A-Za-z0-9._,]|[-+*/A-Za-z0-9._]))+)", operandTag, innerParentheseTag, innerParentheseTag, innerParentheseTag);
+						duplicate->AppendFormat("(?<{0}>(?:(?<{1}>\\()|(?<-{2}>\\))|\\s|(?({3}){4}|{5}))+)", operandTag, innerParentheseTag, innerParentheseTag, innerParentheseTag, VM_CHARACTERS_SET, CHARACTERS_SET_WHITOUT_DELIMITERS);
 						duplicate->AppendFormat("\\s*{0})", CLOSE_PARENTHESE_PATTERN);
 
 						full->AppendFormat("^\\s*{0}(?:,\\s*{1})*\\s*$", duplicate, duplicate);

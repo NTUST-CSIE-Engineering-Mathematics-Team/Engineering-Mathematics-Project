@@ -53,7 +53,7 @@ MathObject^ Vector::overrideAssign(MathObject^ mo) {
 String^ Vector::getHeader() {
 
 	StringBuilder^ sb = gcnew StringBuilder(TAG);
-	sb->AppendFormat(" rank = {0}", this->dimension);
+	sb->AppendFormat(" dimension = {0}", this->dimension);
 	return sb->ToString();
 }
 

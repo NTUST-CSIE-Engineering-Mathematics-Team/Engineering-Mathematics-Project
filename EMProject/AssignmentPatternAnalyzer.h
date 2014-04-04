@@ -9,7 +9,8 @@ namespace em {
 			using em::math::engine::ArithmeticEngine;
 
 			ref class AssignmentPatternAnalyzer : public PatternAnalyzer {
-			
+			private:
+				Regex^ parseAssignment;
 			public:
 				AssignmentPatternAnalyzer();
 				virtual ~AssignmentPatternAnalyzer();

@@ -49,7 +49,6 @@ namespace em {
 						wchar_t const symbol;
 						Expression^ opndA;
 						Expression^ opndB;
-
 						Dictionary<String^, CasterInterface^>^ overloadsMap;
 
 					public:

@@ -95,12 +95,13 @@ bool ArithmeticEngine::loadTokens(GroupCollection^ groups, LinkedList<Expression
 
 Expression^ ArithmeticEngine::buildArithmeticTree(LinkedList<Expression^>^ opnds, LinkedList<wchar_t>^ optors) {
 	String^ lowPriorityOptor = "+-";
-	LinkedListNode<Expression^>^ rndNode = opnds->First;
+	
+	LinkedListNode<Expression^>^ rndNode;
 	LinkedListNode<Expression^>^ preRndNode;
-	LinkedListNode<wchar_t>^ torNode = optors->First;
+	LinkedListNode<wchar_t>^ torNode;
 	LinkedListNode<wchar_t>^ preTorNode;
 
-	for (; torNode != nullptr;) {
+	for (rndNode = opnds->First, torNode = optors->First; torNode != nullptr;) {
 		if (lowPriorityOptor->IndexOf(torNode->Value) < 0) {
 			this->CombineNodes(opnds, optors, rndNode, torNode, preRndNode, preTorNode);
 		} else {
@@ -124,8 +125,10 @@ void ArithmeticEngine::CombineNodes(LinkedList<Expression^>^% opnds, LinkedList<
 
 	preRndNode = rndNode;
 	preTorNode = torNode;
+	
 	rndNode = rndNode->Next;
 	torNode = torNode->Next;
+	
 	opnds->Remove(preRndNode);
 	optors->Remove(preTorNode);
 
