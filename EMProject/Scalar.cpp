@@ -47,6 +47,10 @@ Scalar::operator double() {
 	return this->value;
 }
 
+int Scalar::toInteger() {
+	return static_cast<int>(this->value);
+}
+
 Scalar^ Scalar::clone() {
 	return gcnew Scalar(this);
 }
@@ -75,4 +79,8 @@ Scalar^ Scalar::operator*(Scalar^ s) {
 
 Scalar^ Scalar::operator/(Scalar^ s) {
 	return gcnew Scalar(this->value / s->value);
+}
+
+bool Scalar::isDoubleInteger(double scl) {
+	return System::Math::Truncate(scl) == scl;
 }

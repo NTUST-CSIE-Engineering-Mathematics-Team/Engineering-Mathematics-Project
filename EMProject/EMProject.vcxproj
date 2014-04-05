@@ -97,6 +97,7 @@
     <ClCompile Include="Expression.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="FunctionFactory.cpp" />
+    <ClCompile Include="GetAccessFunctions.cpp" />
     <ClCompile Include="Interpreter.cpp" />
     <ClCompile Include="InterpreterFactory.cpp" />
     <ClCompile Include="KeywordCollection.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Expression.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="FunctionFactory.h" />
+    <ClInclude Include="GetAccessFunctions.h" />
     <ClInclude Include="Interpreter.h" />
     <ClInclude Include="InterpreterFactory.h" />
     <ClInclude Include="KeywordCollection.h" />

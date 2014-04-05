@@ -28,9 +28,17 @@ namespace em {
 				}
 			}
 
+			virtual property MathObjSet^ subset[int, int]{
+				virtual MathObjSet^ get(int i, int j) abstract;
+			}
+
+			virtual property MathObject^ mathObject[int] {
+				virtual MathObject^ get(int i) abstract;
+			}
 		public:
 			static MathObjSet();
 			virtual ~MathObjSet();
+
 			virtual bool add(MathObject^ mo) abstract;
 
 			static bool setCast(MathObject^ mo, MathObjSet^% set);
@@ -48,3 +56,4 @@ namespace em {
 
 	}
 }
+

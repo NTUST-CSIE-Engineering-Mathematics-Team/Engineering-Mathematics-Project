@@ -207,7 +207,7 @@ Expression^ ArithmeticEngine::ExpressionFactory::concreteDecimalExp(Match^ m, Ar
 			return gcnew SimpleMathObjExp(false, gcnew Scalar(value * System::Math::E));
 
 		case L'!':
-			if (System::Math::Truncate(value) == value) {
+			if (Scalar::isDoubleInteger(value)) {
 				return gcnew SimpleMathObjExp(false, MathHelper::factorial(static_cast<int>(value)));
 			}
 		default:

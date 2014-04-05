@@ -22,6 +22,8 @@ namespace em {
 						static MathObject^ is_pallel$V_V(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ is_orth$V_V(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ plane_norm$V_V(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ is_linear_ind$VC(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ gs_orth_process$VC(array<MathObject^>^ mos, Message^% msg);
 
 						static Message^ differentDimErrMsg(String^ funName);
 					};

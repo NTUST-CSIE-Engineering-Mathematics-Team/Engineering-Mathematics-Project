@@ -7,7 +7,12 @@ using em::intrprt::cmd::PrintCommand;
 
 generic<typename M> where M : MathObject
 MathObjGenericSet<M>::MathObjGenericSet() : MathObjSet(MathHelper::getGenericMathID<M>()) {
-	this->list = gcnew LinkedList<M>();
+	this->list = gcnew List<M>();
+}
+
+generic<typename M> where M : MathObject
+MathObjGenericSet<M>::MathObjGenericSet(int size) : MathObjSet(MathHelper::getGenericMathID<M>()) {
+	this->list = gcnew List<M>(size);
 }
 
 generic<typename M> where M : MathObject
@@ -18,6 +23,27 @@ MathObjGenericSet<M>::MathObjGenericSet(MathObjGenericSet<M>^ ms) : MathObjSet(m
 generic<typename M> where M : MathObject
 MathObjGenericSet<M>::~MathObjGenericSet() {
 	delete this->list;
+}
+
+generic<typename M> where M : MathObject
+MathObjSet^ MathObjGenericSet<M>::subset::get(int i, int j) {
+	if (i > j || i >= size || j >= size) {
+		return nullptr;
+	}
+
+	MathObjGenericSet<M>^ subset = gcnew MathObjGenericSet<M>(j - i + 1);
+	for (int k = i; k <= j; k++) {
+		subset->add(this[k]);
+	}
+	return subset;
+}
+
+generic<typename M> where M : MathObject
+MathObject^ MathObjGenericSet<M>::mathObject::get(int i) {
+	if (i < 0 || i >= this->size) {
+		return nullptr;
+	}
+	return this[i];
 }
 
 generic<typename M> where M : MathObject
@@ -42,13 +68,13 @@ bool MathObjGenericSet<M>::add(MathObject^ mo) {
 
 generic<typename M> where M : MathObject
 void MathObjGenericSet<M>::add(M mo) {
-	this->list->AddLast(mo);
+	this->list->Add(mo);
 }
 
 generic<typename M> where M : MathObject
 MathObjGenericSet<M>^ MathObjGenericSet<M>::overrideAssign(MathObjGenericSet<M>^ mo) {
 	delete this->list;
-	this->list = gcnew LinkedList<M>(mo->list);
+	this->list = gcnew List<M>(mo->list);
 
 	return this;
 }

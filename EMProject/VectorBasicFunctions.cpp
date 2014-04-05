@@ -71,7 +71,6 @@ MathObject^ VectorBasicFunctions::tri_area$V_V(array<MathObject^>^ mos, Message^
 		msg = differentDimErrMsg("tri_area");
 		return nullptr;
 	}
-	System::Diagnostics::Debug::WriteLine(Math::Sin(Math::Acos(cos)));
 	return gcnew Scalar(0.5 * v1->magnitude * v2->magnitude * Math::Sin(Math::Acos(cos)));
 }
 
@@ -133,6 +132,58 @@ MathObject^ VectorBasicFunctions::plane_norm$V_V(array<MathObject^>^ mos, Messag
 	return v3;
 
 }
+
+MathObject^ VectorBasicFunctions::is_linear_ind$VC(array<MathObject^>^ mos, Message^% msg) {
+	MathObjGenericSet<Vector^>^ vecSet;
+	MathObjGenericSet<Vector^>::gSetCast(mos[0], vecSet);
+
+	Matrix^ mat = gcnew Matrix(vecSet[0]->dimension, vecSet->size);
+
+	int i = 0;
+	for each(Vector^ vec in vecSet) {
+		if (vec->dimension != mat->columnLength) {
+			msg = differentDimErrMsg("is_linear_Ind");
+			return nullptr;
+		}
+
+		mat[Matrix::VectorOption::COLUMN, i++] = vec;
+	}
+	
+	Matrix^ tmp;
+	if (mat->solveLinearSystem(gcnew Matrix(vecSet[0]->dimension, 1), tmp) == Matrix::SolutionState::UNIQUE) {
+		msg = gcnew Message(Message::State::PASS, Message::JUDGE_PASS_COLOR, "These vectors are linear independent");
+	} else {
+		msg = gcnew Message(Message::State::PASS, Message::JUDGE_NOT_PASS_COLOR, "These vectors are not linear independent");
+	}
+
+	return nullptr;
+}
+
+MathObject^ VectorBasicFunctions::gs_orth_process$VC(array<MathObject^>^ mos, Message^% msg) {
+	MathObjGenericSet<Vector^>^ vecSet, ^ result;
+	MathObjGenericSet<Vector^>::gSetCast(mos[0], vecSet);
+	
+	result = gcnew MathObjGenericSet<Vector^>(vecSet->size);
+	Vector^ basis;
+	for (int i = 0; i < vecSet->size; i++) {
+		basis = vecSet[i];
+		for (int j = 0; j < i; j++) {
+			basis = basis - vecSet[i]->projection(result[j]);
+			if (basis == nullptr) {
+				msg = differentDimErrMsg("gs_orth_process");
+				return nullptr;
+			}
+		}
+		result->add(basis);
+	}
+	
+	for (int i = 0; i < result->size; i++) {
+		result[i] = result[i]->normalized;
+	}
+
+	return result;
+}
+
 Message^ VectorBasicFunctions::differentDimErrMsg(String^ funName) {
 	return gcnew Message(Message::State::ERROR, "Cannot perform function \"" + funName + "\" on vectors with different dimensions");
 }

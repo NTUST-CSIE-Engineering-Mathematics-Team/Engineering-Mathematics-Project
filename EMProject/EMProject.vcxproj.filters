@@ -207,6 +207,9 @@
     <ClCompile Include="OptionCommand.cpp">
       <Filter>Source Files\intrprt\cmd</Filter>
     </ClCompile>
+    <ClCompile Include="GetAccessFunctions.cpp">
+      <Filter>Source Files\math\engine\expression\functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainForm.h">
@@ -373,6 +376,9 @@
     </ClInclude>
     <ClInclude Include="OptionCommand.h">
       <Filter>Header Files\intrprt\cmd</Filter>
+    </ClInclude>
+    <ClInclude Include="GetAccessFunctions.h">
+      <Filter>Header Files\math\engine\expression\functions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

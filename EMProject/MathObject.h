@@ -61,8 +61,8 @@ namespace em {
 		private:
 			String^ const mType;
 			String^ const mID;
-			static int precision = 7;
-			static int width = 12;
+			static int precision = 6;
+			static int width = 11;
 			static wchar_t fSpec = 'f';
 		public:
 			virtual ~MathObject();

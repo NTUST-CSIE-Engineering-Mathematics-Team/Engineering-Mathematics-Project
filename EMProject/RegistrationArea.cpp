@@ -33,6 +33,8 @@ void RegistrationArea::registerHere() {
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::is_pallel$V_V));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::is_orth$V_V));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::plane_norm$V_V));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::is_linear_ind$VC));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::gs_orth_process$VC));
 
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::transpose$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::row_ech$M));
@@ -43,4 +45,17 @@ void RegistrationArea::registerHere() {
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::rank$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::ul_decom$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::pow$M_S));
+
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&GetAccessFunctions::get$V_S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&GetAccessFunctions::get$M_S_S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&GetAccessFunctions::get$SC_S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&GetAccessFunctions::get$AC_S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&GetAccessFunctions::get$VC_S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&GetAccessFunctions::get$MC_S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&GetAccessFunctions::get$CC_S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&GetAccessFunctions::subset$SC_S_S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&GetAccessFunctions::subset$AC_S_S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&GetAccessFunctions::subset$VC_S_S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&GetAccessFunctions::subset$MC_S_S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&GetAccessFunctions::subset$CC_S_S));
 }

@@ -5,13 +5,13 @@ namespace em {
 	namespace math {
 		
 		using System::Text::StringBuilder;
-		using System::Collections::Generic::LinkedList;
+		using System::Collections::Generic::List;
 
 		generic<typename M> where M : MathObject
 		ref class MathObjGenericSet : public MathObjSet, public System::Collections::Generic::IEnumerable<M> {
 
 		private:
-			LinkedList<M>^ list;
+			List<M>^ list;
 
 		public:
 			property MathObjGenericSet<M>^ clone{
@@ -25,8 +25,27 @@ namespace em {
 					return list->Count;
 				}
 			}
+
+			property M default[int] {
+				virtual M get(int i) {
+					return this->list[i];
+				}
+				virtual void set(int i, M mo) {
+					this->list[i] = mo;
+				}
+			}
+
+			virtual property MathObject^ mathObject[int] {
+				virtual MathObject^ get(int i) override;
+			}
+
+			virtual property MathObjSet^ subset[int, int]{
+				virtual MathObjSet^ get(int i, int j) override;
+			}
 		public:
+
 			MathObjGenericSet();
+			MathObjGenericSet(int size);
 			MathObjGenericSet(MathObjGenericSet<M>^ set);
 			virtual ~MathObjGenericSet();
 			
@@ -46,7 +65,6 @@ namespace em {
 			static bool gSetCast(MathObject^ mo, MathObjGenericSet<M>^% set);
 			
 		private:
-			
 
 			virtual System::Collections::IEnumerator^ GetNGEnumerator() sealed = System::Collections::IEnumerable::GetEnumerator;
 			MathObjGenericSet<M>^ emptyClone();

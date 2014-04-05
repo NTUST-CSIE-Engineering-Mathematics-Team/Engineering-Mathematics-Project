@@ -17,6 +17,11 @@ namespace em {
 				}
 			}
 
+			property bool isInteger {
+				bool get() {
+					return System::Math::Truncate(this) == this->value;
+				}
+			}
 		private:
 			double value;
 
@@ -39,10 +44,11 @@ namespace em {
 			virtual Scalar^ overrideAssign(double val);
 
 			virtual operator double();
+			virtual int toInteger();
 			Scalar^ clone();
 
 			static bool scalarCast(MathObject^ mo, Scalar^% scl);
-			
+			static bool isDoubleInteger(double scl);
 		};
 	}
 }
