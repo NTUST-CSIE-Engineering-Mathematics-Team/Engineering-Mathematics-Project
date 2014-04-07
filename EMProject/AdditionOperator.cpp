@@ -1,5 +1,4 @@
 #include "AdditionOperator.h"
-
 #include "OperatorFactory.h"
 using namespace em::math::engine::expression::operators;
 

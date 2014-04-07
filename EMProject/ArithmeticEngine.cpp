@@ -16,18 +16,26 @@ ArithmeticEngine::~ArithmeticEngine() {
 
 Message^ ArithmeticEngine::execute(String^ expressionString, MathObject^% mo) {
 	this->errorMsg = nullptr;
-	if (!this->analyze(expressionString)) {
-		if (this->errorMsg == nullptr) {
-			return gcnew Message(Message::State::ERROR, "There is an unknown arithmetic syntax errors occur");
+	try {
+		if (!this->analyze(expressionString)) {
+			if (this->errorMsg == nullptr) {
+				return gcnew Message(Message::State::ERROR, "There is an unknown arithmetic syntax errors occur");
+			}
+			return this->errorMsg;
 		}
-		return this->errorMsg;
+	} catch (System::Exception^ e) {
+		return gcnew Message(Message::State::ERROR, "There is an unknown critical arithmetic syntax errors occur");
 	}
-	
-	if (!this->compute(mo)) {
-		if (this->errorMsg == nullptr) {
-			return gcnew Message(Message::State::ERROR, "There is an unknown computing errors occur");
+
+	try {
+		if (!this->compute(mo)) {
+			if (this->errorMsg == nullptr) {
+				return gcnew Message(Message::State::ERROR, "There is an unknown computing errors occur");
+			}
+			return this->errorMsg;
 		}
-		return this->errorMsg;
+	} catch (System::Exception^ e) {
+		return gcnew Message(Message::State::ERROR, "There is an critical unknown computing errors occur");
 	}
 
 	return Message::PASS_NO_CONTENT_MSG;

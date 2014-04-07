@@ -29,11 +29,10 @@ namespace em {
 
 						static MathObject^ least_square$M_M(array<MathObject^>^ mos, Message^% msg);
 						
-
 						static void dealLinearSystemResult(Matrix::SolutionState ss, Message^% msg);
 						static Message^ notSquareErrMsg(String^ funName);
 
-						static double getMaxAbsScalar(Vector^ vec);
+						static int getMaxAbsScalarIndex(Vector^ vec);
 					};
 				}
 			}

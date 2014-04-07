@@ -199,20 +199,27 @@ MathObject^ MatrixBasicFunctions::power_eigen$M(array<MathObject^>^ mos, Message
 	}
 
 	Vector^ guess = gcnew Vector(mat->columnLength);
-	Vector^ aux;
 	for (int i = 0; i < guess->dimension; i++) {
 		guess[i] = -1;
 	}
 
-	double diff = 1;
-	double lastMax = 0;
-	Scalar^ max = gcnew Scalar(0);
+	
+	Vector^ aux = Matrix::multiplyToVector(mat, guess);
+	int maxI = getMaxAbsScalarIndex(aux);
+	Scalar^ max = gcnew Scalar(aux[maxI]);
+	double diff = Math::Abs(max);
+	double lastMax = max;
+	int lastI = maxI;
+	guess = aux / max;
+
 	for (; !MathHelper::isZero(diff);) {
 		aux = Matrix::multiplyToVector(mat, guess);
-		max->overrideAssign(getMaxAbsScalar(aux));
-		diff = Math::Abs(max - lastMax);
-		lastMax = max;
+		maxI = getMaxAbsScalarIndex(aux);
+		max->overrideAssign(aux[maxI]);
+		diff = Math::Abs(aux[lastI] - lastMax);
 		guess = aux / max;
+		lastMax = max;
+		lastI = maxI;
 	}
 
 	Vector^ valVec = gcnew Vector(guess->dimension);
@@ -261,13 +268,15 @@ Message^ MatrixBasicFunctions::notSquareErrMsg(String^ funName) {
 	return gcnew Message(Message::State::ERROR, "Cannot perform  function \"" + funName + "\" on a non-square matrix");
 }
 					
-double MatrixBasicFunctions::getMaxAbsScalar(Vector^ vec) {
+int MatrixBasicFunctions::getMaxAbsScalarIndex(Vector^ vec) {
 	double result = vec[0];
+	int maxI = 0;
 	for (int i = 1; i < vec->dimension; i++) {
 		if (Math::Abs(result) < Math::Abs(vec[i])) {
 			result = vec[i];
+			maxI = i;
 		}
 	}
 
-	return result;
+	return maxI;
 }
