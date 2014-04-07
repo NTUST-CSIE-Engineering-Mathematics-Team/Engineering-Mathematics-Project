@@ -12,10 +12,17 @@ Scalar^ MathHelper::factorial(int n) {
 	return gcnew Scalar(f);
 }
 
+bool MathHelper::isZero(double v) {
+	if (Math::Abs(v) < EPSILON) {
+		return true;
+	}
+	return false;
+}
+
 Scalar^  MathHelper::adjustCosAndSin(Scalar^ scl) {
 	double val = Math::Abs(scl);
-	if ( val > 1) {
-		scl->overrideAssign(Math::Sign(scl) * Math::Floor(val));
+	if (isZero(val - 1)) {
+		scl->overrideAssign(Math::Sign(scl));
 	}
 
 	return scl;

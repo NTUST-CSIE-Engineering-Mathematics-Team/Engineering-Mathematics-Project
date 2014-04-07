@@ -13,6 +13,7 @@ namespace em {
 					interface class VectorBasicFunctions {
 						
 					public:
+						static MathObject^ to_vec$M(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ mag$V(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ normlzd$V(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ proj$V_V(array<MathObject^>^ mos, Message^% msg);

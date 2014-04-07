@@ -88,6 +88,9 @@ namespace em {
 			static int getWiderRank(Vector^ a, Vector^ b);
 			static void widerConvert(Vector^% a, Vector^% b);
 			static bool isZeroVector(Vector^ vec);
+
+			static Vector^ multiplyToVector(Vector^ vec, Matrix^ mat);
+
 		};
 	}
 	

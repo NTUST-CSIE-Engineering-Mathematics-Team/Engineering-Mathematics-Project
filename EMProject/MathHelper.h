@@ -9,7 +9,9 @@ namespace em {
 		using System::Type;
 		interface class MathHelper {
 		public:
-			static double EPSILON = std::numeric_limits<float>::epsilon();
+			static double EPSILON = std::numeric_limits<double>::epsilon() * 1000;
+
+			static bool isZero(double v);
 			static Scalar^ adjustCosAndSin(Scalar^ scl);
 			static Scalar^ factorial(int n);
 			generic<typename M> where M : MathObject
@@ -17,6 +19,8 @@ namespace em {
 
 			generic<typename M> where M : MathObject
 			static String^ getGenericMathType();
+
+			
 		};
 
 	}

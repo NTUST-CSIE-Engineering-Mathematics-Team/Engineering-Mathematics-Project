@@ -47,6 +47,10 @@ namespace em {
 				}
 			}
 
+			property Matrix^ transpose{
+				Matrix^ get();
+			}
+
 			property bool isSquare {
 				bool get() {
 					return this->rowLength == this->columnLength;
@@ -54,6 +58,10 @@ namespace em {
 			}
 
 			virtual property Matrix^ rowEchelonForm {
+				Matrix^ get();
+			}
+
+			virtual property Matrix^ reducedRowEchelonForm {
 				Matrix^ get();
 			}
 
@@ -67,6 +75,10 @@ namespace em {
 
 			virtual property Scalar^ rank {
 				Scalar^ get();
+			}
+
+			virtual property Matrix^ adjoint {
+				Matrix^ get();
 			}
 		private: 
 			array<double, 2>^ value;
@@ -93,7 +105,6 @@ namespace em {
 			virtual Matrix^ operator/(Scalar^ s);
 
 			virtual bool isSameSize(Matrix^ m);
-			virtual Matrix^ transpose();
 			virtual Matrix^ pow(int exponent);
 
 			virtual void ulDecomposition(Matrix^% upper, Matrix^% lower);
@@ -106,10 +117,11 @@ namespace em {
 			
 			static bool matrixCast(MathObject^ mo, Matrix^% mat);
 			static Matrix^ getIdentityMatrix(int size);
-				
+			
+			static Vector^ multiplyToVector(Matrix^ mat, Vector^ vec);
 		private:
 			Matrix^ makeUpperTriangle(Matrix^ syncer);
-			void doUpperToIdentity(Matrix^% syncer);
+			Matrix^ doUpperToRREF(Matrix^ syncer);
 		};
 	}
 }

@@ -1,5 +1,6 @@
 #include "Matrix.h"
 #include "Vector.h"
+#include "MathHelper.h"
 
 using namespace em::math;
 
@@ -216,6 +217,22 @@ Matrix^ Matrix::operator*(Vector^ v) {
 	return newMat;
 }
 
+Vector^ Matrix::multiplyToVector(Matrix^ mat, Vector^ vec) {
+	if (mat->rowLength != vec->dimension) {
+		return nullptr;
+	}
+
+	Vector^ newVec = gcnew Vector(mat->columnLength);
+
+	for (int i = 0; i < mat->columnLength; i++) {
+		for (int j = 0; j < vec->dimension; j++) {
+			newVec[i] += mat[i, j] * vec[j];
+		}
+	}
+
+	return newVec;
+}
+
 Matrix^ Matrix::operator*(Scalar^ s) {
 	Matrix^ newMat = gcnew Matrix(this->columnLength, this->rowLength);
 
@@ -254,7 +271,7 @@ Matrix^ Matrix::getIdentityMatrix(int size) {
 	return idnty;
 }
 
-Matrix^ Matrix::transpose() {
+Matrix^ Matrix::transpose::get() {
 	Matrix^ newMat = gcnew Matrix(this->rowLength, this->columnLength);
 	
 	for (int i = 0; i < this->columnLength; i++) {
@@ -295,13 +312,17 @@ Matrix^ Matrix::pow(int exponent) {
 	return m;
 }
 
+Matrix^ Matrix::reducedRowEchelonForm::get() {
+	return this->makeUpperTriangle(nullptr)->doUpperToRREF(nullptr);
+}
+
 Matrix^ Matrix::rowEchelonForm::get() {
 	
 	Matrix^ upper = this->makeUpperTriangle(nullptr);
 
 	for (int i = 0, j = 0; i < upper->columnLength && j < upper->rowLength; i++, j++) {
 		for (; j < upper->rowLength; j++) {
-			if (upper[i, j] != 0) {
+			if (!MathHelper::isZero(upper[i, j])) {
 				upper->multiplyRowOperation(i, 1 / upper[i, j]);
 				break;
 			}
@@ -319,11 +340,13 @@ Matrix^ Matrix::inverse::get() {
 	Matrix^ upper = this->makeUpperTriangle(inverse);
 	for (int i = 0; i < upper->columnLength; i++) {
 		if (upper[i, i] == 0) {
+			delete upper;
+			delete inverse;
 			return nullptr;
 		}
 	}
 	
-	upper->doUpperToIdentity(inverse);
+	upper->doUpperToRREF(inverse);
 	return inverse;
 }
 
@@ -348,7 +371,7 @@ Scalar^ Matrix::rank::get() {
 	int rank = 0;
 	for (int i = 0, j = 0; i < upper->columnLength && j < upper->rowLength; i++, j++) {
 		for (; j < upper->rowLength; j++) {
-			if (upper[i, j] != 0) {
+			if (!MathHelper::isZero(upper[i, j])) {
 				rank++;
 				break;
 			}
@@ -356,6 +379,32 @@ Scalar^ Matrix::rank::get() {
 	}
 
 	return gcnew Scalar(rank);
+}
+
+Matrix^ Matrix::adjoint::get() {
+	if (!this->isSquare) {
+		return nullptr;
+	}
+	
+	Matrix^ inverse = getIdentityMatrix(this->columnLength);
+	Matrix^ upper = this->makeUpperTriangle(inverse);
+	double det = 1;
+	for (int i = 0; i < upper->columnLength; i++) {
+		det *= upper[i, i];
+	}
+
+	if (det == 0) {
+		delete upper;
+		delete inverse;
+		return gcnew Matrix(this->columnLength, this->rowLength);
+	}
+
+	upper->doUpperToRREF(inverse);
+
+	for (int i = 0; i < inverse->columnLength; i++) {
+		inverse->multiplyRowOperation(i, det);
+	}
+	return inverse;
 }
 
 void Matrix::ulDecomposition(Matrix^% upper, Matrix^% lower) {
@@ -387,9 +436,9 @@ Matrix::SolutionState Matrix::solveLinearSystem(Matrix^ constSet, Matrix^% solut
 			delete solutions;
 			solutions = nullptr;
 			
-			if ( sol != 0) {
+			if (!MathHelper::isZero(sol)) {
 				for (int j = i + 1; j < this->columnLength; j++) {
-					if (upper[i, j] != 0) {
+					if (!MathHelper::isZero(upper[i, j])) {
 						return SolutionState::INFINITE;
 					}
 				}
@@ -402,14 +451,14 @@ Matrix::SolutionState Matrix::solveLinearSystem(Matrix^ constSet, Matrix^% solut
 	}
 
 	for (; i < upper->columnLength; i++) {
-		if (solutions[i, 0] != 0) {
+		if (!MathHelper::isZero(solutions[i, 0])) {
 			delete solutions;
 			solutions = nullptr;
 			return SolutionState::INCONSISTENT;
 		}
 	}
 
-	upper->doUpperToIdentity(solutions);
+	upper->doUpperToRREF(solutions);
 	
 	
 	return SolutionState::UNIQUE;
@@ -424,11 +473,12 @@ Matrix^ Matrix::makeUpperTriangle(Matrix^ syncer) {
 		for (; upper[i, j] == 0;) {
 			int k;
 			for (k = i; k < upper->columnLength; k++) {
-				if (upper[k, j] != 0) {
-					upper->addRowOperation(k, 1, i);
+				if (!MathHelper::isZero(upper[k, j])) {
 					if (hasSyncer) {
 						syncer->addRowOperation(k, 1, i);
 					}
+					upper->addRowOperation(k, 1, i);
+					
 					break;
 				}
 			}
@@ -442,11 +492,12 @@ Matrix^ Matrix::makeUpperTriangle(Matrix^ syncer) {
 
 		for (int k = i + 1; k < upper->columnLength; k++) {
 			q = upper[k, j] / upper[i, j];
-			if (q != 0) {
-				upper->addRowOperation(i, -q, k);
+			if (!MathHelper::isZero(q)) {
 				if (hasSyncer) {
 					syncer->addRowOperation(i, -q, k);
 				}
+				upper->addRowOperation(i, -q, k);
+				
 			}
 			upper[k, j] = 0;
 		}
@@ -455,17 +506,37 @@ Matrix^ Matrix::makeUpperTriangle(Matrix^ syncer) {
 	return upper;
 }
 
-void Matrix::doUpperToIdentity(Matrix^% syncer) {
+Matrix^ Matrix::doUpperToRREF(Matrix^ syncer) {
+	bool hasSyncer = syncer != nullptr;
 	int bounds = System::Math::Min(this->columnLength, this->rowLength) - 1;
 	for (int i = bounds; i >= 0; i--) {
 		for (int j = bounds; j > i; j--) {
-			syncer->addRowOperation(j, -this[i, j], i);
-			this[i, j] = 0;
+			for (int k = j; k < this->rowLength; k++) {
+				if (!MathHelper::isZero(this[j, k])) {
+					if (hasSyncer) {
+						syncer->addRowOperation(j, -this[i, k], i);
+					}
+					this->addRowOperation(j, -this[i, k], i);
+					this[i, k] = 0;
+					break;
+				}
+			}
 			
 		}
-		syncer->multiplyRowOperation(i, 1 / this[i, i]);
-		this[i, i] = 1;
+
+		for (int k = i; k < this->rowLength; k++) {
+			if (!MathHelper::isZero(this[i, k])) {
+				if (hasSyncer) {
+					syncer->multiplyRowOperation(i, 1 / this[i, k]);
+				}
+				this->multiplyRowOperation(i, 1 / this[i, k]);
+				this[i, k] = 1;
+				break;
+			}
+		}
 	}
+
+	return this;
 }
 
 

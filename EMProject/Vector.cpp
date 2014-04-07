@@ -1,4 +1,5 @@
 #include "Vector.h"
+#include "MathHelper.h"
 
 using namespace em::math;
 
@@ -219,7 +220,7 @@ int Vector::getWiderRank(Vector^ a, Vector^ b) {
 
 bool Vector::isZeroVector(Vector^ vec) {
 	for (int i = 0; i < vec->dimension; i++) {
-		if (vec[i] != 0) {
+		if (!MathHelper::isZero(vec[i])) {
 			return false;
 		}
 	}
@@ -244,3 +245,20 @@ void Vector::widerConvert(Vector^% a, Vector^% b) {
 		b = c;
 	}
 }
+
+Vector^ Vector::multiplyToVector(Vector^ vec, Matrix^ mat) {
+	if (vec->dimension != mat->columnLength) {
+		return nullptr;
+	}
+
+	Vector^ newVec = gcnew Vector(mat->rowLength);
+
+	for (int i = 0; i < mat->rowLength; i++) {
+		for (int j = 0; j < vec->dimension; j++) {
+			newVec[i] += vec[j] * mat[j, i];
+		}
+	}
+
+	return newVec;
+}
+

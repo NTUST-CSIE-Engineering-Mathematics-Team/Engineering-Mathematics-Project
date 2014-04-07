@@ -3,6 +3,21 @@
 using namespace em::math::engine::expression::functions;
 
 
+MathObject^ VectorBasicFunctions::to_vec$M(array<MathObject^>^ mos, Message^% msg) {
+	Matrix^ m;
+	Matrix::matrixCast(mos[0], m);
+	Vector^ vec = nullptr;
+	if (m->rowLength == 1) {
+		vec = m[Matrix::VectorOption::COLUMN, 0];
+	} else if (m->columnLength == 1) {
+		vec = m[Matrix::VectorOption::ROW, 0];
+	} else {
+		msg = gcnew Message(Message::State::ERROR, "Cannot convert the matrix to a vector, because the matrix has more than one column/row");
+	}
+	
+	return vec;
+}
+
 MathObject^ VectorBasicFunctions::mag$V(array<MathObject^>^ mos, Message^% msg) {
 	Vector^ v;
 	Vector::vectorCast(mos[0], v);
@@ -86,7 +101,7 @@ MathObject^ VectorBasicFunctions::is_pallel$V_V(array<MathObject^>^ mos, Message
 		return nullptr;
 	}
 
-	if ((1 - Math::Abs(cos)) < MathHelper::EPSILON) {
+	if (MathHelper::isZero(1 - Math::Abs(cos))) {
 		msg = gcnew Message(Message::State::PASS, Message::JUDGE_PASS_COLOR, "Two vectors are parallel to each other");
 	} else {
 		msg = gcnew Message(Message::State::PASS, Message::JUDGE_NOT_PASS_COLOR, "Two vectors are not parallel to each other");
@@ -107,7 +122,7 @@ MathObject^ VectorBasicFunctions::is_orth$V_V(array<MathObject^>^ mos, Message^%
 		return nullptr;
 	}
 
-	if (Math::Abs(cos) < MathHelper::EPSILON) {
+	if (MathHelper::isZero(Math::Abs(cos))) {
 		msg = gcnew Message(Message::State::PASS, Message::JUDGE_PASS_COLOR, "Two vectors are perpendicular to each other");
 	} else {
 		msg = gcnew Message(Message::State::PASS, Message::JUDGE_NOT_PASS_COLOR, "Two vectors are not perpendicular to each other");

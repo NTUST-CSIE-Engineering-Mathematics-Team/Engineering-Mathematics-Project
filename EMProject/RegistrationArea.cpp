@@ -24,6 +24,7 @@ void RegistrationArea::registerHere() {
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::acos$S));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&TrigonometricFunctions::atan$S));
 
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::to_vec$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::mag$V));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::proj$V_V));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::compnt$V_V));
@@ -43,8 +44,12 @@ void RegistrationArea::registerHere() {
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::inverse$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::det$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::rank$M));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::adj$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::ul_decom$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::pow$M_S));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::least_square$M_M));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::eigen$M));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::power_eigen$M));
 
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&GetAccessFunctions::get$V_S));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&GetAccessFunctions::get$M_S_S));
