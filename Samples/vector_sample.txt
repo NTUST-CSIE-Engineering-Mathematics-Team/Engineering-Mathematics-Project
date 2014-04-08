@@ -1,0 +1,88 @@
+#Vector
+
+option w 12 #設定數字顯示寬度至12
+
+#Multiple Vector support
+a = [1,2,3]
+b = [4,5,6]
+c = [8,10,12]
+d = [-8,-10,-12]			
+o = [1,2,3]
+p = [1,2,0]
+q = [1,0,0]
+print a+b+c+d
+print a*b*c*d
+
+
+#dot of Vector
+print a*b
+
+
+#Vector addition
+print a+b
+
+
+#Scalar Multiplication with vector
+k=101				#k為純量
+print k*a
+print 101*a
+
+
+#norm of Vector
+al = mag(a)			#取a的長度存到l
+print al
+
+
+#Vector normalization
+av = normlzd(a)			#取a的單位向量存到av
+print av
+
+
+#cross product
+print a x b				#向量之間要有空隔
+
+
+#Component of a on b
+abl = compnt(a,b)		#取a在b上的正射影長存到abl
+print abl
+
+
+#Projection of a on b 
+abv = proj(a,b)			#取a在b上的正射影存到abl
+print abv
+
+
+#Triangle area
+aba = tri_area(a,b)		#計算ab兩向量圍成之三角形面積存到aba
+print aba
+
+
+#Paraell judgement
+print is_pallel(a,b)		#判斷ab兩向量是否平行，並顯示於輸出
+
+
+
+#Orthogonal judgement 
+print is_orth(a,b)			#判斷ab兩向量是否垂直，並顯示於輸出
+
+
+#the angle between two vectors
+abn = angle(a,b)			#計算ab兩向量夾角存到abn
+print abn
+
+
+#the plane normal that is produced by two vectors
+abpv = plane_norm(a,b)
+print abpv
+
+
+#linear independent jugdement 
+vec1={a,b,c}
+print is_linear_ind(vec1)
+vec2={o,p,q}
+print is_linear_ind(vec2)
+
+
+#find orthonormal basis of the basis
+vec2 = gs_orth_process(vec1)
+print vec2

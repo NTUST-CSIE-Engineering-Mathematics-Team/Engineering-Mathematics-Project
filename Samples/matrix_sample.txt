@@ -1,0 +1,62 @@
+﻿#Matrix
+
+option w 15 #設定數字顯示寬度至15
+
+#Multiple Matrix support
+M1 = [8,-5,6|0,7,-11|3,-20,5]
+M2 = [14,-1,2|31,4,-28|22,1,-7]
+M3 = [0,1,4|54,-3,16|75,56,-111]                 #第一列 | 第二列 | 第三列
+Mt =  [0,0,0|0,0,0|0,0,0]
+Ml =  [6|-1|5]
+print M1+M2+M3
+print M1*M2*M3
+
+
+#Matrix addition 
+print M1+M2
+
+
+#Matrix Multiplication
+print M1*M2
+
+
+#rank of Matrix
+print rank(M1)			#計算M1的秩
+
+
+#Matrix Transpose
+print transpose(M1)		#將M1轉置
+
+
+#Solve Linear System
+a = [1,2,3]
+Mt = solve_linear(M1,a)	#解線性系統
+print Mt
+
+
+#Determinants of Matrix
+print det(M1)			#計算M1的行列式
+
+
+#Inverse Matrix
+print inverse(M1)			#求M1的反矩陣
+
+
+#Adjoint Matrix
+print adj(M1)			#求M1的伴隨矩陣
+
+
+#Eigen Vector and Eigen Value
+print eigen(M1)			#計算M1的特徵向量和值
+
+
+#Power Method of Eigen value
+print power_eigen(M1)			#用Power Method求M1其中一組特徵向量和值
+
+
+#Method of Least Square
+print least_square(M1,Ml)		#求近似函數
+
+
+#Row Reduction of Matrix(upper triangular and lower triangular
+print ul_decom(M1)			#用Row Reduction化成上下三角矩陣
