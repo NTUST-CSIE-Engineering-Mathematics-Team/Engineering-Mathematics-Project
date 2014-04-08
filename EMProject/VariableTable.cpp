@@ -1,6 +1,9 @@
 #include "VariableTable.h"
+#include "ShowStorageCommand.h"
 
 using namespace em::intrprt;
+using namespace em::intrprt::cmd;
+
 using System::Collections::Generic::KeyValuePair;
 
 using System::Collections::Generic::IEnumerator;
@@ -10,12 +13,17 @@ VariableTable::VariableTable() {
 }
 
 static VariableTable::VariableTable() {
-	stgSetCreators = gcnew Dictionary<String^, CreateStorageSet^>();
 	stgSetCreators->Add(KeywordCollection::SCALARS, gcnew CreateStorageSet(&createStgSet<Scalar^>));
 	stgSetCreators->Add(KeywordCollection::VECTORS, gcnew CreateStorageSet(&createStgSet<Vector^>));
 	stgSetCreators->Add(KeywordCollection::MATRICES, gcnew CreateStorageSet(&createStgSet<Matrix^>));
 	stgSetCreators->Add(KeywordCollection::SETS, gcnew CreateStorageSet(&createStgSet<MathObjSet^>));
 	stgSetCreators->Add(KeywordCollection::ANGLES, gcnew CreateStorageSet(&createStgSet<Angle^>));
+	
+	tnMap->Add(KeywordCollection::SCALARS, Scalar::TAG);
+	tnMap->Add(KeywordCollection::VECTORS, Vector::TAG);
+	tnMap->Add(KeywordCollection::MATRICES, Matrix::TAG);
+	tnMap->Add(KeywordCollection::SETS, MathObjSet::TAG);
+	tnMap->Add(KeywordCollection::ANGLES, Angle::TAG);
 }
 
 
@@ -42,10 +50,24 @@ String^ VariableTable::addVariable(MathObject^ mo) {
 
 bool VariableTable::contains(String^ name) {
 
-	return MappingTable<String^, MathObject^>::contains(name) || this->stgSetCreators->ContainsKey(name);
+	return MappingTable<String^, MathObject^>::contains(name) || typeSetNameMap->ContainsKey(name);
 }
 
 bool VariableTable::deleteVariable(String^ name) {
+	if (typeSetNameMap->ContainsKey(name)) {
+		LinkedList<String^>^ varNameList = gcnew LinkedList<String^>();
+		String^ typeName = this->typeSetNameMap[name];
+		for each(KeyValuePair<String^, MathObject^> pair in this->table) {
+			if (pair.Value->mathType->Equals(typeName)) {
+				varNameList->AddLast(pair.Key);
+			}
+		}
+
+		for each(String^ varName in varNameList) {
+			this->table->Remove(varName);
+		}
+	}
+
 	return this->table->Remove(name);
 }
 

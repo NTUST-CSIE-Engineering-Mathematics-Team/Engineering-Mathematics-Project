@@ -23,12 +23,18 @@ namespace em {
 				}
 			}
 
+			static property Dictionary<String^, String^>^ typeSetNameMap {
+				Dictionary<String^, String^>^ get() {
+					return tnMap;
+				}
+			}
+
 		private:
 			delegate MathObjSet^ CreateStorageSet(VariableTable^ vTable);
 
 			static StringBuilder^ lastGeneratedName;
-			static Dictionary<String^, CreateStorageSet^>^ stgSetCreators;
-
+			static Dictionary<String^, CreateStorageSet^>^ const stgSetCreators = gcnew Dictionary<String^, CreateStorageSet^>(5);
+			static Dictionary<String^, String^>^ const tnMap = gcnew Dictionary<String^, String^>(5);
 		public:
 			VariableTable();
 			virtual ~VariableTable();

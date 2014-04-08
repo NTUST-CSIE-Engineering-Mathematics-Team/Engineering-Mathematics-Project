@@ -12,8 +12,8 @@ PatternAnalyzer::PatternAnalyzer() {
 }
 
 static PatternAnalyzer::PatternAnalyzer() {
-	checkTable = gcnew Dictionary<wchar_t, IsType^>();
 	checkTable->Add(L'N', gcnew IsType(isName));
+	checkTable->Add(L'V', gcnew IsType(isVarName));
 	checkTable->Add(L'I', gcnew IsType(isInteger));
 	checkTable->Add(L'D', gcnew IsType(isDouble));
 	checkTable->Add(L'C', gcnew IsType(isChar));
@@ -47,8 +47,12 @@ bool PatternAnalyzer::isPair(String^ arg, String^% key, int% value) {
 	return true;
 }
 
+bool PatternAnalyzer::isVarName(String^ arg) {
+	return isName(arg) && !isKeyword(arg);
+}
+
 bool PatternAnalyzer::isName(String^ arg) {
-	return namePattern->IsMatch(arg) && !isKeyword(arg);
+	return namePattern->IsMatch(arg);
 }
 
 bool PatternAnalyzer::isKeyword(String^ arg) {
@@ -57,7 +61,7 @@ bool PatternAnalyzer::isKeyword(String^ arg) {
 
 bool PatternAnalyzer::isExpression(String^ arg, String^% v) {
 
-	if (isDouble(arg) || isName(arg)) {
+	if (isDouble(arg) || isVarName(arg)) {
 		return true;
 	}
 

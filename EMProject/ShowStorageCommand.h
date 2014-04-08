@@ -7,8 +7,6 @@ namespace em {
 			using namespace System::Collections::Generic;
 
 			ref class ShowStorageCommand : public Command {
-			private:
-				static Dictionary<String^, String^>^ const map = gcnew Dictionary<String^, String^>(4);
 
 			public:
 				ShowStorageCommand();

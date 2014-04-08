@@ -35,7 +35,7 @@ namespace em {
 				static Regex^ const namePattern = gcnew Regex("^" + NAME_PATTERN + "$", RegexOptions::Compiled);
 				static Regex^ const expressionPattern = gcnew Regex("^(" + ArithmeticEngine::arithmeticContentPattern("i") + ")$", RegexOptions::Compiled);
 				static Regex^ const pairPattern = gcnew Regex("^(" + NAME_PATTERN + ")\\s+(" + INTEGER_PATTERN + ")$", RegexOptions::Compiled);
-				static Dictionary<wchar_t, IsType^>^ checkTable;
+				static Dictionary<wchar_t, IsType^>^ const checkTable = gcnew Dictionary<wchar_t, IsType^>(8);
 
 			public:
 				virtual ~PatternAnalyzer();
@@ -44,6 +44,7 @@ namespace em {
 
 				static bool isPair(String^ arg);
 				static bool isPair(String^ arg, String^% key, int% value);
+				static bool isVarName(String^ arg);
 				static bool isName(String^ arg);
 				static bool PatternAnalyzer::isKeyword(String^ arg);
 
