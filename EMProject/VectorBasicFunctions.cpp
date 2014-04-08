@@ -152,20 +152,19 @@ MathObject^ VectorBasicFunctions::is_linear_ind$VC(array<MathObject^>^ mos, Mess
 	MathObjGenericSet<Vector^>^ vecSet;
 	MathObjGenericSet<Vector^>::gSetCast(mos[0], vecSet);
 
-	Matrix^ mat = gcnew Matrix(vecSet[0]->dimension, vecSet->size);
+	Matrix^ mat = gcnew Matrix(vecSet->size, vecSet[0]->dimension);
 
 	int i = 0;
 	for each(Vector^ vec in vecSet) {
-		if (vec->dimension != mat->columnLength) {
+		if (vec->dimension != mat->rowLength) {
 			msg = differentDimErrMsg("is_linear_Ind");
 			return nullptr;
 		}
 
-		mat[Matrix::VectorOption::COLUMN, i++] = vec;
+		mat[Matrix::VectorOption::ROW, i++] = vec;
 	}
 	
-	Matrix^ tmp;
-	if (mat->solveLinearSystem(gcnew Matrix(vecSet[0]->dimension, 1), tmp) == Matrix::SolutionState::UNIQUE) {
+	if (mat->rank == mat->columnLength) {
 		msg = gcnew Message(Message::State::PASS, Message::JUDGE_PASS_COLOR, "These vectors are linear independent");
 	} else {
 		msg = gcnew Message(Message::State::PASS, Message::JUDGE_NOT_PASS_COLOR, "These vectors are not linear independent");

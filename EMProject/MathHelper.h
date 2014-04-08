@@ -9,7 +9,7 @@ namespace em {
 		using System::Type;
 		interface class MathHelper {
 		public:
-			static double EPSILON = std::numeric_limits<double>::epsilon() * 1000;
+			static double EPSILON = Math::Pow(10, 4 + Math::Floor(Math::Log10(std::numeric_limits<double>::epsilon())));
 
 			static bool isZero(double v);
 			static Scalar^ adjustCosAndSin(Scalar^ scl);

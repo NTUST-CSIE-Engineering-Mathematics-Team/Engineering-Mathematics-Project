@@ -63,7 +63,7 @@ void Matrix::default::set(VectorOption vo, int i, Vector^ vec) {
 				this[j, i] = vec[j];
 			}
 
-			for (; j < this->rowLength; j++) {
+			for (; j < this->columnLength; j++) {
 				this[j, i] = 0;
 			}
 		}
@@ -339,7 +339,7 @@ Matrix^ Matrix::inverse::get() {
 	Matrix^ inverse = getIdentityMatrix(this->columnLength);
 	Matrix^ upper = this->makeUpperTriangle(inverse);
 	for (int i = 0; i < upper->columnLength; i++) {
-		if (upper[i, i] == 0) {
+		if (MathHelper::isZero(upper[i, i])) {
 			delete upper;
 			delete inverse;
 			return nullptr;
@@ -393,7 +393,7 @@ Matrix^ Matrix::adjoint::get() {
 		det *= upper[i, i];
 	}
 
-	if (det == 0) {
+	if (MathHelper::isZero(det)) {
 		delete upper;
 		delete inverse;
 		return gcnew Matrix(this->columnLength, this->rowLength);
@@ -431,7 +431,7 @@ Matrix::SolutionState Matrix::solveLinearSystem(Matrix^ constSet, Matrix^% solut
 
 	int i = 0;
 	for (; i < upper->rowLength; i++) {
-		if (upper[i, i] == 0) {
+		if (MathHelper::isZero(upper[i, i])) {
 			double sol = solutions[i, 0];
 			delete solutions;
 			solutions = nullptr;
@@ -470,7 +470,7 @@ Matrix^ Matrix::makeUpperTriangle(Matrix^ syncer) {
 	bool hasSyncer = syncer != nullptr;
 	double q;
 	for (int i = 0, j = 0; i < upper->columnLength && j < upper->rowLength; i++, j++) {
-		for (; upper[i, j] == 0;) {
+		for (; MathHelper::isZero(upper[i, j]);) {
 			int k;
 			for (k = i; k < upper->columnLength; k++) {
 				if (!MathHelper::isZero(upper[k, j])) {

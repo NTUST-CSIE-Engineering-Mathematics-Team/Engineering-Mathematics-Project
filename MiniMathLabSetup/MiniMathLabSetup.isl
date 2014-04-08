@@ -343,6 +343,7 @@
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
 		<row><td>EMProject.Primary_Output</td><td>{12E77D1A-CB34-404F-843E-47C3FE15B4AC}</td><td>INSTALLDIR</td><td>2</td><td/><td>emproject.primary_output</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{6EEAB0F2-9087-403A-86E4-03617C382A09}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{F15B4F95-C459-4C90-B6AB-C57CA4A09F68}</td><td>SAMPLES</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
 
 	<table name="Condition">
@@ -1162,6 +1163,7 @@
 		<row><td>ProgramFilesFolder</td><td>TARGETDIR</td><td>.:PROGRA~1|program files</td><td/><td>0</td><td/></row>
 		<row><td>ProgramMenuFolder</td><td>TARGETDIR</td><td>.:Programs</td><td/><td>3</td><td/></row>
 		<row><td>RecentFolder</td><td>TARGETDIR</td><td>.:Recent</td><td/><td>0</td><td/></row>
+		<row><td>SAMPLES</td><td>INSTALLDIR</td><td>Samples</td><td/><td>0</td><td/></row>
 		<row><td>SendToFolder</td><td>TARGETDIR</td><td>.:SendTo</td><td/><td>3</td><td/></row>
 		<row><td>StartMenuFolder</td><td>TARGETDIR</td><td>.:STARTM~1|Start Menu</td><td/><td>3</td><td/></row>
 		<row><td>StartupFolder</td><td>TARGETDIR</td><td>.:StartUp</td><td/><td>3</td><td/></row>
@@ -1869,6 +1871,7 @@
 		<col key="yes" def="s72">Component_</col>
 		<row><td>AlwaysInstall</td><td>EMProject.Primary_Output</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT1</td></row>
 	</table>
 
 	<table name="File">
@@ -1884,7 +1887,9 @@
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
 		<row><td>emproject.primary_output</td><td>EMProject.Primary_Output</td><td>EMProject.Primary Output</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;EMProject&gt;|Built</td><td>3</td><td/></row>
+		<row><td>matrix_sample.txt</td><td>ISX_DEFAULTCOMPONENT1</td><td>MATRIX~1.TXT|matrix_sample.txt</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Dropbox\Visual Studio Workspace\EMProject\Samples\matrix_sample.txt</td><td>1</td><td/></row>
 		<row><td>minimathlab_manual.pdf</td><td>ISX_DEFAULTCOMPONENT</td><td>MINIMA~1.PDF|MiniMathLab Manual.pdf</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Dropbox\Visual Studio Workspace\EMProject\MiniMathLab Manual.pdf</td><td>1</td><td/></row>
+		<row><td>vector_sample.txt</td><td>ISX_DEFAULTCOMPONENT1</td><td>VECTOR~1.TXT|vector_sample.txt</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Dropbox\Visual Studio Workspace\EMProject\Samples\vector_sample.txt</td><td>1</td><td/></row>
 	</table>
 
 	<table name="FileSFPCatalog">
@@ -2030,6 +2035,7 @@
 		<col def="S0">Miscellaneous</col>
 		<row><td>EMProject.Primary_Output</td><td/><td/><td>_E2A885FD_A19A_4D5A_85CB_AA08543B17DF_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_07047B4C_9E3F_4B3F_8C3D_FAF4FEE2309E_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_ED9BEDD5_789F_4764_89D8_662F1B97E4B8_FILTER</td><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="ISCustomActionReference">

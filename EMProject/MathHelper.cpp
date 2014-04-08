@@ -13,6 +13,7 @@ Scalar^ MathHelper::factorial(int n) {
 }
 
 bool MathHelper::isZero(double v) {
+	
 	if (Math::Abs(v) < EPSILON) {
 		return true;
 	}

@@ -37,6 +37,8 @@ void RegistrationArea::registerHere() {
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::is_linear_ind$VC));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&VectorBasicFunctions::gs_orth_process$VC));
 
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::to_mat_v$VC));
+	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::to_mat_h$VC));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::transpose$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::row_ech$M));
 	FunctionFactory::addFunction(gcnew Function::FunctionPerformer(&MatrixBasicFunctions::solve_linear$M_V));

@@ -76,7 +76,7 @@ namespace EMProject {
 		/// Required designer variable.
 		/// </summary>
 
-		delegate void Shortcut();
+		delegate void Shortcut(Object^ sender);
 		Interpreter^ rInterpreter;
 		Interpreter^ ofInterpreter;
 		Dictionary<Keys, Shortcut^>^ shortcutTable;
@@ -91,6 +91,14 @@ namespace EMProject {
 	private: System::Windows::Forms::ToolStripMenuItem^  saveAsToolStripMenuItem;
 
 	private: System::Windows::Forms::ToolStripMenuItem^  saveOutputToolStripMenuItem1;
+
+	private: System::Windows::Forms::ToolStripMenuItem^  openSampleCodesToolStripMenuItem;
+
+	private: System::Windows::Forms::ToolStripMenuItem^  manualToolStripMenuItem;
+
+
+
+
 	private: System::Windows::Forms::SaveFileDialog^  saveOutputFileDialog;
 			 
 
@@ -111,11 +119,13 @@ namespace EMProject {
 			this->openGroupFileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openCodeToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->loadObjectToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->openSampleCodesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveGroupFileToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveCodeToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveAsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveOutputToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->runToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->manualToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->saveCodeFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
 			this->openObjectFileDialog = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->saveOutputFileDialog = (gcnew System::Windows::Forms::SaveFileDialog());
@@ -130,6 +140,7 @@ namespace EMProject {
 			// 
 			this->openCodeFileDialog->FileName = L"sample.txt";
 			this->openCodeFileDialog->Filter = L"Text files (*.txt)|*.txt";
+			this->openCodeFileDialog->RestoreDirectory = true;
 			this->openCodeFileDialog->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &MainForm::openCodeFileDialog_FileOk);
 			// 
 			// splitContainer
@@ -164,6 +175,7 @@ namespace EMProject {
 			this->outputTextBox->TabStop = false;
 			this->outputTextBox->Text = L"";
 			this->outputTextBox->WordWrap = false;
+			this->outputTextBox->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::outputTextBox_KeyDown);
 			// 
 			// inputTextBox
 			// 
@@ -184,9 +196,9 @@ namespace EMProject {
 			// 
 			// menu
 			// 
-			this->menu->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+			this->menu->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
 				this->fileToolStripMenuItem,
-					this->runToolStripMenuItem
+					this->runToolStripMenuItem, this->manualToolStripMenuItem
 			});
 			this->menu->Location = System::Drawing::Point(0, 0);
 			this->menu->Name = L"menu";
@@ -206,9 +218,9 @@ namespace EMProject {
 			// 
 			// openGroupFileToolStripMenuItem
 			// 
-			this->openGroupFileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+			this->openGroupFileToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
 				this->openCodeToolStripMenuItem,
-					this->loadObjectToolStripMenuItem
+					this->loadObjectToolStripMenuItem, this->openSampleCodesToolStripMenuItem
 			});
 			this->openGroupFileToolStripMenuItem->Name = L"openGroupFileToolStripMenuItem";
 			this->openGroupFileToolStripMenuItem->Size = System::Drawing::Size(152, 22);
@@ -227,6 +239,13 @@ namespace EMProject {
 			this->loadObjectToolStripMenuItem->Size = System::Drawing::Size(168, 22);
 			this->loadObjectToolStripMenuItem->Text = L"Load Object File...";
 			this->loadObjectToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::loadObjectToolStripMenuItem_Click);
+			// 
+			// openSampleCodesToolStripMenuItem
+			// 
+			this->openSampleCodesToolStripMenuItem->Name = L"openSampleCodesToolStripMenuItem";
+			this->openSampleCodesToolStripMenuItem->Size = System::Drawing::Size(168, 22);
+			this->openSampleCodesToolStripMenuItem->Text = L"Open Sample...";
+			this->openSampleCodesToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::openSampleCodesToolStripMenuItem_Click);
 			// 
 			// saveGroupFileToolStripMenuItem
 			// 
@@ -267,9 +286,16 @@ namespace EMProject {
 			this->runToolStripMenuItem->Text = L"Run";
 			this->runToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::runToolStripMenuItem_Click_1);
 			// 
+			// manualToolStripMenuItem
+			// 
+			this->manualToolStripMenuItem->Name = L"manualToolStripMenuItem";
+			this->manualToolStripMenuItem->Size = System::Drawing::Size(59, 20);
+			this->manualToolStripMenuItem->Text = L"Manual";
+			this->manualToolStripMenuItem->Click += gcnew System::EventHandler(this, &MainForm::manualToolStripMenuItem_Click);
+			// 
 			// saveCodeFileDialog
 			// 
-			this->saveCodeFileDialog->FileName = L"sample";
+			this->saveCodeFileDialog->FileName = L"code";
 			this->saveCodeFileDialog->Filter = L"txt files (*.txt)|*.txt";
 			this->saveCodeFileDialog->FileOk += gcnew System::ComponentModel::CancelEventHandler(this, &MainForm::saveCodeFileDialog_FileOk);
 			// 
@@ -310,20 +336,10 @@ namespace EMProject {
 #pragma endregion
 
 		private: System::Void openCodeFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
-
-			StreamReader^ reader = gcnew StreamReader(this->openCodeFileDialog->OpenFile());
-			this->inputTextBox->Clear();
-			this->outputTextBox->Clear();
-
-			for (; !reader->EndOfStream;) {
-				this->inputTextBox->AppendText(reader->ReadLine() + "\n");
-			}
-
-			reader->Close();
-			this->saveCodeToolStripMenuItem->Enabled = true;
-			this->outputTextBox->AppendText("Click \"Run\" or \"Ctrl + R\" to execute the instructions.");
+			openCodeFile(this->openCodeFileDialog->OpenFile());
+			this->saveCodeFileDialog->FileName = this->openCodeFileDialog->FileName;
 		}
-
+		
 		private: System::Void openObjectFileDialog_FileOk(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
 			
 			StreamReader^ reader = gcnew StreamReader(this->openObjectFileDialog->OpenFile());
@@ -335,11 +351,14 @@ namespace EMProject {
 
 		private: System::Void openCodeToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			this->openCodeFileDialog->ShowDialog();
-			this->saveCodeFileDialog->FileName = this->openCodeFileDialog->FileName;
 		}
 
 		private: System::Void loadObjectToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 			this->openObjectFileDialog->ShowDialog();
+		}
+		private: System::Void openSampleCodesToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			this->openCodeFileDialog->InitialDirectory = Path::Combine(Application::StartupPath, "Samples");
+			this->openCodeFileDialog->ShowDialog();
 		}
 
 		private: System::Void saveCodeToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -364,7 +383,7 @@ namespace EMProject {
 		}
 
 		private: System::Void runToolStripMenuItem_Click_1(System::Object^  sender, System::EventArgs^  e) {
-			this->run();
+			this->run(this->inputTextBox);
 		}
 
 		private: void writeFile(StreamWriter^ writer, TextReader^ reader) {
@@ -378,13 +397,20 @@ namespace EMProject {
 		}
 
 		private: System::Void inputTextBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+			handleShortcutPress(sender, e);
+
+		}
+		private: System::Void outputTextBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+			handleShortcutPress(sender, e);
+		}
+
+		private: void handleShortcutPress(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 			if (e->Control && shortcutTable->ContainsKey(e->KeyCode)) {
-				shortcutTable[e->KeyCode]();
+				shortcutTable[e->KeyCode](sender);
 				e->SuppressKeyPress = true;
 			}
 
 		}
-
 		private: void startInterpret(Interpreter^ interpreter, TextReader^ reader, bool selectError) {
 			Message^ result;
 			int lineIndex = -1;
@@ -439,20 +465,55 @@ namespace EMProject {
 			delete msg;
 		}
 	
-		private: void run() {
+		private: void run(Object^ sender) {
 			TextReader^ reader = gcnew StringReader(this->inputTextBox->Text);
 			this->outputTextBox->Clear();
 			startInterpret(rInterpreter, reader, true);
 		}
 
-		private: void save() {
-			if (this->saveCodeToolStripMenuItem->Enabled) {
-				writeFile(gcnew StreamWriter(this->saveCodeFileDialog->FileName), gcnew StringReader(this->inputTextBox->Text));
-			} else {
-				this->saveCodeFileDialog->ShowDialog();
+		private: void save(Object^ sender) {
+			RichTextBox^ rtb = dynamic_cast<RichTextBox^>(sender);
+			if (rtb->Equals(this->inputTextBox)) {
+				if (this->saveCodeToolStripMenuItem->Enabled) {
+					writeFile(gcnew StreamWriter(this->saveCodeFileDialog->FileName), gcnew StringReader(rtb->Text));
+				} else {
+					this->saveCodeFileDialog->ShowDialog();
+				}
+			} else if (rtb->Equals(this->outputTextBox)) {
+				this->saveOutputFileDialog->ShowDialog();
 			}
 		}
-	};
+		private: System::Void manualToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+			try {
+				System::Diagnostics::Process::Start(Path::Combine(Application::StartupPath, "MiniMathLab Manual.pdf"));
+			} catch (Win32Exception^ e) {
+				this->outputTextBox->Clear();
+				this->outputTextBox->AppendText("Cannot find the manual file, please don't move the manual to other place");
+			}
+		}
+		
+		private: void openCodeFile(Stream^ stream) {
+			StreamReader^ reader = gcnew StreamReader(stream);
+
+			this->inputTextBox->Clear();
+			this->outputTextBox->Clear();
+
+			for (; !reader->EndOfStream;) {
+				this->inputTextBox->AppendText(reader->ReadLine() + "\n");
+			}
+
+			reader->Close();
+			this->saveCodeToolStripMenuItem->Enabled = true;
+			this->outputTextBox->AppendText("Click \"Run\" or \"Ctrl + R\" to execute the instructions.");
+		}
+
+
+
+
+
+
+
+};
 
 		
 }

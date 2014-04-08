@@ -1,6 +1,45 @@
 #include "MatrixBasicFunctions.h"
+#include "VectorBasicFunctions.h"
 
 using namespace em::math::engine::expression::functions;
+
+MathObject^ MatrixBasicFunctions::to_mat_v$VC(array<MathObject^>^ mos, Message^% msg) {
+	MathObjGenericSet<Vector^>^ vecSet;
+	MathObjGenericSet<Vector^>::gSetCast(mos[0], vecSet);
+
+	Matrix^ mat = gcnew Matrix(vecSet[0]->dimension, vecSet->size);
+
+	int i = 0;
+	for each(Vector^ vec in vecSet) {
+		if (vec->dimension != mat->columnLength) {
+			msg = VectorBasicFunctions::differentDimErrMsg("to_mat_v");
+			return nullptr;
+		}
+
+		mat[Matrix::VectorOption::COLUMN, i++] = vec;
+	}
+
+	return mat;
+}
+
+MathObject^ MatrixBasicFunctions::to_mat_h$VC(array<MathObject^>^ mos, Message^% msg) {
+	MathObjGenericSet<Vector^>^ vecSet;
+	MathObjGenericSet<Vector^>::gSetCast(mos[0], vecSet);
+
+	Matrix^ mat = gcnew Matrix(vecSet->size, vecSet[0]->dimension);
+
+	int i = 0;
+	for each(Vector^ vec in vecSet) {
+		if (vec->dimension != mat->rowLength) {
+			msg = VectorBasicFunctions::differentDimErrMsg("to_mat_h");
+			return nullptr;
+		}
+
+		mat[Matrix::VectorOption::ROW, i++] = vec;
+	}
+
+	return mat;
+}
 
 MathObject^ MatrixBasicFunctions::transpose$M(array<MathObject^>^ mos, Message^% msg) {
 	Matrix^ mat;

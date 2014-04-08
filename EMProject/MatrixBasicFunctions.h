@@ -13,6 +13,8 @@ namespace em {
 					interface class MatrixBasicFunctions {
 
 					public:
+						static MathObject^ to_mat_v$VC(array<MathObject^>^ mos, Message^% msg);
+						static MathObject^ to_mat_h$VC(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ transpose$M(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ row_ech$M(array<MathObject^>^ mos, Message^% msg);
 						static MathObject^ solve_linear$M_V(array<MathObject^>^ mos, Message^% msg);
