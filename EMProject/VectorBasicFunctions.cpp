@@ -178,15 +178,16 @@ MathObject^ VectorBasicFunctions::gs_orth_process$VC(array<MathObject^>^ mos, Me
 	MathObjGenericSet<Vector^>::gSetCast(mos[0], vecSet);
 	
 	result = gcnew MathObjGenericSet<Vector^>(vecSet->size);
-	Vector^ basis;
+	Vector^ basis, ^ proj;
 	for (int i = 0; i < vecSet->size; i++) {
 		basis = vecSet[i];
 		for (int j = 0; j < i; j++) {
-			basis = basis - vecSet[i]->projection(result[j]);
-			if (basis == nullptr) {
+			proj = vecSet[i]->projection(result[j]);
+			if (proj == nullptr) {
 				msg = differentDimErrMsg("gs_orth_process");
 				return nullptr;
 			}
+			basis = basis - proj;
 		}
 		result->add(basis);
 	}
