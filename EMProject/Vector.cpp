@@ -206,6 +206,10 @@ Scalar^ Vector::component(Vector^ v) {
 }
 
 Vector^ Vector::projection(Vector^ v) {
+	if (!isSameRank(this, v)) {
+		return nullptr;
+	}
+
 	Vector^ n = v->normalized;
 	return n * (this * n);
 }
